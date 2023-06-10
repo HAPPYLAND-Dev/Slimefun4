@@ -1,5 +1,7 @@
 package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
 
+import dev.lone.itemsadder.api.FontImages.FontImageWrapper;
+import dev.lone.itemsadder.api.FontImages.TexturedInventoryWrapper;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -24,11 +26,13 @@ public class ChestMenu {
     private boolean emptyClickable;
     private String title;
     private Inventory inv;
+    private TexturedInventoryWrapper wrapper;
     private List<ItemStack> items;
     private Map<Integer, MenuClickHandler> handlers;
     private MenuOpeningHandler open;
     private MenuCloseHandler close;
     private MenuClickHandler playerclick;
+    private String texture;
 
     /**
      * Creates a new ChestMenu with the specified
@@ -48,6 +52,12 @@ public class ChestMenu {
         this.close = p -> {
         };
         this.playerclick = (p, slot, item, action) -> isPlayerInventoryClickable();
+    }
+
+    public ChestMenu(String title, String texture) {
+        this(title);
+
+        this.texture = texture;
     }
 
     /**
@@ -115,8 +125,7 @@ public class ChestMenu {
      */
     public ChestMenu addItem(int slot, ItemStack item) {
         final int size = this.items.size();
-        if (size > slot)
-            this.items.set(slot, item);
+        if (size > slot) this.items.set(slot, item);
         else {
             for (int i = 0; i < slot - size; i++) {
                 this.items.add(null);
@@ -211,9 +220,9 @@ public class ChestMenu {
     }
 
     private void setup() {
-        if (this.inv != null)
-            return;
-        this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
+        if (this.inv != null) return;
+        this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture));
+        this.inv = this.wrapper.getInternal();
         for (int i = 0; i < this.items.size(); i++) {
             this.inv.setItem(i, this.items.get(i));
         }
@@ -223,10 +232,8 @@ public class ChestMenu {
      * Resets this ChestMenu to a Point BEFORE the User interacted with it
      */
     public void reset(boolean update) {
-        if (update)
-            this.inv.clear();
-        else
-            this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
+        if (update) this.inv.clear();
+        else this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
         for (int i = 0; i < this.items.size(); i++) {
             this.inv.setItem(i, this.items.get(i));
         }
@@ -253,8 +260,7 @@ public class ChestMenu {
         for (Player p : players) {
             p.openInventory(this.inv);
             MenuListener.menus.put(p.getUniqueId(), this);
-            if (open != null)
-                open.onOpen(p);
+            if (open != null) open.onOpen(p);
         }
     }
 

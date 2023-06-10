@@ -254,6 +254,20 @@
 
         <!-- Third party plugin integrations / soft dependencies -->
         <dependency>
+            <groupId>com.github.LoneDev6</groupId>
+            <artifactId>API-ItemsAdder</artifactId>
+            <version>3.4.1-r4</version>
+            <scope>provided</scope>
+
+            <exclusions>
+                <exclusion>
+                    <!-- We don't need any of the dependencies -->
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-core</artifactId>
             <version>7.2.14</version>
