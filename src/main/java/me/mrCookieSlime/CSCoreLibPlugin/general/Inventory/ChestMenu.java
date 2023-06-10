@@ -40,13 +40,12 @@ public class ChestMenu {
      *
      * @param title The title of the Menu
      */
-    public ChestMenu(String title, String texture) {
+    public ChestMenu(String title) {
         this.title = ChatColor.translateAlternateColorCodes('&', title);
         this.clickable = false;
         this.emptyClickable = true;
         this.items = new ArrayList<>();
         this.handlers = new HashMap<>();
-        this.texture = texture;
 
         this.open = p -> {
         };
