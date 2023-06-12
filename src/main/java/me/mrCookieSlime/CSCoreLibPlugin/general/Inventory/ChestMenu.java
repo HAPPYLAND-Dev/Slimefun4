@@ -26,7 +26,7 @@ public class ChestMenu {
     private boolean emptyClickable;
     private String title;
     private Inventory inv;
-    private TexturedInventoryWrapper wrapper;
+    private TexturedInventoryWrapper wrapper = null;
     private List<ItemStack> items;
     private Map<Integer, MenuClickHandler> handlers;
     private MenuOpeningHandler open;
@@ -221,8 +221,13 @@ public class ChestMenu {
 
     private void setup() {
         if (this.inv != null) return;
-        this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture));
-        this.inv = this.wrapper.getInternal();
+        if (this.texture != null) {
+            this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture));
+            this.inv = this.wrapper.getInternal();
+        } else {
+            this.wrapper = null;
+            this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
+        }
         for (int i = 0; i < this.items.size(); i++) {
             this.inv.setItem(i, this.items.get(i));
         }
