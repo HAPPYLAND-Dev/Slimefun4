@@ -3,7 +3,7 @@
 Looking for English (or Original) Version? [**Click here**](https://github.com/Slimefun/Slimefun4/)
 \
 
-此版本为HAPPYLAND特有分支，请勿在 **任意上游** 反馈问题
+此版本为HAPPYLAND特有分支，请勿在 **任意上游** 反馈问题  
 使用汉化版之后, **禁止** 在官方问题追踪器创建新问题!  
 如果你执意要这么做, 请在反馈时使用**官方**开发版并且使用**英语** 提交问题.<br>
 否则, 请在此处创建问题或加群讨论.
