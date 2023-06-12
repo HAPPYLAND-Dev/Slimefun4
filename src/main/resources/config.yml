@@ -16,7 +16,7 @@
 #    drop-excess-sf-give-items - 是否在背包已满时使用命令给予 Slimefun 物品直接掉落溢出的物品
 #    backup-data - 自动备份数据
 options:
-  auto-update: false
+  auto-update: true
   backwards-compatibility: false
   chat-prefix: '&a&lSlimefun 4 &7> '
   armor-update-interval: 10

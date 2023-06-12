@@ -14,7 +14,7 @@ import org.bukkit.plugin.Plugin;
  */
 public class AutoUpdateTask implements Runnable {
 
-    private static final String GITHUB_USER = "StarWishsama";
+    private static final String GITHUB_USER = "HAPPYLAND-Dev";
     private static final String GITHUB_REPO = "Slimefun4";
     private static final String GITHUB_BRANCH_CANARY = "master";
     private static final String GITHUB_BRANCH_RELEASE = "release";
