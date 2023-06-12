@@ -3,7 +3,7 @@
 # 注意: 在切换数据库类型时, 我们并不会自动帮你迁移数据 :)
 # 注意: 当使用MYSQL跨服时，请务必将 config.yml 中的 allow-open-when-owner-offline 设置为 false
 #      以防止玩家在不同服务器打开同一个背包刷物品。
-storageType: SQLITE
+storageType: MYSQL
 
 # 使用Base64编码数据字段
 base64EncodeVal: true

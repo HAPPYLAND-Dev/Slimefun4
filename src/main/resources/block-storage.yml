@@ -1,7 +1,7 @@
 #########################################################################
 # 数据库类型, 可选的有 SQLITE, MYSQL
 # 注意: 在切换数据库类型时, 我们并不会自动帮你迁移数据 :)
-storageType: SQLITE
+storageType: MYSQL
 
 # 使用Base64编码数据字段
 base64EncodeVal: true
