@@ -28,7 +28,16 @@ jobs:
           java-version: 17
           java-package: jdk
           architecture: x64
+
       - run: mvn -B test --file pom.xml --errors
+
+      - run: mvn package
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Slimefun
+          path: target/Slimefun*.jar
+
       - uses: actions/cache@v2
         if: github.event_name != 'pull_request'
         with:
