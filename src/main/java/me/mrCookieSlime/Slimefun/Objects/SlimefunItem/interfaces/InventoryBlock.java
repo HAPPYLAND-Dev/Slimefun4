@@ -18,7 +18,6 @@ import java.util.function.Consumer;
  * @deprecated This interface is not designed to be used by addons. The entire inventory system will be replaced
  * eventually.
  */
-@Deprecated
 public interface InventoryBlock {
 
     /**
