@@ -42,6 +42,18 @@ public abstract class BlockMenuPreset extends ChestMenu {
         Slimefun.getRegistry().getMenuPresets().put(id, this);
     }
 
+    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, @Nonnull String texture) {
+        super(title, texture);
+
+        Validate.notNull(id, "You need to specify an id!");
+
+        this.id = id;
+        this.inventoryTitle = title;
+        init();
+
+        Slimefun.getRegistry().getMenuPresets().put(id, this);
+    }
+
     private void checkIfLocked() {
         if (locked) {
             throw new UnsupportedOperationException("You cannot modify the BlockMenuPreset anymore, modify the individual instances instead.");
