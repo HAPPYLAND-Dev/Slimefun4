@@ -272,7 +272,7 @@ public class ChestMenu {
     public void open(Player... players) {
         setup();
         for (Player p : players) {
-            if (this.texture == null) {
+            if (this.texture != null) {
                 this.wrapper.showInventory(p);
             } else {
                 p.openInventory(this.inv);
