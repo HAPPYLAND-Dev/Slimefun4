@@ -1,7 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
 import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -9,9 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.magical.BeeWings;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.BeeWingsListener;
+import javax.annotation.Nonnull;
 
 /**
  * This task is responsible for the repeating checks for our {@link BeeWings}.

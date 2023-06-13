@@ -1,21 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.integrations;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemStack;
-
-import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.events.skills.salvage.McMMOPlayerSalvageCheckEvent;
+import com.gmail.nossr50.mcMMO;
 import com.gmail.nossr50.util.skills.SkillUtils;
-
 import io.github.thebusybiscuit.slimefun4.api.events.AutoDisenchantEvent;
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
 
 /**
  * This handles all integrations with {@link mcMMO}.

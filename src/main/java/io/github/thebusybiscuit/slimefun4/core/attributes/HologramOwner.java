@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.util.Vector;
-
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.HologramProjector;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.util.Vector;
+
+import javax.annotation.Nonnull;
 
 /**
  * This {@link ItemAttribute} manages holograms.

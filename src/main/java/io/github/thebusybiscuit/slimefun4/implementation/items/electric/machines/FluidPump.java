@@ -65,7 +65,7 @@ public class FluidPump extends SimpleSlimefunItem<BlockTicker> implements Invent
         super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
-        createPreset(this, this::constructMenu);
+        createPreset(this, ChestMenuUtils.getBlankTexture(), this::constructMenu);
     }
 
     @Nonnull

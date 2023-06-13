@@ -57,7 +57,7 @@ public final class SlimefunGuideSettings {
 
     @ParametersAreNonnullByDefault
     public static void openSettings(Player p, ItemStack guide) {
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.settings"));
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "guide.title.settings"), ChestMenuUtils.getBlankTexture());
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));

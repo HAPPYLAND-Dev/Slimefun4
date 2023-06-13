@@ -81,7 +81,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
 
         processor.setProgressBar(getProgressBar());
 
-        new BlockMenuPreset(getId(), getInventoryTitle()) {
+        new BlockMenuPreset(getId(), getInventoryTitle(), ChestMenuUtils.getBlankTexture()) {
 
             @Override
             public void init() {

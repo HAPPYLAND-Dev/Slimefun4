@@ -18,3 +18,5 @@ dependency-reduced-pom.xml
 /.git-versioned-pom.xml
 
 *.db
+
+dest.sh

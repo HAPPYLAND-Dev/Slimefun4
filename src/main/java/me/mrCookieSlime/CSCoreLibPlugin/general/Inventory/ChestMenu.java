@@ -2,7 +2,7 @@ package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
 
 import dev.lone.itemsadder.api.FontImages.FontImageWrapper;
 import dev.lone.itemsadder.api.FontImages.TexturedInventoryWrapper;
-import org.bukkit.Bukkit;
+import io.sn.slimefun4.ChestMenuTexture;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,39 +27,34 @@ public class ChestMenu {
     private boolean emptyClickable;
     private final String title;
     private Inventory inv;
-    @SuppressWarnings("FieldCanBeLocal")
-    private TexturedInventoryWrapper wrapper = null;
+    private TexturedInventoryWrapper wrapper;
     private List<ItemStack> items;
     private Map<Integer, MenuClickHandler> handlers;
     private MenuOpeningHandler open;
     private MenuCloseHandler close;
     private MenuClickHandler playerclick;
-    private String texture;
+    private ChestMenuTexture texture;
 
     /**
      * Creates a new ChestMenu with the specified
      * Title
      *
      * @param title The title of the Menu
+     * @param texture in ia
      */
-    public ChestMenu(String title) {
+    public ChestMenu(String title, ChestMenuTexture texture) {
         this.title = ChatColor.translateAlternateColorCodes('&', title);
         this.clickable = false;
         this.emptyClickable = true;
         this.items = new ArrayList<>();
         this.handlers = new HashMap<>();
+        this.texture = texture;
 
         this.open = p -> {
         };
         this.close = p -> {
         };
         this.playerclick = (p, slot, item, action) -> isPlayerInventoryClickable();
-    }
-
-    public ChestMenu(String title, String texture) {
-        this(title);
-
-        this.texture = texture;
     }
 
     /**
@@ -244,13 +239,8 @@ public class ChestMenu {
     }
 
     private void initMenu() {
-        if (this.texture != null) {
-            this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture));
-            this.inv = this.wrapper.getInternal();
-        } else {
-            this.wrapper = null;
-            this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
-        }
+        this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture.getFullName()));
+        this.inv = this.wrapper.getInternal();
     }
 
     /**
@@ -272,11 +262,7 @@ public class ChestMenu {
     public void open(Player... players) {
         setup();
         for (Player p : players) {
-            if (this.texture != null) {
-                this.wrapper.showInventory(p);
-            } else {
-                p.openInventory(this.inv);
-            }
+            this.wrapper.showInventory(p);
             MenuListener.menus.put(p.getUniqueId(), this);
             if (open != null) open.onOpen(p);
         }

@@ -24,11 +24,7 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.operations.MiningOperation;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.OptionalInt;
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.sn.slimefun4.ChestMenuTexture;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
@@ -43,6 +39,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.OptionalInt;
 
 /**
  * The {@link GEOMiner} is an electrical machine that allows you to obtain a {@link GEOResource}.
@@ -66,11 +68,11 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
     private int processingSpeed = -1;
 
     @ParametersAreNonnullByDefault
-    public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public GEOMiner(ItemGroup itemGroup, SlimefunItemStack item, ChestMenuTexture texture, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         processor.setProgressBar(new ItemStack(Material.DIAMOND_PICKAXE));
-        createPreset(this, getItemName(), this::constructMenu);
+        createPreset(this, getItemName(), texture, this::constructMenu);
         addItemHandler(onBlockPlace(), onBlockBreak());
     }
 

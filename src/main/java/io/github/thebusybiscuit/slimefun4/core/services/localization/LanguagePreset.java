@@ -1,9 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import org.bukkit.inventory.ItemStack;
+
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.inventory.ItemStack;
 
 /**
  * This enum holds info about a {@link Language} that is embedded in our resources folder.

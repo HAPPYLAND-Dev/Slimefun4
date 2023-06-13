@@ -15,6 +15,7 @@ import io.github.thebusybiscuit.slimefun4.core.services.holograms.HologramsServi
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.handlers.SimpleBlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Location;
@@ -94,7 +95,7 @@ public class HologramProjector extends SlimefunItem implements HologramOwner {
     }
 
     private void openEditor(@Nonnull Player p, @Nonnull Block projector) {
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR.inventory-title"));
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage(p, "machines.HOLOGRAM_PROJECTOR.inventory-title"), ChestMenuUtils.getBlankTexture());
 
         menu.addItem(0, new CustomItemStack(Material.NAME_TAG, "&7展示文本 &e(点击编辑)", "", "&f" + ChatColors.color(StorageCacheUtils.getData(projector.getLocation(), "text"))));
         menu.addMenuClickHandler(0, (pl, slot, item, action) -> {

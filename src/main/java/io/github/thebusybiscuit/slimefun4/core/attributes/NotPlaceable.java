@@ -1,9 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPlaceEvent;
-
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 /**
  * Implement this interface for any {@link SlimefunItem} to prevent

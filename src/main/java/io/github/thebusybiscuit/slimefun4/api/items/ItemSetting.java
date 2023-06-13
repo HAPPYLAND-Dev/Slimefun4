@@ -1,15 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
-import java.util.List;
-import java.util.Objects;
+import io.github.bakedlibs.dough.config.Config;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.apache.commons.lang.Validate;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-
-import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * This class represents a Setting for a {@link SlimefunItem} that can be modified via

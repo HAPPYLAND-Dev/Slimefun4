@@ -33,7 +33,7 @@ public class TrashCan extends SlimefunItem implements InventoryBlock {
     public TrashCan(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
-        createPreset(this, this::constructMenu);
+        createPreset(this, ChestMenuUtils.getBlankTexture(), this::constructMenu);
     }
 
     private void constructMenu(BlockMenuPreset preset) {

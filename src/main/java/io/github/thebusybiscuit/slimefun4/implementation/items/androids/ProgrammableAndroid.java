@@ -35,13 +35,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
-import org.bukkit.Tag;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -58,11 +52,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.logging.Level;
 
@@ -86,7 +76,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
         texture = item.getSkullTexture().orElse(null);
         registerDefaultFuelTypes();
 
-        new BlockMenuPreset(getId(), "可编程式机器人") {
+        new BlockMenuPreset(getId(), "可编程式机器人", ChestMenuUtils.getBlankTexture()) {
 
             @Override
             public void init() {
@@ -203,7 +193,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     /**
      * This returns the {@link AndroidType} that is associated with this {@link ProgrammableAndroid}.
-     * 
+     *
      * @return The type of this {@link ProgrammableAndroid}
      */
     public AndroidType getAndroidType() {
@@ -213,7 +203,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     /**
      * This returns the {@link AndroidFuelSource} for this {@link ProgrammableAndroid}.
      * It determines what kind of fuel is required to run it.
-     * 
+     *
      * @return The required type of fuel
      */
     public AndroidFuelSource getFuelSource() {
@@ -221,7 +211,8 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             case 1 -> AndroidFuelSource.SOLID;
             case 2 -> AndroidFuelSource.LIQUID;
             case 3 -> AndroidFuelSource.NUCLEAR;
-            default -> throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
+            default ->
+                    throw new IllegalStateException("Cannot convert the following Android tier to a fuel type: " + getTier());
         };
     }
 
@@ -247,7 +238,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @ParametersAreNonnullByDefault
     public void openScript(Player p, Block b, String sourceCode) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"), ChestMenuUtils.getBlankTexture());
         menu.setEmptySlotsClickable(false);
 
         menu.addItem(0, new CustomItemStack(Instruction.START.getItem(), Slimefun.getLocalization().getMessage(p, "android.scripts.instructions.START"), "", "&7\u21E8 &e左键 &7返回机器人的控制面板"));
@@ -381,7 +372,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     }
 
     protected void openScriptDownloader(Player p, Block b, int page) {
-        ChestMenu menu = new ChestMenu("机器人脚本");
+        ChestMenu menu = new ChestMenu("机器人脚本", ChestMenuUtils.getBlankTexture());
 
         menu.setEmptySlotsClickable(false);
         menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
@@ -498,7 +489,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     }
 
     public void openScriptEditor(Player p, Block b) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"), ChestMenuUtils.getBlankTexture());
         menu.setEmptySlotsClickable(false);
 
         menu.addItem(1, new CustomItemStack(HeadTexture.SCRIPT_FORWARD.getAsItemStack(), "&2> 编辑脚本", "", "&a修改你现有的脚本"));
@@ -563,7 +554,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
     }
 
     protected void editInstruction(Player p, Block b, String[] script, int index) {
-        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"));
+        ChestMenu menu = new ChestMenu(ChatColor.DARK_AQUA + Slimefun.getLocalization().getMessage(p, "android.scripts.editor"), ChestMenuUtils.getBlankTexture());
         ChestMenuUtils.drawBackground(menu, 0, 1, 2, 3, 4, 5, 6, 7, 8);
 
         menu.setEmptySlotsClickable(false);
@@ -677,7 +668,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] { 20, 21, 22, 29, 30, 31 };
+        return new int[]{20, 21, 22, 29, 30, 31};
     }
 
     public int getTier() {

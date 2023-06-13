@@ -39,7 +39,7 @@ public class CrafterSmartPort extends SlimefunItem {
     public CrafterSmartPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(category, item, recipeType, recipe);
 
-        new BlockMenuPreset("CRAFTER_SMART_PORT", "&a合成机智能交互接口") {
+        new BlockMenuPreset("CRAFTER_SMART_PORT", "&a合成机智能交互接口", ChestMenuUtils.getBlankTexture()) {
             @Override
             public void init() {
                 addItem(6, getCountItem(), (p, slot, item, action) -> false);

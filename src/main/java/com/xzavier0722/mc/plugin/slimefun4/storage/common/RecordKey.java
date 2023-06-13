@@ -4,11 +4,7 @@ import io.github.bakedlibs.dough.collections.Pair;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RecordKey extends ScopeKey {
     private final Set<FieldKey> fields;

@@ -65,7 +65,7 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     protected AbstractEntityAssembler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
-        new BlockMenuPreset(getId(), item.getItemMetaSnapshot().getDisplayName().orElse("Entity Assembler")) {
+        new BlockMenuPreset(getId(), item.getItemMetaSnapshot().getDisplayName().orElse("Entity Assembler"), ChestMenuUtils.getBlankTexture()) {
 
             @Override
             public void init() {

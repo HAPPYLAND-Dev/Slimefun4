@@ -1,18 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.skins.PlayerHead;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
+import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import io.papermc.lib.PaperLib;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 
-import io.github.bakedlibs.dough.skins.PlayerHead;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import io.papermc.lib.PaperLib;
+import javax.annotation.Nonnull;
 
 /**
  * This task is run whenever a {@link Capacitor} needs to update their texture.

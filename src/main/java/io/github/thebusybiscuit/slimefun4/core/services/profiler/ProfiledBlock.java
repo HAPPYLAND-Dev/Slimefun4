@@ -1,16 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import java.util.Objects;
-
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.blocks.BlockPosition;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import javax.annotation.Nonnull;
+import java.util.Objects;
 
 /**
  * This represents an entry in our {@link SlimefunProfiler}.

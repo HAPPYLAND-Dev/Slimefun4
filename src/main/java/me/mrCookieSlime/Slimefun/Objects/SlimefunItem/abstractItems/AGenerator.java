@@ -57,7 +57,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
         processor.setProgressBar(getProgressBar());
 
-        new BlockMenuPreset(item.getItemId(), getInventoryTitle()) {
+        new BlockMenuPreset(item.getItemId(), getInventoryTitle(), ChestMenuUtils.getBlankTexture()) {
 
             @Override
             public void init() {

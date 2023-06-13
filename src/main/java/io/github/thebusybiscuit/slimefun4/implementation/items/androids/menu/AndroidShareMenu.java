@@ -8,14 +8,6 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.papermc.lib.PaperLib;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.logging.Level;
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
@@ -27,6 +19,11 @@ import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.*;
+import java.util.logging.Level;
 
 /**
  * The {@link AndroidShareMenu} is responsibility to modify trusted users
@@ -53,7 +50,7 @@ public final class AndroidShareMenu {
         Validate.notNull(p, "The player cannot be null!");
         Validate.notNull(b, "The android block cannot be null!");
 
-        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage("android.access-manager.title"));
+        ChestMenu menu = new ChestMenu(Slimefun.getLocalization().getMessage("android.access-manager.title"), ChestMenuUtils.getBlankTexture());
 
         menu.setEmptySlotsClickable(false);
 

@@ -10,11 +10,12 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import java.util.logging.Level;
-import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
+
+import javax.annotation.Nonnull;
+import java.util.logging.Level;
 
 /**
  * This Interface, when attached to a class that inherits from {@link SlimefunItem}, marks

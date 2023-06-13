@@ -1,10 +1,9 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.cargo;
 
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import org.bukkit.block.Block;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import javax.annotation.Nonnull;
 
 /**
  * This interface marks a {@link SlimefunItem} as a {@link CargoNode}.

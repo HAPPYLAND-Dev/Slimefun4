@@ -3,15 +3,16 @@ package com.xzavier0722.mc.plugin.slimefun4.storage.migrator;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.logging.Level;
-import javax.annotation.Nonnull;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 
 public class PlayerProfileMigrator implements IMigrator {
     private static final PlayerProfileMigrator instance = new PlayerProfileMigrator();

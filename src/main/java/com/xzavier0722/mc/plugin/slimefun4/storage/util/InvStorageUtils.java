@@ -3,11 +3,7 @@ package com.xzavier0722.mc.plugin.slimefun4.storage.util;
 import io.github.bakedlibs.dough.collections.Pair;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class InvStorageUtils {
     private static final Pair<ItemStack, Integer> emptyPair = new Pair<>(null, 0);

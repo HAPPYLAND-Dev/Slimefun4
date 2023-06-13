@@ -1,15 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.common.CommonPatterns;
+import io.github.bakedlibs.dough.skins.PlayerSkin;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.common.CommonPatterns;
-import io.github.bakedlibs.dough.skins.PlayerSkin;
+import javax.annotation.Nonnull;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * This enum holds all currently used Head textures in Slimefun.

@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.handlers;
 
-import javax.annotation.Nonnull;
-
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.block.BlockPlaceEvent;
-
 import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.BlockPlacer;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
+
+import javax.annotation.Nonnull;
 
 /**
  * This {@link ItemHandler} is called whenever a {@link Block} was placed.

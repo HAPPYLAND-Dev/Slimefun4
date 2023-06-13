@@ -20,12 +20,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Ageable;
-import org.bukkit.entity.Cow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Goat;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.MushroomCow;
+import org.bukkit.entity.*;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;

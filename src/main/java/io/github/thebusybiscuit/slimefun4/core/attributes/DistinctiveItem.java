@@ -1,8 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
-import org.bukkit.inventory.meta.ItemMeta;
-
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.annotation.Nonnull;
 

@@ -25,10 +25,8 @@ import java.util.List;
  *
  * @author TheBusyBiscuit
  * @author Rothes
- *
  * @see AutoEnchanter
  * @see AutoDisenchanter
- *
  */
 abstract class AbstractEnchantmentMachine extends AContainer {
 

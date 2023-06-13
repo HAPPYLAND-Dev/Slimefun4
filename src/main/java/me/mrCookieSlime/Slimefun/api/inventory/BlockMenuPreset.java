@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.sn.slimefun4.ChestMenuTexture;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.apache.commons.lang.Validate;
@@ -32,25 +33,20 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     private boolean locked;
 
-    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title) {
-        super(title);
-
-        Validate.notNull(id, "You need to specify an id!");
-
-        this.id = id;
-        this.inventoryTitle = title;
-        init();
-
-        Slimefun.getRegistry().getMenuPresets().put(id, this);
+    public ChestMenuTexture getTexture() {
+        return texture;
     }
 
-    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, @Nonnull String texture) {
+    private final ChestMenuTexture texture;
+
+    protected BlockMenuPreset(@Nonnull String id, @Nonnull String title, @Nonnull ChestMenuTexture texture) {
         super(title, texture);
 
         Validate.notNull(id, "You need to specify an id!");
 
         this.id = id;
         this.inventoryTitle = title;
+        this.texture = texture;
         init();
 
         Slimefun.getRegistry().getMenuPresets().put(id, this);

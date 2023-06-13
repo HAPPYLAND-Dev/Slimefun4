@@ -1,13 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * {@link LongFallBoots} are a pair of boots which negate fall damage.

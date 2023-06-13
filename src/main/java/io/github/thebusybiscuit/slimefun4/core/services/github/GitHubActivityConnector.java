@@ -1,7 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
 import kong.unirest.JsonNode;
 import kong.unirest.json.JSONObject;
 

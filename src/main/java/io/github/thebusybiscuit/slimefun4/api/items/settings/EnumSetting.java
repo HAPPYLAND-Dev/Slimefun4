@@ -1,13 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.api.items.settings;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 /**
  * This variation of {@link ItemSetting} allows you to allow {@link Enum} constants to be

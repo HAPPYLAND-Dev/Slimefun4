@@ -1,13 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.operations;
 
-import javax.annotation.Nonnull;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import org.apache.commons.lang.Validate;
+import org.bukkit.inventory.ItemStack;
+
+import javax.annotation.Nonnull;
 
 /**
  * This {@link MachineOperation} represents a {@link GEOMiner}

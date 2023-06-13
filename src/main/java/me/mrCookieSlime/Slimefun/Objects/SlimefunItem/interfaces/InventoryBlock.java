@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.sn.slimefun4.ChestMenuTexture;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.bukkit.block.Block;
@@ -17,6 +18,7 @@ import java.util.function.Consumer;
  * @deprecated This interface is not designed to be used by addons. The entire inventory system will be replaced
  * eventually.
  */
+@Deprecated
 public interface InventoryBlock {
 
     /**
@@ -35,12 +37,12 @@ public interface InventoryBlock {
      */
     int[] getOutputSlots();
 
-    default void createPreset(SlimefunItem item, Consumer<BlockMenuPreset> setup) {
-        createPreset(item, item.getItemName(), setup);
+    default void createPreset(SlimefunItem item, ChestMenuTexture texture, Consumer<BlockMenuPreset> setup) {
+        createPreset(item, item.getItemName(), texture, setup);
     }
 
-    default void createPreset(SlimefunItem item, String title, Consumer<BlockMenuPreset> setup) {
-        new BlockMenuPreset(item.getId(), title) {
+    default void createPreset(SlimefunItem item, String title, ChestMenuTexture texture, Consumer<BlockMenuPreset> setup) {
+        new BlockMenuPreset(item.getId(), title, texture) {
 
             @Override
             public void init() {

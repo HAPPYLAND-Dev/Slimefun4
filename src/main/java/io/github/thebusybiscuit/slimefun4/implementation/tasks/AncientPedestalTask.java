@@ -1,20 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import java.util.Map;
-import java.util.UUID;
-
+import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
-import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
-import org.bukkit.scheduler.BukkitScheduler;
-
 import javax.annotation.Nonnull;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * The {@link AncientPedestalTask} is responsible for checking item

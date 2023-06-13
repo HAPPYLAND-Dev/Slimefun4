@@ -1,10 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.sn.slimefun4.ChestMenuTexture;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -14,17 +16,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
+import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
 
 public final class ChestMenuUtils {
 
-    private ChestMenuUtils() {}
+    private ChestMenuUtils() {
+    }
 
     private static final ItemStack UI_BACKGROUND = new SlimefunItemStack("_UI_BACKGROUND", Material.GRAY_STAINED_GLASS_PANE, " ");
     private static final ItemStack INPUT_SLOT = new SlimefunItemStack("_UI_INPUT_SLOT", Material.CYAN_STAINED_GLASS_PANE, " ");
@@ -44,6 +43,12 @@ public final class ChestMenuUtils {
     private static final ItemStack NEXT_BUTTON_INACTIVE = new SlimefunItemStack("_UI_NEXT_INACTIVE", Material.BLACK_STAINED_GLASS_PANE, "&8Next Page \u21E8");
 
     private static final MenuClickHandler CLICK_HANDLER = (p, s, i, a) -> false;
+
+    private static final ChestMenuTexture BLANK_TEXTURE = new ChestMenuTexture("dumortierite:blank");
+
+    public static @Nonnull ChestMenuTexture getBlankTexture() {
+        return BLANK_TEXTURE;
+    }
 
     public static @Nonnull ItemStack getBackground() {
         return UI_BACKGROUND;

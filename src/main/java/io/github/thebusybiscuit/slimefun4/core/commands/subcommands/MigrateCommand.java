@@ -6,11 +6,12 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.migrator.PlayerProfileMigrato
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import java.util.logging.Level;
-import javax.annotation.Nonnull;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+
+import javax.annotation.Nonnull;
+import java.util.logging.Level;
 
 public class MigrateCommand extends SubCommand {
     MigrateCommand(Slimefun plugin, SlimefunCommand cmd) {

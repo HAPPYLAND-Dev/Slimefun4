@@ -1,17 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors;
 
-import java.util.UUID;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.slimefun4.core.services.profiler.PerformanceInspector;
-
-import net.md_5.bungee.api.chat.TextComponent;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.UUID;
 
 /**
  * This implementation of {@link PerformanceInspector} refers to a {@link Player}.

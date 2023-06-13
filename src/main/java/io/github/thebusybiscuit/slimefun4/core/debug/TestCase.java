@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.debug;
 
-import java.util.Locale;
 import javax.annotation.Nonnull;
+import java.util.Locale;
 
 /**
  * Test cases in Slimefun. These are very useful for debugging why behavior is happening.

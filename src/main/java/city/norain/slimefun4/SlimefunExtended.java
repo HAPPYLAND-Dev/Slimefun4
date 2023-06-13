@@ -2,10 +2,11 @@ package city.norain.slimefun4;
 
 import city.norain.slimefun4.listener.SlimefunMigrateListener;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Bukkit;
+
+import javax.annotation.Nonnull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nonnull;
-import org.bukkit.Bukkit;
 
 public final class SlimefunExtended {
     private static Logger logger = null;

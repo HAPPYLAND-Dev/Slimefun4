@@ -52,7 +52,7 @@ public class ReactorAccessPort extends SlimefunItem {
 
         addItemHandler(onBreak());
 
-        new BlockMenuPreset(getId(), "&2反应堆交互接口") {
+        new BlockMenuPreset(getId(), "&2反应堆交互接口", ChestMenuUtils.getBlankTexture()) {
 
             @Override
             public void init() {

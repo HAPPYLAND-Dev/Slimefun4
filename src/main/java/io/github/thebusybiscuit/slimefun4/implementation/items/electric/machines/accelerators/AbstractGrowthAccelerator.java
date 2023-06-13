@@ -32,7 +32,7 @@ public abstract class AbstractGrowthAccelerator extends SlimefunItem implements 
         super(itemGroup, item, recipeType, recipe);
 
         addItemHandler(onBreak());
-        createPreset(this, this::constructMenu);
+        createPreset(this, ChestMenuUtils.getBlankTexture(), this::constructMenu);
     }
 
     @Nonnull

@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
-import javax.annotation.Nonnull;
-
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
 
 abstract class AbstractPlayerTask implements Runnable {
 

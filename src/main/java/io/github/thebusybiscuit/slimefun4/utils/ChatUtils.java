@@ -1,18 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
-import java.util.Locale;
-import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
-
-import org.bukkit.ChatColor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-
 import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import javax.annotation.Nonnull;
+import java.util.Locale;
+import java.util.function.Consumer;
 
 /**
  * This utility class contains a few static methods that are all about {@link String} manipulation

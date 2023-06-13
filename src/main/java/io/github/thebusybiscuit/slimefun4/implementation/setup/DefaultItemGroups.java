@@ -1,10 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.setup;
 
-import java.time.Month;
-
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.FlexItemGroup;
@@ -15,6 +10,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+
+import java.time.Month;
 
 /**
  * This class holds a reference to every {@link ItemGroup}
