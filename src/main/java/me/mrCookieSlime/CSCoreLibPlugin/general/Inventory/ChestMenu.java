@@ -19,13 +19,15 @@ import java.util.Map;
  * This will be removed once we updated everything.
  * Don't look at the code, it will be gone soon, don't worry.
  */
+@SuppressWarnings({"FieldMayBeFinal", "unused"})
 @Deprecated
 public class ChestMenu {
 
     private boolean clickable;
     private boolean emptyClickable;
-    private String title;
+    private final String title;
     private Inventory inv;
+    @SuppressWarnings("FieldCanBeLocal")
     private TexturedInventoryWrapper wrapper = null;
     private List<ItemStack> items;
     private Map<Integer, MenuClickHandler> handlers;
@@ -67,6 +69,7 @@ public class ChestMenu {
      * @param clickable Whether the Player can access his Inventory
      * @return The ChestMenu Instance
      */
+    @SuppressWarnings("UnusedReturnValue")
     public ChestMenu setPlayerInventoryClickable(boolean clickable) {
         this.clickable = clickable;
         return this;
@@ -181,6 +184,7 @@ public class ChestMenu {
      * @param handler The MenuOpeningHandler
      * @return The ChestMenu Instance
      */
+    @SuppressWarnings("UnusedReturnValue")
     public ChestMenu addMenuOpeningHandler(MenuOpeningHandler handler) {
         this.open = handler;
         return this;
@@ -193,6 +197,7 @@ public class ChestMenu {
      * @param handler The MenuCloseHandler
      * @return The ChestMenu Instance
      */
+    @SuppressWarnings("UnusedReturnValue")
     public ChestMenu addMenuCloseHandler(MenuCloseHandler handler) {
         this.close = handler;
         return this;
@@ -221,13 +226,7 @@ public class ChestMenu {
 
     private void setup() {
         if (this.inv != null) return;
-        if (this.texture != null) {
-            this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture));
-            this.inv = this.wrapper.getInternal();
-        } else {
-            this.wrapper = null;
-            this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
-        }
+        initMenu();
         for (int i = 0; i < this.items.size(); i++) {
             this.inv.setItem(i, this.items.get(i));
         }
@@ -238,9 +237,19 @@ public class ChestMenu {
      */
     public void reset(boolean update) {
         if (update) this.inv.clear();
-        else this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
+        else initMenu();
         for (int i = 0; i < this.items.size(); i++) {
             this.inv.setItem(i, this.items.get(i));
+        }
+    }
+
+    private void initMenu() {
+        if (this.texture != null) {
+            this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture));
+            this.inv = this.wrapper.getInternal();
+        } else {
+            this.wrapper = null;
+            this.inv = Bukkit.createInventory(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, title);
         }
     }
 
@@ -320,23 +329,23 @@ public class ChestMenu {
     @FunctionalInterface
     public interface MenuClickHandler {
 
-        public boolean onClick(Player p, int slot, ItemStack item, ClickAction action);
+        boolean onClick(Player p, int slot, ItemStack item, ClickAction action);
     }
 
     public interface AdvancedMenuClickHandler extends MenuClickHandler {
 
-        public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action);
+        boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action);
     }
 
     @FunctionalInterface
     public interface MenuOpeningHandler {
 
-        public void onOpen(Player p);
+        void onOpen(Player p);
     }
 
     @FunctionalInterface
     public interface MenuCloseHandler {
 
-        public void onClose(Player p);
+        void onClose(Player p);
     }
 }

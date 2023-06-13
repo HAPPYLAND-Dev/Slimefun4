@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Array;
 import java.util.function.Consumer;
 
@@ -56,7 +57,7 @@ public interface InventoryBlock {
             }
 
             @Override
-            public boolean canOpen(Block b, Player p) {
+            public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
                 if (p.hasPermission("slimefun.inventory.bypass")) {
                     return true;
                 } else {

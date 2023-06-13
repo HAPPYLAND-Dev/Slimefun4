@@ -39,6 +39,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
 
+@SuppressWarnings("deprecation")
 public abstract class AGenerator extends AbstractEnergyProvider implements MachineProcessHolder<FuelOperation> {
 
     private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 13, 31, 36, 37, 38, 39, 40, 41, 42, 43, 44};
@@ -83,6 +84,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         registerDefaultFuelTypes();
     }
 
+    @Nonnull
     @Override
     public MachineProcessor<FuelOperation> getMachineProcessor() {
         return processor;
@@ -93,7 +95,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
         return new SimpleBlockBreakHandler() {
 
             @Override
-            public void onBlockBreak(Block b) {
+            public void onBlockBreak(@Nonnull Block b) {
                 BlockMenu inv = StorageCacheUtils.getMenu(b.getLocation());
 
                 if (inv != null) {
@@ -129,7 +131,7 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
 
                 @Override
                 public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
-                    return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
+                    return cursor == null || cursor.getType() == Material.AIR;
                 }
             });
         }
@@ -148,9 +150,11 @@ public abstract class AGenerator extends AbstractEnergyProvider implements Machi
     }
 
     @Override
-    public int getGeneratedOutput(Location l, SlimefunBlockData data) {
+    public int getGeneratedOutput(@Nonnull Location l, @Nonnull SlimefunBlockData data) {
         BlockMenu inv = StorageCacheUtils.getMenu(l);
         FuelOperation operation = processor.getOperation(l);
+
+        if (inv == null) return 0;
 
         if (operation != null) {
             if (!operation.isFinished()) {
