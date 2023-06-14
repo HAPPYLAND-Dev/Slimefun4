@@ -30,10 +30,9 @@ import java.util.function.Consumer;
 /**
  * The {@link SlimefunItemStack} functions as the base for any
  * {@link SlimefunItem}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
- *
  */
 public class SlimefunItemStack extends ItemStack {
 
@@ -61,6 +60,19 @@ public class SlimefunItemStack extends ItemStack {
         Slimefun.getItemTextureService().setTexture(meta, id);
 
         setItemMeta(meta);
+    }
+
+    public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nonnull List<String> lore) {
+        this(id, item, meta -> {
+            if (!lore.isEmpty()) {
+                List<String> lines = new ArrayList<>();
+
+                for (String line : lore) {
+                    lines.add(ChatColor.translateAlternateColorCodes('&', line));
+                }
+                meta.setLore(lines);
+            }
+        });
     }
 
     public SlimefunItemStack(@Nonnull String id, @Nonnull ItemStack item, @Nonnull Consumer<ItemMeta> consumer) {
@@ -192,7 +204,7 @@ public class SlimefunItemStack extends ItemStack {
 
     /**
      * Returns the id that was given to this {@link SlimefunItemStack}.
-     * 
+     *
      * @return The {@link SlimefunItem} id for this {@link SlimefunItemStack}
      */
     public final @Nonnull String getItemId() {
@@ -212,15 +224,12 @@ public class SlimefunItemStack extends ItemStack {
     /**
      * This method returns the associated {@link SlimefunItem} and casts it to the provided
      * {@link Class}.
-     * 
+     * <p>
      * If no item was found or the found {@link SlimefunItem} is not of the requested type,
      * the method will return null.
-     * 
-     * @param <T>
-     *            The type of {@link SlimefunItem} to cast this to
-     * @param type
-     *            The {@link Class} of the target {@link SlimefunItem}
-     * 
+     *
+     * @param <T>  The type of {@link SlimefunItem} to cast this to
+     * @param type The {@link Class} of the target {@link SlimefunItem}
      * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
      */
 
