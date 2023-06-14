@@ -35,6 +35,8 @@ public class ChestMenu {
     private MenuClickHandler playerclick;
     private ChestMenuTexture texture;
 
+    private int size = -1;
+
     /**
      * Creates a new ChestMenu with the specified
      * Title
@@ -49,6 +51,22 @@ public class ChestMenu {
         this.items = new ArrayList<>();
         this.handlers = new HashMap<>();
         this.texture = texture;
+
+        this.open = p -> {
+        };
+        this.close = p -> {
+        };
+        this.playerclick = (p, slot, item, action) -> isPlayerInventoryClickable();
+    }
+
+    public ChestMenu(String title, int size, ChestMenuTexture texture) {
+        this.title = ChatColor.translateAlternateColorCodes('&', title);
+        this.clickable = false;
+        this.emptyClickable = true;
+        this.items = new ArrayList<>();
+        this.handlers = new HashMap<>();
+        this.texture = texture;
+        this.size = size;
 
         this.open = p -> {
         };
@@ -239,7 +257,7 @@ public class ChestMenu {
     }
 
     private void initMenu() {
-        this.wrapper = new TexturedInventoryWrapper(null, ((int) Math.ceil(this.items.size() / 9F)) * 9, this.title, new FontImageWrapper(this.texture.getFullName()));
+        this.wrapper = new TexturedInventoryWrapper(null, this.size == -1 ? ((int) Math.ceil(this.items.size() / 9F)) * 9 : this.size, this.title, new FontImageWrapper(this.texture.getFullName()));
         this.inv = this.wrapper.getInternal();
     }
 
