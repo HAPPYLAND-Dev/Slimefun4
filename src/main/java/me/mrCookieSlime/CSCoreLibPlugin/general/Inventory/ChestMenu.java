@@ -41,7 +41,7 @@ public class ChestMenu {
      * Creates a new ChestMenu with the specified
      * Title
      *
-     * @param title The title of the Menu
+     * @param title   The title of the Menu
      * @param texture in ia
      */
     public ChestMenu(String title, ChestMenuTexture texture) {
@@ -51,22 +51,6 @@ public class ChestMenu {
         this.items = new ArrayList<>();
         this.handlers = new HashMap<>();
         this.texture = texture;
-
-        this.open = p -> {
-        };
-        this.close = p -> {
-        };
-        this.playerclick = (p, slot, item, action) -> isPlayerInventoryClickable();
-    }
-
-    public ChestMenu(String title, int size, ChestMenuTexture texture) {
-        this.title = ChatColor.translateAlternateColorCodes('&', title);
-        this.clickable = false;
-        this.emptyClickable = true;
-        this.items = new ArrayList<>();
-        this.handlers = new HashMap<>();
-        this.texture = texture;
-        this.size = size;
 
         this.open = p -> {
         };
