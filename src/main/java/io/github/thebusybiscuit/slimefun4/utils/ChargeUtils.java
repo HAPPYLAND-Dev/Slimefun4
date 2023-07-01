@@ -88,4 +88,33 @@ public final class ChargeUtils {
 
         return 0;
     }
+
+    public static float getMaxCharge(@Nonnull ItemMeta meta) {
+        Validate.notNull(meta, "Meta cannot be null!");
+
+        NamespacedKey key = Slimefun.getRegistry().getItemChargeDataKey();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+        Float value = container.get(key, PersistentDataType.FLOAT);
+
+        // If persistent data is available, we just return this value
+        if (value != null) {
+            return value;
+        }
+
+        // If no persistent data exists, we will just fall back to the lore
+        if (meta.hasLore()) {
+            for (String line : meta.getLore()) {
+                if (REGEX.matcher(line).matches()) {
+                    String data = ChatColor.stripColor(PatternUtils.SLASH_SEPARATOR.split(line)[1].replace(LORE_PREFIX, ""));
+
+                    float loreValue = Float.parseFloat(data);
+                    container.set(key, PersistentDataType.FLOAT, loreValue);
+                    return loreValue;
+                }
+            }
+        }
+
+        return 0;
+    }
+
 }
