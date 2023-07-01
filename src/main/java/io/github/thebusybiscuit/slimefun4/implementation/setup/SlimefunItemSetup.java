@@ -93,13 +93,14 @@ import java.util.List;
 /**
  * This class holds the recipes of all items.
  * This is the place where all items from Slimefun are registered.
- *
  */
 public final class SlimefunItemSetup {
 
     private static boolean registeredItems = false;
+    public static DefaultItemGroups defaultItemGroups = new DefaultItemGroups();
 
-    private SlimefunItemSetup() {}
+    private SlimefunItemSetup() {
+    }
 
     public static void setup(@Nonnull Slimefun plugin) {
         if (registeredItems) {
@@ -107,7 +108,7 @@ public final class SlimefunItemSetup {
         }
 
         registeredItems = true;
-        DefaultItemGroups itemGroups = new DefaultItemGroups();
+        DefaultItemGroups itemGroups = defaultItemGroups;
 
         // @formatter:off (We will need to refactor this one day)
         new SlimefunItem(itemGroups.weapons, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -679,6 +680,7 @@ public final class SlimefunItemSetup {
 
         ItemStack weaknessPotion = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) weaknessPotion.getItemMeta();
+        //noinspection DataFlowIssue
         meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
         weaknessPotion.setItemMeta(meta);
 
@@ -2544,13 +2546,13 @@ public final class SlimefunItemSetup {
 
     @ParametersAreNonnullByDefault
     private static void registerArmorSet(ItemGroup itemGroup, ItemStack baseComponent, ItemStack[] items, String idSyntax, boolean vanilla, PotionEffect[][] effects, SlimefunAddon addon) {
-        String[] components = new String[] { "_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS" };
+        String[] components = new String[]{"_HELMET", "_CHESTPLATE", "_LEGGINGS", "_BOOTS"};
         List<ItemStack[]> recipes = new ArrayList<>();
 
-        recipes.add(new ItemStack[] { baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, null, null, null });
-        recipes.add(new ItemStack[] { baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent });
-        recipes.add(new ItemStack[] { baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent });
-        recipes.add(new ItemStack[] { null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent });
+        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, null, null, null});
+        recipes.add(new ItemStack[]{baseComponent, null, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent, baseComponent});
+        recipes.add(new ItemStack[]{baseComponent, baseComponent, baseComponent, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
+        recipes.add(new ItemStack[]{null, null, null, baseComponent, null, baseComponent, baseComponent, null, baseComponent});
 
         for (int i = 0; i < 4; i++) {
             if (vanilla) {
