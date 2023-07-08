@@ -13,6 +13,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.EnumSet;
+import java.util.Set;
+import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -26,12 +31,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.EnumSet;
-import java.util.Set;
-import java.util.logging.Level;
 
 /**
  * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
@@ -175,10 +174,18 @@ public class DebugFishListener implements Listener {
         }
 
         if (item.isTicking()) {
-            p.sendMessage(ChatColors.color("&dTicking: " + greenCheckmark));
+            p.sendMessage(ChatColors.color("&dTicker: " + greenCheckmark));
             p.sendMessage(ChatColors.color("  &dAsync: &e" + (item.getBlockTicker().isSynchronized() ? redCross : greenCheckmark)));
         } else if (item instanceof EnergyNetProvider) {
-            p.sendMessage(ChatColors.color("&dTicking: &3Indirect (Generator)"));
+            p.sendMessage(ChatColors.color("&dTicker: &3Indirect (Generator)"));
+        } else {
+            p.sendMessage(ChatColors.color("&dTicker: " + redCross));
+        }
+
+        var ticker = Slimefun.getTickerTask().getLocations(b.getChunk()).stream().filter(l -> l.equals(b.getLocation())).findFirst();
+
+        if (ticker.isPresent()) {
+            p.sendMessage(ChatColors.color("&dTicking: " + greenCheckmark));
         } else {
             p.sendMessage(ChatColors.color("&dTicking: " + redCross));
         }

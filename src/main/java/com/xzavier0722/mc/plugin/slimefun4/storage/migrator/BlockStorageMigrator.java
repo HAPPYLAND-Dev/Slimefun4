@@ -39,15 +39,8 @@ public class BlockStorageMigrator implements IMigrator {
     }
 
     @Override
-    public boolean isOldDataExists() {
-        return MigratorUtil.checkMigrateMark() || hasBlockData() || chunk.exists();
-    }
-
-    @Override
-    public void checkOldData() {
-        if (isOldDataExists()) {
-            Slimefun.logger().log(Level.WARNING, "检测到使用文件储存的旧机器数据, 请使用 /sf migrate 迁移旧数据至数据库!");
-        }
+    public boolean hasOldData() {
+        return !MigratorUtil.checkMigrateMark() && (hasBlockData() || chunk.exists());
     }
 
     @Override
@@ -69,6 +62,15 @@ public class BlockStorageMigrator implements IMigrator {
 
         if (chunk.isFile()) {
             migrateChunks();
+
+            try {
+                var chunkBak = Files.createFile(Path.of("data-storage/Slimefun/old_data/chunks.sfc"));
+                Files.copy(chunk.toPath(), chunkBak, StandardCopyOption.REPLACE_EXISTING);
+                Files.delete(chunk.toPath());
+            } catch (Exception e) {
+                Slimefun.logger().log(Level.WARNING, "备份旧数据 " + chunk.getName() + " 时出现问题", e);
+                status = MigrateStatus.FAILED;
+            }
         } else {
             Slimefun.logger().log(Level.WARNING, "未检测到区块数据，跳过迁移。");
         }
@@ -81,15 +83,6 @@ public class BlockStorageMigrator implements IMigrator {
 
         if (MigratorUtil.createDirBackup(blockFolder)) {
             MigratorUtil.deleteOldFolder(blockFolder);
-        }
-
-        try {
-            var chunkBak = Files.createFile(Path.of("data-storage/Slimefun/old_data/chunks.sfc"));
-            Files.copy(chunk.toPath(), chunkBak, StandardCopyOption.REPLACE_EXISTING);
-            Files.delete(chunk.toPath());
-        } catch (Exception e) {
-            Slimefun.logger().log(Level.WARNING, "备份旧数据 " + chunk.getName() + " 时出现问题", e);
-            status = MigrateStatus.FAILED;
         }
 
         migrateLock = false;

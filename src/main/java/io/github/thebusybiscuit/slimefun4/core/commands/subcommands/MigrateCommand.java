@@ -33,7 +33,7 @@ public class MigrateCommand extends SubCommand {
                 Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
                     try {
                         var status = PlayerProfileMigrator.getInstance().migrateData();
-                        sendMigrateStatus(sender, status);
+                        sendMigrateStatus("玩家数据", sender, status);
                     } catch (Exception e) {
                         Slimefun.getLocalization().sendMessage(sender, "commands.migrate.failed", true);
                         plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外", e);
@@ -43,7 +43,7 @@ public class MigrateCommand extends SubCommand {
                 Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
                     try {
                         var status = BlockStorageMigrator.getInstance().migrateData();
-                        sendMigrateStatus(sender, status);
+                        sendMigrateStatus("方块数据", sender, status);
                     } catch (Exception e) {
                         Slimefun.getLocalization().sendMessage(sender, "commands.migrate.failed", true);
                         plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外", e);
@@ -57,9 +57,10 @@ public class MigrateCommand extends SubCommand {
         }
     }
 
-    private void sendMigrateStatus(@Nonnull CommandSender sender, MigrateStatus status) {
+    private void sendMigrateStatus(@Nonnull String migrateType, @Nonnull CommandSender sender, MigrateStatus status) {
         switch (status) {
-            case SUCCESS -> Slimefun.getLocalization().sendMessage(sender, "commands.migrate.success", true);
+            case SUCCESS ->
+                    Slimefun.getLocalization().sendMessage(sender, "commands.migrate.success", true, msg -> msg.replace("%migrate_type%", migrateType));
             case FAILED -> Slimefun.getLocalization().sendMessage(sender, "commands.migrate.failed", true);
             case MIGRATING -> Slimefun.getLocalization().sendMessage(sender, "commands.migrate.in-progress", true);
             case MIGRATED -> Slimefun.getLocalization().sendMessage(sender, "commands.migrate.already-migrated", true);

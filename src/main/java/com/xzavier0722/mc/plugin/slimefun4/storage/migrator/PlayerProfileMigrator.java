@@ -33,16 +33,8 @@ public class PlayerProfileMigrator implements IMigrator {
     }
 
     @Override
-    public boolean isOldDataExists() {
-        return MigratorUtil.checkMigrateMark()
-                || (playerFolder.exists() && playerFolder.listFiles() != null && playerFolder.listFiles().length > 0);
-    }
-
-    @Override
-    public void checkOldData() {
-        if (isOldDataExists()) {
-            Slimefun.logger().log(Level.WARNING, "检测到使用文件储存的旧玩家数据, 请使用 /sf migrate 迁移旧数据至数据库!");
-        }
+    public boolean hasOldData() {
+        return !MigratorUtil.checkMigrateMark() && (playerFolder.exists() && playerFolder.listFiles() != null && playerFolder.listFiles().length > 0);
     }
 
     /**
@@ -60,7 +52,7 @@ public class PlayerProfileMigrator implements IMigrator {
 
         var listFiles = playerFolder.listFiles();
 
-        if (!isOldDataExists()) {
+        if (!hasOldData() || listFiles == null) {
             migrateLock = false;
             return MigrateStatus.MIGRATED;
         }

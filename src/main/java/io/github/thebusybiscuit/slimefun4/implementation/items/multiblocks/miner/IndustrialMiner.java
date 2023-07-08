@@ -1,15 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,10 +21,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+
+import me.mrCookieSlime.Slimefun.api.BlockStorage;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 
 /**
  * The {@link IndustrialMiner} is a {@link MultiBlockMachine} that can mine any
@@ -195,22 +203,23 @@ public class IndustrialMiner extends MultiBlockMachine {
     }
 
     /**
-     * This returns whether this {@link IndustrialMiner} can mine the given {@link Material}.
+     * This returns whether this {@link IndustrialMiner} can mine the given {@link Block}.
+     *
+     * @param block
+     *            The {@link Block} to check
      * 
-     * @param type
-     *            The {@link Material} to check
-     * 
-     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Material}
+     * @return Whether this {@link IndustrialMiner} is capable of mining this {@link Block}
      */
-    public boolean canMine(@Nonnull Material type) {
+    public boolean canMine(@Nonnull Block block) {
         MinecraftVersion version = Slimefun.getMinecraftVersion();
+        Material type = block.getType();
 
         if (type == Material.ANCIENT_DEBRIS) {
-            return canMineAncientDebris.getValue();
+            return canMineAncientDebris.getValue() && !BlockStorage.hasBlockInfo(block);
         } else if (version.isAtLeast(MinecraftVersion.MINECRAFT_1_17) && SlimefunTag.DEEPSLATE_ORES.isTagged(type)) {
-            return canMineDeepslateOres.getValue();
+            return canMineDeepslateOres.getValue() && !BlockStorage.hasBlockInfo(block);
         } else {
-            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type);
+            return SlimefunTag.INDUSTRIAL_MINER_ORES.isTagged(type) && !BlockStorage.hasBlockInfo(block);
         }
     }
 

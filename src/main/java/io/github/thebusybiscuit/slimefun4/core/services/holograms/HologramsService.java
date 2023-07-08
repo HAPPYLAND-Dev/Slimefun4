@@ -3,6 +3,15 @@ package io.github.thebusybiscuit.slimefun4.core.services.holograms;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,16 +25,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-
 /**
  * This service is responsible for handling holograms.
  *
@@ -38,7 +37,7 @@ public class HologramsService {
     /**
      * The radius in which we scan for holograms
      */
-    private static final double RADIUS = 0.45;
+    private static final double RADIUS = 0.5;
 
     /**
      * The frequency at which to purge.
