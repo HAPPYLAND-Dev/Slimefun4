@@ -11,10 +11,7 @@ import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
-import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
-import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.*;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -48,16 +45,14 @@ import java.util.logging.Logger;
  * This class defines the behaviours of the item, you can assign an {@link ItemHandler}
  * to give the item functionality.
  * In contrast to that the {@link SlimefunItemStack} defines the look and feel of the item.
- * 
+ * <p>
  * Remember to call {@link #register(SlimefunAddon)} on your {@link SlimefunItem} for it
  * to appear in the {@link SlimefunGuide}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Poslovitch
- * 
  * @see SlimefunItemStack
  * @see SlimefunAddon
- *
  */
 public class SlimefunItem implements Placeable {
 
@@ -112,7 +107,7 @@ public class SlimefunItem implements Placeable {
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
-     * 
+     *
      * @param itemGroup
      *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
      * @param item
@@ -129,7 +124,7 @@ public class SlimefunItem implements Placeable {
 
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
-     * 
+     *
      * @param itemGroup
      *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
      * @param item
@@ -577,7 +572,7 @@ public class SlimefunItem implements Placeable {
     /**
      * This method returns whether the original {@link SlimefunItemStack} of this
      * {@link SlimefunItem} is immutable.
-     *
+     * <p>
      * If <code>true</code> is returned, then any changes to the original {@link SlimefunItemStack}
      * will be rejected with a {@link WrongItemStackException}.
      * This ensures integrity so developers don't accidentally damage the wrong {@link ItemStack}.
@@ -591,8 +586,7 @@ public class SlimefunItem implements Placeable {
     /**
      * This method checks if the dependencies have been set up correctly.
      *
-     * @param addon
-     *            The {@link SlimefunAddon} trying to register this {@link SlimefunItem}
+     * @param addon The {@link SlimefunAddon} trying to register this {@link SlimefunItem}
      */
     private void checkDependencies(@Nonnull SlimefunAddon addon) {
         if (!addon.hasDependency("Slimefun")) {
@@ -614,11 +608,10 @@ public class SlimefunItem implements Placeable {
     /**
      * This method checks recursively for all {@link Class} parents to look for any {@link Deprecated}
      * elements.
-     *
+     * <p>
      * If a {@link Deprecated} element was found, a warning message will be printed.
      *
-     * @param c
-     *            The {@link Class} from which to start this operation.
+     * @param c The {@link Class} from which to start this operation.
      */
     private void checkForDeprecations(@Nullable Class<?> c) {
         if (Slimefun.getUpdater().getBranch() == SlimefunBranch.DEVELOPMENT) {
@@ -658,8 +651,7 @@ public class SlimefunItem implements Placeable {
      * You don't have to call this method if your {@link SlimefunItem} was linked to your {@link Research}
      * using {@link Research#addItems(SlimefunItem...)}
      *
-     * @param research
-     *            The new {@link Research} for this {@link SlimefunItem}, or null
+     * @param research The new {@link Research} for this {@link SlimefunItem}, or null
      */
     public void setResearch(@Nullable Research research) {
         if (this.research != null) {
@@ -676,8 +668,7 @@ public class SlimefunItem implements Placeable {
     /**
      * Sets the recipe for this {@link SlimefunItem}.
      *
-     * @param recipe
-     *            The recipe for this {@link ItemStack}
+     * @param recipe The recipe for this {@link ItemStack}
      */
     public void setRecipe(@Nonnull ItemStack[] recipe) {
         if (recipe == null || recipe.length != 9) {
@@ -690,8 +681,7 @@ public class SlimefunItem implements Placeable {
     /**
      * Sets the {@link RecipeType} for this {@link SlimefunItem}.
      *
-     * @param type
-     *            The {@link RecipeType} for this {@link SlimefunItem}
+     * @param type The {@link RecipeType} for this {@link SlimefunItem}
      */
     public void setRecipeType(@Nonnull RecipeType type) {
         Validate.notNull(type, "The RecipeType is not allowed to be null!");
@@ -701,8 +691,7 @@ public class SlimefunItem implements Placeable {
     /**
      * This sets the {@link ItemGroup} in which this {@link SlimefunItem} will be displayed.
      *
-     * @param itemGroup
-     *            The new {@link ItemGroup}
+     * @param itemGroup The new {@link ItemGroup}
      */
     public void setItemGroup(@Nonnull ItemGroup itemGroup) {
         Validate.notNull(itemGroup, "The ItemGroup is not allowed to be null!");
@@ -717,8 +706,7 @@ public class SlimefunItem implements Placeable {
      * This method will set the result of crafting this {@link SlimefunItem}.
      * If null is passed, then it will use the default item as the recipe result.
      *
-     * @param output
-     *            The {@link ItemStack} that will be the result of crafting this {@link SlimefunItem}
+     * @param output The {@link ItemStack} that will be the result of crafting this {@link SlimefunItem}
      */
     public void setRecipeOutput(@Nullable ItemStack output) {
         this.recipeOutput = output;
@@ -727,12 +715,11 @@ public class SlimefunItem implements Placeable {
     /**
      * This method returns whether or not this {@link SlimefunItem} is allowed to
      * be used in a Crafting Table.
-     *
+     * <p>
      * Items of type {@link VanillaItem} may be used in workbenches for example.
      *
-     * @see #setUseableInWorkbench(boolean)
-     *
      * @return Whether this {@link SlimefunItem} may be used in a Workbench.
+     * @see #setUseableInWorkbench(boolean)
      */
     public boolean isUseableInWorkbench() {
         return useableInWorkbench;
@@ -742,9 +729,7 @@ public class SlimefunItem implements Placeable {
      * This sets whether or not this {@link SlimefunItem} is allowed to be
      * used in a normal Crafting Table.
      *
-     * @param useable
-     *            Whether this {@link SlimefunItem} should be useable in a workbench
-     *
+     * @param useable Whether this {@link SlimefunItem} should be useable in a workbench
      * @return This instance of {@link SlimefunItem}
      */
     public @Nonnull SlimefunItem setUseableInWorkbench(boolean useable) {
@@ -757,9 +742,7 @@ public class SlimefunItem implements Placeable {
      * This method checks whether the provided {@link ItemStack} represents
      * this {@link SlimefunItem}.
      *
-     * @param item
-     *            The {@link ItemStack} to compare
-     *
+     * @param item The {@link ItemStack} to compare
      * @return Whether the given {@link ItemStack} represents this {@link SlimefunItem}
      */
     public boolean isItem(@Nullable ItemStack item) {
@@ -778,6 +761,10 @@ public class SlimefunItem implements Placeable {
             if (itemId.isPresent()) {
                 return getId().equals(itemId.get());
             }
+        }
+
+        if (this instanceof LoreSensitive) {
+            return SlimefunUtils.isItemSimilar(item, this.itemStackTemplate, ((LoreSensitive) this).isLoreSensitive());
         }
 
         // Backwards compatibility
@@ -804,8 +791,7 @@ public class SlimefunItem implements Placeable {
      * This method will add any given {@link ItemHandler} to this {@link SlimefunItem}.
      * Note that this will not work after the {@link SlimefunItem} was registered.
      *
-     * @param handlers
-     *            Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
+     * @param handlers Any {@link ItemHandler} that should be added to this {@link SlimefunItem}
      */
     public final void addItemHandler(ItemHandler... handlers) {
         Validate.notEmpty(handlers, "You cannot add zero handlers...");
@@ -832,8 +818,7 @@ public class SlimefunItem implements Placeable {
      * This method will add any given {@link ItemSetting} to this {@link SlimefunItem}.
      * Note that this will not work after the {@link SlimefunItem} was registered.
      *
-     * @param settings
-     *            Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
+     * @param settings Any {@link ItemSetting} that should be added to this {@link SlimefunItem}
      */
     public final void addItemSetting(ItemSetting<?>... settings) {
         Validate.notEmpty(settings, "You cannot add zero settings...");
@@ -884,12 +869,11 @@ public class SlimefunItem implements Placeable {
      * This method will assign the given wiki page to this Item.
      * Note that you only need to provide the page name itself,
      * the URL to our wiki is prepended automatically.
-     *
+     * <p>
      * 返回非官方中文Wiki地址
      * 下游应使用 {@link SlimefunItem#addWikiPage(String)} 来添加Wiki页面
      *
-     * @param page
-     *            The associated wiki page
+     * @param page The associated wiki page
      */
     @Deprecated
     public final void addOfficialWikipage(@Nonnull String page) {
@@ -920,9 +904,8 @@ public class SlimefunItem implements Placeable {
      * This method returns the wiki page that has been assigned to this item.
      * It will return null, if no wiki page was found.
      *
-     * @see SlimefunItem#addWikiPage(String)
-     *
      * @return This item's wiki page
+     * @see SlimefunItem#addWikiPage(String)
      */
     public @Nonnull Optional<String> getWikipage() {
         return wikiURL;
@@ -959,13 +942,9 @@ public class SlimefunItem implements Placeable {
      * This method calls every {@link ItemHandler} of the given {@link Class}
      * and performs the action as specified via the {@link Consumer}.
      *
-     * @param c
-     *            The {@link Class} of the {@link ItemHandler} to call.
-     * @param callable
-     *            A {@link Consumer} that is called for any found {@link ItemHandler}.
-     * @param <T>
-     *            The type of {@link ItemHandler} to call.
-     *
+     * @param c        The {@link Class} of the {@link ItemHandler} to call.
+     * @param callable A {@link Consumer} that is called for any found {@link ItemHandler}.
+     * @param <T>      The type of {@link ItemHandler} to call.
      * @return Whether or not an {@link ItemHandler} was found.
      */
     @ParametersAreNonnullByDefault
@@ -1018,8 +997,7 @@ public class SlimefunItem implements Placeable {
      * from this {@link SlimefunItem}, the message will be sent using the {@link Logger}
      * of the {@link SlimefunAddon} which registered this {@link SlimefunItem}.
      *
-     * @param message
-     *            The message to send
+     * @param message The message to send
      */
     @ParametersAreNonnullByDefault
     public void info(String message) {
@@ -1034,8 +1012,7 @@ public class SlimefunItem implements Placeable {
      * this {@link SlimefunItem}, the warning will be sent using the {@link Logger}
      * of the {@link SlimefunAddon} which registered this {@link SlimefunItem}.
      *
-     * @param message
-     *            The message to send
+     * @param message The message to send
      */
     @ParametersAreNonnullByDefault
     public void warn(String message) {
@@ -1054,15 +1031,13 @@ public class SlimefunItem implements Placeable {
      * This will throw a {@link Throwable} to the console and signal that
      * this was caused by this {@link SlimefunItem}.
      *
-     * @param message
-     *            The message to display alongside this Stacktrace
-     * @param throwable
-     *            The {@link Throwable} to throw as a stacktrace.
+     * @param message   The message to display alongside this Stacktrace
+     * @param throwable The {@link Throwable} to throw as a stacktrace.
      */
     @ParametersAreNonnullByDefault
     public void error(String message, Throwable throwable) {
         Validate.notNull(addon, "Cannot send an error for an unregistered item!");
-        addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[] { id, addon.getName(), addon.getPluginVersion() });
+        addon.getLogger().log(Level.SEVERE, "Item \"{0}\" from {1} v{2} has caused an Error!", new Object[]{id, addon.getName(), addon.getPluginVersion()});
 
         if (addon.getBugTrackerURL() != null) {
             // We can prompt the server operator to report it to the addon's bug tracker
@@ -1081,8 +1056,7 @@ public class SlimefunItem implements Placeable {
      * This method informs the given {@link Player} that this {@link SlimefunItem}
      * will be removed soon.
      *
-     * @param player
-     *            The {@link Player} to inform.
+     * @param player The {@link Player} to inform.
      */
     @ParametersAreNonnullByDefault
     public void sendDeprecationWarning(Player player) {
@@ -1100,15 +1074,12 @@ public class SlimefunItem implements Placeable {
      * <li>The {@link Player} has the required {@link Permission} (if present)
      * <li>The {@link Player} has unlocked the required {@link Research} (if present)
      * </ul>
-     *
+     * <p>
      * If any of these conditions evaluate to <code>false</code>, then an optional message will be
      * sent to the {@link Player}.
      *
-     * @param p
-     *            The {@link Player} to check
-     * @param sendMessage
-     *            Whether to send that {@link Player} a message response.
-     *
+     * @param p           The {@link Player} to check
+     * @param sendMessage Whether to send that {@link Player} a message response.
      * @return Whether this {@link Player} is able to use this {@link SlimefunItem}.
      */
     public boolean canUse(@Nonnull Player p, boolean sendMessage) {
@@ -1189,8 +1160,7 @@ public class SlimefunItem implements Placeable {
     /**
      * Retrieve a {@link SlimefunItem} by its id.
      *
-     * @param id
-     *            The id of the {@link SlimefunItem}
+     * @param id The id of the {@link SlimefunItem}
      * @return The {@link SlimefunItem} associated with that id. Null if non-existent
      */
     public static @Nullable SlimefunItem getById(@Nonnull String id) {
@@ -1200,8 +1170,7 @@ public class SlimefunItem implements Placeable {
     /**
      * Retrieve a {@link SlimefunItem} from an {@link ItemStack}.
      *
-     * @param item
-     *            The {@link ItemStack} to check
+     * @param item The {@link ItemStack} to check
      * @return The {@link SlimefunItem} associated with this {@link ItemStack} if present, otherwise null
      */
     public static @Nullable SlimefunItem getByItem(@Nullable ItemStack item) {
