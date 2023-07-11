@@ -16,9 +16,9 @@
 #    drop-excess-sf-give-items - 是否在背包已满时使用命令给予 Slimefun 物品直接掉落溢出的物品
 #    backup-data - 自动备份数据
 options:
-  auto-update: true
+  auto-update: false
   backwards-compatibility: false
-  chat-prefix: '&a&lSlimefun 4 &7> '
+  chat-prefix: '&7[&b科技&7] '
   armor-update-interval: 10
   enable-armor-effects: true
   auto-save-delay-in-minutes: 10
@@ -26,7 +26,7 @@ options:
   legacy-dust-washer: false
   legacy-ore-grinder: true
   language: zh-CN
-  enable-translations: true
+  enable-translations: false
   log-duplicate-block-entries: true
   burn-players-when-radioactive: true
   drop-excess-sf-give-items: false
@@ -71,7 +71,7 @@ metrics:
 
 backpack:
   # 背包所有者离线时是否允许背包被打开
-  allow-open-when-owner-offline: true
+  allow-open-when-owner-offline: false
 
 research-ranks:
   - Void
