@@ -36,7 +36,7 @@ public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> impleme
     @Override
     public @Nonnull BlockUseHandler getItemHandler() {
         return e -> {
-            if (!e.getClickedBlock().isPresent()) {
+            if (e.getClickedBlock().isEmpty()) {
                 return;
             }
 
@@ -44,9 +44,9 @@ public class EnergyConnector extends SimpleSlimefunItem<BlockUseHandler> impleme
             Block b = e.getClickedBlock().get();
 
             if (EnergyNet.getNetworkFromLocation(b.getLocation()) != null) {
-                p.sendMessage(ChatColors.color("&7连接状态: " + "&2\u2714"));
+                p.sendActionBar(ChatColors.color("&7连接状态: " + "&2✔"));
             } else {
-                p.sendMessage(ChatColors.color("&7连接状态: " + "&4\u2718"));
+                p.sendActionBar(ChatColors.color("&7连接状态: " + "&4✘"));
             }
         };
     }
