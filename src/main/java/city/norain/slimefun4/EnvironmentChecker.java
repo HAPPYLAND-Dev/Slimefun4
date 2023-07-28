@@ -29,13 +29,4 @@ class EnvironmentChecker {
             return false;
         }
     }
-
-    static void scheduleSlimeGlueCheck(@Nonnull Slimefun sf, @Nonnull Logger logger) {
-        Bukkit.getScheduler().runTaskLater(sf, () -> {
-            if (Bukkit.getPluginManager().getPlugin("SlimeGlue") == null) {
-                logger.log(Level.WARNING, "检测到没有安装 SlimeGlue (粘液胶), 你将缺失对一些插件的额外保护检查!");
-                logger.log(Level.WARNING, "下载: https://github.com/Xzavier0722/SlimeGlue");
-            }
-        }, 300); // 15s
-    }
 }
