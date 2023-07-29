@@ -26,7 +26,7 @@ public class ControllerHolder<T extends ADataController> {
         }
     }
 
-    private ControllerHolder() {
+    public ControllerHolder() {
         controllers = new ConcurrentHashMap<>();
     }
 

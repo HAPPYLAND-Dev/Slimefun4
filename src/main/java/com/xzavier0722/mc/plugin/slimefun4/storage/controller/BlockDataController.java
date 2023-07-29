@@ -19,6 +19,7 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -42,13 +43,15 @@ public class BlockDataController extends ADataController {
     private boolean enableDelayedSaving = false;
     private int delayedSecond = 0;
     private BukkitTask looperTask;
+    private final World world;
 
-    BlockDataController() {
+    public BlockDataController(World world) {
         super(DataType.BLOCK_STORAGE);
         delayedWriteTasks = new HashMap<>();
         loadedChunk = new ConcurrentHashMap<>();
         invSnapshots = new ConcurrentHashMap<>();
         lock = new ScopedLock();
+        this.world = world;
     }
 
     @Override
@@ -61,10 +64,8 @@ public class BlockDataController extends ADataController {
         Bukkit.getScheduler().runTaskLater(
                 Slimefun.instance(),
                 () -> {
-                    for (var world : Bukkit.getWorlds()) {
-                        for (var chunk : world.getLoadedChunks()) {
-                            loadChunk(chunk, false);
-                        }
+                    for (var chunk : world.getLoadedChunks()) {
+                        loadChunk(chunk, false);
                     }
                 },
                 1

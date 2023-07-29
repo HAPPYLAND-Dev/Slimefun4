@@ -44,13 +44,13 @@ public class SlimefunBlockData extends ASlimefunDataContainer {
     public void setData(String key, String val) {
         checkData();
         setCacheInternal(key, val, true);
-        Slimefun.getDatabaseManager().getBlockDataController().scheduleDelayedBlockDataUpdate(this, key);
+        Slimefun.getDatabaseManager().getBlockDataController(location.getWorld()).scheduleDelayedBlockDataUpdate(this, key);
     }
 
     @ParametersAreNonnullByDefault
     public void removeData(String key) {
         if (removeCacheInternal(key) != null || !isDataLoaded()) {
-            Slimefun.getDatabaseManager().getBlockDataController().scheduleDelayedBlockDataUpdate(this, key);
+            Slimefun.getDatabaseManager().getBlockDataController(location.getWorld()).scheduleDelayedBlockDataUpdate(this, key);
         }
     }
 

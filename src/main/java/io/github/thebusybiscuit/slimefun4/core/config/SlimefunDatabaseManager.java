@@ -6,10 +6,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.mysql.MysqlConfig;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlite.SqliteAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlite.SqliteConfig;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataType;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ControllerHolder;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ProfileDataController;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.*;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.World;
@@ -28,7 +25,8 @@ public class SlimefunDatabaseManager {
     private final Config blockStorageConfig;
     private StorageType profileStorageType;
     private IDataSourceAdapter<?> profileAdapter;
-    private ConcurrentHashMap<World, SqliteAdapter> worldAdapter;
+    private final ConcurrentHashMap<World, SqliteAdapter> worldAdapter;
+    private final ConcurrentHashMap<World, BlockDataController> worldController;
 
 
     public SlimefunDatabaseManager(Slimefun plugin) {
@@ -41,6 +39,9 @@ public class SlimefunDatabaseManager {
         if (!new File(plugin.getDataFolder(), BLOCK_STORAGE_FILE_NAME).exists()) {
             plugin.saveResource(BLOCK_STORAGE_FILE_NAME, false);
         }
+
+        worldAdapter = new ConcurrentHashMap<>();
+        worldController = new ConcurrentHashMap<>();
 
         profileConfig = new Config(plugin, PROFILE_CONFIG_FILE_NAME);
         blockStorageConfig = new Config(plugin, BLOCK_STORAGE_FILE_NAME);
@@ -117,7 +118,6 @@ public class SlimefunDatabaseManager {
         var adapter = new SqliteAdapter();
 
         File databasePath = new File(world.getWorldFolder(), "block-storage.db");
-        //TODO Fixing
         adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
         worldAdapter.put(world, adapter);
     }
@@ -127,13 +127,13 @@ public class SlimefunDatabaseManager {
         return ControllerHolder.getController(ProfileDataController.class, profileStorageType);
     }
 
-    public BlockDataController getBlockDataController() { //TODO Change
-        return ControllerHolder.getController(BlockDataController.class, StorageType.SQLITE);
+    public BlockDataController getBlockDataController(World world) {
+        return worldController.get(world);
     }
 
     public void shutdown() {
         getProfileDataController().shutdown();
-        getBlockDataController().shutdown(); //TODO Removal
+        worldController.values().forEach(BlockDataController::shutdown);
         worldAdapter.values().forEach(SqliteAdapter::shutdown);
         profileAdapter.shutdown();
         ControllerHolder.clearControllers();
@@ -152,18 +152,33 @@ public class SlimefunDatabaseManager {
     }
 
     public void loadWorld(World world) {
-        // TODO: 2023/7/29 And ,,,,What?
+        var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
+        var writeExecutorThread = 1;
         initWorldAdapter(world);
+
+        var blockDataController = new BlockDataController(world);
+        worldController.put(world, blockDataController);
+        blockDataController.init(worldAdapter.get(world), readExecutorThread, writeExecutorThread);
+        if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
+            blockDataController.initDelayedSaving(
+                    plugin,
+                    blockStorageConfig.getInt("delayedWriting.delayedSecond"),
+                    blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
+            );
+        }
     }
 
     public void unloadWorld(World world, boolean save) {
         var adapter = worldAdapter.get(world);
         if (adapter != null) {
             if (save) {
-                // TODO: 2023/7/29 Do Save
+                plugin.getLogger().info("为世界 " + world.getName() + " 保存数据中...");
+                worldController.get(world).shutdown();
             }
             adapter.shutdown();
+            worldController.remove(world);
             worldAdapter.remove(world);
+            plugin.getLogger().info("世界 " + world.getName() + " 保存操作完成!");
         }
     }
 }
