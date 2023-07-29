@@ -28,7 +28,6 @@ public class SlimefunDatabaseManager {
     private final Config blockStorageConfig;
     private StorageType profileStorageType;
     private IDataSourceAdapter<?> profileAdapter;
-    private IDataSourceAdapter<?> blockStorageAdapter;
     private ConcurrentHashMap<World, SqliteAdapter> worldAdapter;
 
 
@@ -76,7 +75,7 @@ public class SlimefunDatabaseManager {
             var readExecutorThread = profileConfig.getInt("readExecutorThread");
             var writeExecutorThread = profileStorageType == StorageType.SQLITE ? 1 : profileConfig.getInt("writeExecutorThread");
 
-            initAdapter(profileStorageType, DataType.PLAYER_PROFILE, profileConfig);
+            initAdapter(profileStorageType, profileConfig);
             var profileController = ControllerHolder.createController(ProfileDataController.class, profileStorageType);
             profileController.init(profileAdapter, readExecutorThread, writeExecutorThread);
         } catch (IOException e) {
@@ -84,7 +83,7 @@ public class SlimefunDatabaseManager {
         }
     }
 
-    private void initAdapter(StorageType storageType, DataType dataType, Config databaseConfig) throws IOException {
+    private void initAdapter(StorageType storageType, Config databaseConfig) throws IOException {
         switch (storageType) {
             case MYSQL -> {
                 var adapter = new MysqlAdapter();
@@ -101,26 +100,13 @@ public class SlimefunDatabaseManager {
                                 databaseConfig.getInt("mysql.maxConnection")
                         ));
 
-                switch (dataType) {
-                    case BLOCK_STORAGE -> blockStorageAdapter = adapter;
-                    case PLAYER_PROFILE -> profileAdapter = adapter;
-                }
+                profileAdapter = adapter;
             }
             case SQLITE -> {
                 var adapter = new SqliteAdapter();
 
-                File databasePath = null;
-
-                switch (dataType) {
-                    case PLAYER_PROFILE -> {
-                        databasePath = new File("data-storage/Slimefun", "profile.db");
-                        profileAdapter = adapter;
-                    }
-                    case BLOCK_STORAGE -> {
-                        databasePath = new File("data-storage/Slimefun", "block-storage.db");
-                        blockStorageAdapter = adapter;
-                    }
-                }
+                File databasePath = new File("data-storage/Slimefun", "profile.db");
+                profileAdapter = adapter;
 
                 adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
             }
@@ -131,7 +117,6 @@ public class SlimefunDatabaseManager {
         var adapter = new SqliteAdapter();
 
         File databasePath = new File(world.getWorldFolder(), "block-storage.db");
-        blockStorageAdapter = adapter;
 
         adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
         worldAdapter.put(world, adapter);
@@ -149,7 +134,7 @@ public class SlimefunDatabaseManager {
     public void shutdown() {
         getProfileDataController().shutdown();
         getBlockDataController().shutdown();
-        blockStorageAdapter.shutdown();
+        worldAdapter.values().forEach(SqliteAdapter::shutdown);
         profileAdapter.shutdown();
         ControllerHolder.clearControllers();
     }
@@ -174,7 +159,9 @@ public class SlimefunDatabaseManager {
     public void unloadWorld(World world, boolean save) {
         var adapter = worldAdapter.get(world);
         if (adapter != null) {
-            // TODO: 2023/7/29 Save Data
+            if (save) {
+                // TODO: 2023/7/29 Do Save
+            }
             adapter.shutdown();
             worldAdapter.remove(world);
         }
