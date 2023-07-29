@@ -49,7 +49,7 @@ public class SlimefunDatabaseManager {
     }
 
     public void init() {
-// 世界应该单独持有自己的db文件
+// 世界应该单独持有自己的db文件,还在研究
 //        try {
 //            blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
 //            var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
@@ -169,5 +169,13 @@ public class SlimefunDatabaseManager {
 
     public StorageType getProfileStorageType() {
         return profileStorageType;
+    }
+
+    public void loadWorld(World world) {
+        // TODO: 2023/7/29
+    }
+
+    public void unloadWorld(World world, boolean save) {
+        // TODO: 2023/7/29
     }
 }
