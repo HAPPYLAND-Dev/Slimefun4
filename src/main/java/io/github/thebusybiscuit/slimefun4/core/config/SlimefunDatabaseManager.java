@@ -49,27 +49,28 @@ public class SlimefunDatabaseManager {
     }
 
     public void init() {
-        try {
-            blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
-            var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
-            var writeExecutorThread = 1;
-
-            initAdapter(blockDataStorageType, DataType.BLOCK_STORAGE, blockStorageConfig);
-
-            var blockDataController = ControllerHolder.createController(BlockDataController.class, blockDataStorageType);
-            blockDataController.init(blockStorageAdapter, readExecutorThread, writeExecutorThread);
-
-            if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
-                blockDataController.initDelayedSaving(
-                        plugin,
-                        blockStorageConfig.getInt("delayedWriting.delayedSecond"),
-                        blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
-                );
-            }
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "加载 Slimefun 方块存储适配器失败", e);
-            return;
-        }
+// 世界应该单独持有自己的db文件
+//        try {
+//            blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
+//            var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
+//            var writeExecutorThread = 1;
+//
+//            initAdapter(blockDataStorageType, DataType.BLOCK_STORAGE, blockStorageConfig);
+//
+//            var blockDataController = ControllerHolder.createController(BlockDataController.class, blockDataStorageType);
+//            blockDataController.init(blockStorageAdapter, readExecutorThread, writeExecutorThread);
+//
+//            if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
+//                blockDataController.initDelayedSaving(
+//                        plugin,
+//                        blockStorageConfig.getInt("delayedWriting.delayedSecond"),
+//                        blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
+//                );
+//            }
+//        } catch (IOException e) {
+//            plugin.getLogger().log(Level.SEVERE, "加载 Slimefun 方块存储适配器失败", e);
+//            return;
+//        }
 
         try {
             profileStorageType = StorageType.valueOf(profileConfig.getString("storageType"));
@@ -127,7 +128,7 @@ public class SlimefunDatabaseManager {
         }
     }
 
-    private void initWorldAdapter(World world) throws IOException {
+    private void initWorldAdapter(World world) {
         var adapter = new SqliteAdapter();
 
         File databasePath = new File(world.getWorldFolder(), "block-storage.db");

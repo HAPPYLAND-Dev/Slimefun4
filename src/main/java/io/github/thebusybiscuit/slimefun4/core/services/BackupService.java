@@ -89,9 +89,9 @@ public class BackupService implements Runnable {
             addFile(output, new File("data-storage/Slimefun", "profile.db"), "");
         }
 
-        if (Slimefun.getDatabaseManager().getBlockDataStorageType() == StorageType.SQLITE) {
-            addFile(output, new File("data-storage/Slimefun", "block-storage.db"), "");
-        }
+//        if (Slimefun.getDatabaseManager().getBlockDataStorageType() == StorageType.SQLITE) {
+//            addFile(output, new File("data-storage/Slimefun", "block-storage.db"), "");
+//        } 无法这样备份，那就不备份，莽就完了！
     }
 
     private void addFile(ZipOutputStream output, File file, String path) throws IOException {
