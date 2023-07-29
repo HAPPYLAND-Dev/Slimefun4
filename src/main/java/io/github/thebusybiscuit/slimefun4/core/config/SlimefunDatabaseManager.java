@@ -27,7 +27,6 @@ public class SlimefunDatabaseManager {
     private final Config profileConfig;
     private final Config blockStorageConfig;
     private StorageType profileStorageType;
-    private StorageType blockDataStorageType;
     private IDataSourceAdapter<?> profileAdapter;
     private IDataSourceAdapter<?> blockStorageAdapter;
     private ConcurrentHashMap<World, SqliteAdapter> worldAdapter;
@@ -144,7 +143,7 @@ public class SlimefunDatabaseManager {
     }
 
     public BlockDataController getBlockDataController() {
-        return ControllerHolder.getController(BlockDataController.class, blockDataStorageType);
+        return ControllerHolder.getController(BlockDataController.class, StorageType.SQLITE);
     }
 
     public void shutdown() {
@@ -163,19 +162,21 @@ public class SlimefunDatabaseManager {
         return profileConfig.getBoolean("base64EncodeVal");
     }
 
-    public StorageType getBlockDataStorageType() {
-        return blockDataStorageType;
-    }
-
     public StorageType getProfileStorageType() {
         return profileStorageType;
     }
 
     public void loadWorld(World world) {
-        // TODO: 2023/7/29
+        // TODO: 2023/7/29 And ,,,,What?
+        initWorldAdapter(world);
     }
 
     public void unloadWorld(World world, boolean save) {
-        // TODO: 2023/7/29
+        var adapter = worldAdapter.get(world);
+        if (adapter != null) {
+            // TODO: 2023/7/29 Save Data
+            adapter.shutdown();
+            worldAdapter.remove(world);
+        }
     }
 }

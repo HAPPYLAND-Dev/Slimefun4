@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class ChunkListener implements Listener {
 
@@ -16,11 +17,21 @@ public class ChunkListener implements Listener {
 
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
-        Slimefun.getDatabaseManager().loadWorld(e.getWorld());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Slimefun.getDatabaseManager().loadWorld(e.getWorld());
+            }
+        }.runTaskAsynchronously(Slimefun.instance());
     }
 
     @EventHandler
     public void onWorldUnload(WorldUnloadEvent e) {
-        Slimefun.getDatabaseManager().unloadWorld(e.getWorld(), true);
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Slimefun.getDatabaseManager().unloadWorld(e.getWorld(), true);
+            }
+        }.runTaskAsynchronously(Slimefun.instance());
     }
 }

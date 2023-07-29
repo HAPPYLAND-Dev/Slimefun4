@@ -46,8 +46,7 @@ public class BackupService implements Runnable {
     @Override
     public void run() {
         var dbManager = Slimefun.getDatabaseManager();
-        if (dbManager.getProfileStorageType() != StorageType.SQLITE
-                && dbManager.getBlockDataStorageType() != StorageType.SQLITE) {
+        if (dbManager.getProfileStorageType() != StorageType.SQLITE) {
             return;
         }
         // Make sure that the directory exists.
