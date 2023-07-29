@@ -72,7 +72,7 @@ public class BlockListener implements Listener {
                     }
                 }
 
-                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(loc);
+                Slimefun.getDatabaseManager().getBlockDataController(loc.getWorld()).removeBlock(loc);
 
                 if (SlimefunItem.getByItem(e.getItemInHand()) != null) {
                     // Due to the delay of #clearBlockInfo, new sf block info will also be cleared. Set cancelled.
@@ -94,7 +94,7 @@ public class BlockListener implements Listener {
             if (!sfItem.canUse(e.getPlayer(), true)) {
                 e.setCancelled(true);
             } else {
-                Slimefun.getDatabaseManager().getBlockDataController().createBlock(e.getBlock().getLocation(), sfItem.getId());
+                Slimefun.getDatabaseManager().getBlockDataController(e.getBlock().getWorld()).createBlock(e.getBlock().getLocation(), sfItem.getId());
                 sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
             }
         }
@@ -139,7 +139,7 @@ public class BlockListener implements Listener {
             } else {
                 e.setDropItems(false);
                 var type = block.getType();
-                Slimefun.getDatabaseManager().getBlockDataController().loadBlockDataAsync(
+                Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).loadBlockDataAsync(
                         blockData,
                         new IAsyncReadCallback<>() {
                             @Override
@@ -189,7 +189,7 @@ public class BlockListener implements Listener {
             }
 
             drops.addAll(sfItem.getDrops());
-            Slimefun.getDatabaseManager().getBlockDataController().removeBlock(loc);
+            Slimefun.getDatabaseManager().getBlockDataController(loc.getWorld()).removeBlock(loc);
         }
     }
 
@@ -242,7 +242,7 @@ public class BlockListener implements Listener {
                 List<ItemStack> drops = new ArrayList<>();
                 drops.addAll(sfItem.getDrops(e.getPlayer()));
 
-                var controller = Slimefun.getDatabaseManager().getBlockDataController();
+                var controller = Slimefun.getDatabaseManager().getBlockDataController(blockAbove.getWorld());
                 if (blockData.isDataLoaded()) {
                     sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
                     controller.removeBlock(loc);

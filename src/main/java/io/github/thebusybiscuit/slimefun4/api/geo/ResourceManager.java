@@ -99,7 +99,7 @@ public class ResourceManager {
         Validate.notNull(world, "World must not be null");
 
         String key = resource.getKey().toString().replace(':', '-');
-        var chunkData = Slimefun.getDatabaseManager().getBlockDataController().getChunkData(world.getChunkAt(x, z));
+        var chunkData = Slimefun.getDatabaseManager().getBlockDataController(world).getChunkData(world.getChunkAt(x, z));
         if (chunkData == null) {
             return OptionalInt.empty();
         }
@@ -113,7 +113,7 @@ public class ResourceManager {
     }
 
     public void getSuppliesAsync(GEOResource resource, Chunk chunk, IAsyncReadCallback<Integer> callback) {
-        Slimefun.getDatabaseManager().getBlockDataController().getChunkDataAsync(chunk, new IAsyncReadCallback<>() {
+        Slimefun.getDatabaseManager().getBlockDataController(chunk.getWorld()).getChunkDataAsync(chunk, new IAsyncReadCallback<>() {
             @Override
             public boolean runOnMainThread() {
                 return callback.runOnMainThread();
@@ -155,7 +155,7 @@ public class ResourceManager {
         Validate.notNull(world, "World cannot be null");
 
         String key = resource.getKey().toString().replace(':', '-');
-        Slimefun.getDatabaseManager().getBlockDataController().getChunkDataAsync(world.getChunkAt(x, z), new IAsyncReadCallback<>() {
+        Slimefun.getDatabaseManager().getBlockDataController(world).getChunkDataAsync(world.getChunkAt(x, z), new IAsyncReadCallback<>() {
             @Override
             public void onResult(SlimefunChunkData result) {
                 result.setData(key, String.valueOf(value));

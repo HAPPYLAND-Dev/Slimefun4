@@ -31,23 +31,25 @@ public class MigrateCommand extends SubCommand {
                 Slimefun.getLocalization().sendMessage(sender, "commands.migrate.started", true);
 
                 Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
-                    try {
-                        var status = PlayerProfileMigrator.getInstance().migrateData();
-                        sendMigrateStatus("玩家数据", sender, status);
-                    } catch (Exception e) {
-                        Slimefun.getLocalization().sendMessage(sender, "commands.migrate.failed", true);
-                        plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外", e);
-                    }
+//                    try {
+//                        var status = PlayerProfileMigrator.getInstance().migrateData();
+//                        sendMigrateStatus("玩家数据", sender, status);
+//                    } catch (Exception e) {
+//                        Slimefun.getLocalization().sendMessage(sender, "commands.migrate.failed", true);
+//                        plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外", e);
+//                    }
+                    plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外");
                 });
 
                 Bukkit.getScheduler().runTaskAsynchronously(Slimefun.instance(), () -> {
-                    try {
-                        var status = BlockStorageMigrator.getInstance().migrateData();
-                        sendMigrateStatus("方块数据", sender, status);
-                    } catch (Exception e) {
-                        Slimefun.getLocalization().sendMessage(sender, "commands.migrate.failed", true);
-                        plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外", e);
-                    }
+//                    try {
+//                        var status = BlockStorageMigrator.getInstance().migrateData();
+//                        sendMigrateStatus("方块数据", sender, status);
+//                    } catch (Exception e) {
+//                        Slimefun.getLocalization().sendMessage(sender, "commands.migrate.failed", true);
+//                        plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外", e);
+//                    }
+                    plugin.getLogger().log(Level.WARNING, "迁移数据时出现意外");
                 });
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "commands.migrate.confirm", true);

@@ -319,7 +319,7 @@ public class GEOMiner extends SlimefunItem implements RecipeDisplayItem, EnergyN
             return;
         }
 
-        Slimefun.getDatabaseManager().getBlockDataController().getChunkDataAsync(b.getChunk(), new IAsyncReadCallback<>() {
+        Slimefun.getDatabaseManager().getBlockDataController(b.getWorld()).getChunkDataAsync(b.getChunk(), new IAsyncReadCallback<>() {
             @Override
             public void onResult(SlimefunChunkData result) {
                 if (result.getAllData().isEmpty()) {

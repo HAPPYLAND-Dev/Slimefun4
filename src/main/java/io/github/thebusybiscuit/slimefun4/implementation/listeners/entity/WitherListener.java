@@ -31,7 +31,7 @@ public class WitherListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onWitherDestroy(EntityChangeBlockEvent e) {
         if (e.getEntity().getType() == EntityType.WITHER) {
-            var controller = Slimefun.getDatabaseManager().getBlockDataController();
+            var controller = Slimefun.getDatabaseManager().getBlockDataController(e.getBlock().getWorld());
             var block = e.getBlock();
             var blockData = controller.getBlockDataFromCache(block.getLocation());
             var item = blockData == null ? null : SlimefunItem.getById(blockData.getSfId());

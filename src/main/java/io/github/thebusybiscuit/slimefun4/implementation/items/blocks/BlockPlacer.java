@@ -182,7 +182,7 @@ public class BlockPlacer extends SlimefunItem {
                 if (handler.isBlockPlacerAllowed()) {
                     schedulePlacement(block, dispenser.getInventory(), item, () -> {
                         block.setType(item.getType());
-                        Slimefun.getDatabaseManager().getBlockDataController().createBlock(block.getLocation(), sfItem.getId());
+                        Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).createBlock(block.getLocation(), sfItem.getId());
 
                         handler.onBlockPlacerPlace(e);
                     });
@@ -192,7 +192,7 @@ public class BlockPlacer extends SlimefunItem {
             if (!hasItemHandler) {
                 schedulePlacement(block, dispenser.getInventory(), item, () -> {
                     block.setType(item.getType());
-                    Slimefun.getDatabaseManager().getBlockDataController().createBlock(block.getLocation(), sfItem.getId());
+                    Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).createBlock(block.getLocation(), sfItem.getId());
                 });
             }
         }

@@ -76,7 +76,7 @@ public class TeleporterListener implements Listener {
                 if (blockData.isDataLoaded()) {
                     teleport(blockData.getData("owner"), p, block);
                 } else {
-                    Slimefun.getDatabaseManager().getBlockDataController().loadBlockDataAsync(
+                    Slimefun.getDatabaseManager().getBlockDataController(b.getWorld()).loadBlockDataAsync(
                             blockData,
                             new IAsyncReadCallback<>() {
                                 @Override

@@ -158,7 +158,7 @@ public class ExplosiveTool extends SimpleSlimefunItem<ToolUseHandler> implements
             if (sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops)) && !dummyEvent.isCancelled()) {
                 drops.addAll(sfItem.getDrops(p));
                 b.setType(Material.AIR);
-                Slimefun.getDatabaseManager().getBlockDataController().removeBlock(loc);
+                Slimefun.getDatabaseManager().getBlockDataController(loc.getWorld()).removeBlock(loc);
             }
         } else {
             b.breakNaturally(item);

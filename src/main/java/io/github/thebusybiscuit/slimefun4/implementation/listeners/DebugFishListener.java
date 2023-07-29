@@ -77,7 +77,7 @@ public class DebugFishListener implements Listener {
     @ParametersAreNonnullByDefault
     private void onLeftClick(Player p, Block b, PlayerInteractEvent e) {
         if (p.isSneaking()) {
-            var controller = Slimefun.getDatabaseManager().getBlockDataController();
+            var controller = Slimefun.getDatabaseManager().getBlockDataController(b.getWorld());
             var loc = b.getLocation();
             if (controller.getBlockDataFromCache(loc) != null) {
                 controller.removeBlock(loc);
@@ -101,7 +101,7 @@ public class DebugFishListener implements Listener {
             return;
         }
 
-        var controller = Slimefun.getDatabaseManager().getBlockDataController();
+        var controller = Slimefun.getDatabaseManager().getBlockDataController(b.getWorld());
         var blockData = controller.getBlockDataFromCache(b.getLocation());
         if (blockData != null) {
             try {

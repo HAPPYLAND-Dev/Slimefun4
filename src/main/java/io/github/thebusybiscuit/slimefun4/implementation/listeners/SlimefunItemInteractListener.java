@@ -154,7 +154,7 @@ public class SlimefunItemInteractListener implements Listener {
                 if (blockData.isDataLoaded()) {
                     openMenu(blockData.getBlockMenu(), clickedBlock, p);
                 } else {
-                    Slimefun.getDatabaseManager().getBlockDataController().loadBlockDataAsync(
+                    Slimefun.getDatabaseManager().getBlockDataController(clickedBlock.getWorld()).loadBlockDataAsync(
                             blockData,
                             new IAsyncReadCallback<>() {
                                 @Override

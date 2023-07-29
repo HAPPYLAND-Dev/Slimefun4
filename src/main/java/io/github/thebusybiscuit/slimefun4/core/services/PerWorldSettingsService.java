@@ -41,6 +41,7 @@ public class PerWorldSettingsService {
     public void load(@Nonnull Iterable<World> worlds) {
         for (World world : worlds) {
             load(world);
+            Slimefun.getDatabaseManager().loadWorld(world);
         }
     }
 

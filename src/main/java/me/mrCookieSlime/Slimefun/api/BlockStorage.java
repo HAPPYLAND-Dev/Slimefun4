@@ -34,12 +34,12 @@ public class BlockStorage {
         SlimefunItem sfitem = SlimefunItem.getByItem(item);
 
         if (sfitem != null) {
-            Slimefun.getDatabaseManager().getBlockDataController().createBlock(block.getLocation(), sfitem.getId());
+            Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).createBlock(block.getLocation(), sfitem.getId());
         }
     }
 
     public static void store(Block block, String item) {
-        Slimefun.getDatabaseManager().getBlockDataController().createBlock(block.getLocation(), item);
+        Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).createBlock(block.getLocation(), item);
     }
 
     /**
@@ -65,13 +65,13 @@ public class BlockStorage {
     }
 
     private static SlimefunBlockData getBlockData(Location l) {
-        var re = Slimefun.getDatabaseManager().getBlockDataController().getBlockData(l);
+        var re = Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).getBlockData(l);
         if (re == null) {
             return null;
         }
 
         if (!re.isDataLoaded()) {
-            Slimefun.getDatabaseManager().getBlockDataController().loadBlockData(re);
+            Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).loadBlockData(re);
         }
         return re;
     }
@@ -95,7 +95,7 @@ public class BlockStorage {
 
     public static void addBlockInfo(Location l, String key, String value, boolean updateTicker) {
         if ("id".equals(key)) {
-            Slimefun.getDatabaseManager().getBlockDataController().createBlock(l, value);
+            Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).createBlock(l, value);
             return;
         }
         var data = getBlockData(l);
@@ -129,7 +129,7 @@ public class BlockStorage {
     }
 
     public static void clearBlockInfo(Location l, boolean destroy) {
-        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
+        Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).removeBlock(l);
     }
 
     @Nullable
@@ -183,7 +183,7 @@ public class BlockStorage {
     }
 
     private static SlimefunChunkData getChunkData(Chunk c) {
-        return Slimefun.getDatabaseManager().getBlockDataController().getChunkData(c);
+        return Slimefun.getDatabaseManager().getBlockDataController(c.getWorld()).getChunkData(c);
     }
 
     public static void setChunkInfo(World world, int x, int z, String key, String value) {
@@ -210,6 +210,6 @@ public class BlockStorage {
             return;
         }
 
-        Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
+        Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).removeBlock(l);
     }
 }

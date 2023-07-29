@@ -48,7 +48,7 @@ class WorldEditIntegration {
                         Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 
                         if (StorageCacheUtils.hasBlock(l)) {
-                            Slimefun.getDatabaseManager().getBlockDataController().removeBlock(l);
+                            Slimefun.getDatabaseManager().getBlockDataController(world).removeBlock(l);
                         }
                     }
                 }

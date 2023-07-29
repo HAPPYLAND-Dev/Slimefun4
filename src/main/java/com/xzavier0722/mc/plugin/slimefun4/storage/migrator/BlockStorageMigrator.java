@@ -45,54 +45,59 @@ public class BlockStorageMigrator implements IMigrator {
 
     @Override
     public MigrateStatus migrateData() {
-        Slimefun.getTickerTask().setPaused(true);
-
-        var controller = Slimefun.getDatabaseManager().getBlockDataController();
-        var isDelayedSavingEnabled = controller.isDelayedSavingEnabled();
-        if (isDelayedSavingEnabled) {
-            controller.setDelayedSavingEnable(false);
-        }
-
-        if (migrateLock) {
-            return MigrateStatus.MIGRATING;
-        }
-
-        var status = MigrateStatus.SUCCESS;
-        migrateLock = true;
-
-        if (chunk.isFile()) {
-            migrateChunks();
-
-            try {
-                var chunkBak = Files.createFile(Path.of("data-storage/Slimefun/old_data/chunks.sfc"));
-                Files.copy(chunk.toPath(), chunkBak, StandardCopyOption.REPLACE_EXISTING);
-                Files.delete(chunk.toPath());
-            } catch (Exception e) {
-                Slimefun.logger().log(Level.WARNING, "备份旧数据 " + chunk.getName() + " 时出现问题", e);
-                status = MigrateStatus.FAILED;
-            }
-        } else {
-            Slimefun.logger().log(Level.WARNING, "未检测到区块数据，跳过迁移。");
-        }
-
-        Bukkit.getWorlds().forEach(this::migrateWorld);
-
-        if (MigratorUtil.createDirBackup(invFolder)) {
-            MigratorUtil.deleteOldFolder(invFolder);
-        }
-
-        if (MigratorUtil.createDirBackup(blockFolder)) {
-            MigratorUtil.deleteOldFolder(blockFolder);
-        }
-
-        migrateLock = false;
-
-        if (isDelayedSavingEnabled) {
-            controller.setDelayedSavingEnable(true);
-        }
-        Slimefun.getTickerTask().setPaused(false);
-        return status;
+        return null;
     }
+
+//    @Override
+//    public MigrateStatus migrateData() {
+//        Slimefun.getTickerTask().setPaused(true);
+//
+//        var controller = Slimefun.getDatabaseManager().getBlockDataController();
+//        var isDelayedSavingEnabled = controller.isDelayedSavingEnabled();
+//        if (isDelayedSavingEnabled) {
+//            controller.setDelayedSavingEnable(false);
+//        }
+//
+//        if (migrateLock) {
+//            return MigrateStatus.MIGRATING;
+//        }
+//
+//        var status = MigrateStatus.SUCCESS;
+//        migrateLock = true;
+//
+//        if (chunk.isFile()) {
+//            migrateChunks();
+//
+//            try {
+//                var chunkBak = Files.createFile(Path.of("data-storage/Slimefun/old_data/chunks.sfc"));
+//                Files.copy(chunk.toPath(), chunkBak, StandardCopyOption.REPLACE_EXISTING);
+//                Files.delete(chunk.toPath());
+//            } catch (Exception e) {
+//                Slimefun.logger().log(Level.WARNING, "备份旧数据 " + chunk.getName() + " 时出现问题", e);
+//                status = MigrateStatus.FAILED;
+//            }
+//        } else {
+//            Slimefun.logger().log(Level.WARNING, "未检测到区块数据，跳过迁移。");
+//        }
+//
+//        Bukkit.getWorlds().forEach(this::migrateWorld);
+//
+//        if (MigratorUtil.createDirBackup(invFolder)) {
+//            MigratorUtil.deleteOldFolder(invFolder);
+//        }
+//
+//        if (MigratorUtil.createDirBackup(blockFolder)) {
+//            MigratorUtil.deleteOldFolder(blockFolder);
+//        }
+//
+//        migrateLock = false;
+//
+//        if (isDelayedSavingEnabled) {
+//            controller.setDelayedSavingEnable(true);
+//        }
+//        Slimefun.getTickerTask().setPaused(false);
+//        return status;
+//    }
 
     private boolean hasBlockData() {
         for (var world : Bukkit.getWorlds()) {
@@ -139,7 +144,7 @@ public class BlockStorageMigrator implements IMigrator {
             var z = Integer.parseInt(arr[3]);
 
             var loc = new Location(world, x, y, z);
-            var blockData = Slimefun.getDatabaseManager().getBlockDataController().createBlock(loc, sfId);
+            var blockData = Slimefun.getDatabaseManager().getBlockDataController(loc.getWorld()).createBlock(loc, sfId);
             Map<String, String> data = gson.fromJson(jsonStr, new TypeToken<Map<String, String>>() {
             }.getType());
             for (var each : data.entrySet()) {
@@ -209,7 +214,7 @@ public class BlockStorageMigrator implements IMigrator {
                 var c = w.getChunkAt(Integer.parseInt(arr[2]), Integer.parseInt(arr[3]));
                 Map<String, String> data = gson.fromJson(cfg.getString(key), new TypeToken<Map<String, String>>() {
                 }.getType());
-                var chunkData = Slimefun.getDatabaseManager().getBlockDataController().getChunkData(c);
+                var chunkData = Slimefun.getDatabaseManager().getBlockDataController(c.getWorld()).getChunkData(c);
                 data.entrySet().forEach(each -> chunkData.setData(each.getKey(), each.getValue()));
             } catch (Throwable e) {
                 Slimefun.logger().log(Level.SEVERE, "迁移区块数据时发生错误: " + key, e);

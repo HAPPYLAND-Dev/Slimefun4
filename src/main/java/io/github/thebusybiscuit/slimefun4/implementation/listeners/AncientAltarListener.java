@@ -260,7 +260,7 @@ public class AncientAltarListener implements Listener {
         Block pedestal = e.getBlockPlaced().getRelative(BlockFace.DOWN);
 
         if (pedestal.getType() == Material.DISPENSER) {
-            var blockData = Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(pedestal.getLocation());
+            var blockData = Slimefun.getDatabaseManager().getBlockDataController(pedestal.getWorld()).getBlockDataFromCache(pedestal.getLocation());
 
             if (blockData != null && blockData.getSfId().equals(pedestalItem.getId())) {
                 Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.cannot-place", true);

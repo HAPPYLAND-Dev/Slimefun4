@@ -55,7 +55,7 @@ public class SlimefunChunkData extends ASlimefunDataContainer {
 
         Debug.log(TestCase.DATABASE, "creating block data: " + re);
 
-        Slimefun.getDatabaseManager().getBlockDataController().saveNewBlock(l, sfId);
+        Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).saveNewBlock(l, sfId);
 
         Debug.log(TestCase.DATABASE, "created block data: " + re);
 
@@ -80,7 +80,7 @@ public class SlimefunChunkData extends ASlimefunDataContainer {
             }
             sfBlocks.put(lKey, INVALID_BLOCK_DATA);
         }
-        Slimefun.getDatabaseManager().getBlockDataController().removeBlockDirectly(l);
+        Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).removeBlockDirectly(l);
         return re;
     }
 
@@ -116,13 +116,13 @@ public class SlimefunChunkData extends ASlimefunDataContainer {
     public void setData(String key, String val) {
         checkData();
         setCacheInternal(key, val, true);
-        Slimefun.getDatabaseManager().getBlockDataController().scheduleDelayedChunkDataUpdate(this, key);
+        Slimefun.getDatabaseManager().getBlockDataController(chunk.getWorld()).scheduleDelayedChunkDataUpdate(this, key);
     }
 
     @ParametersAreNonnullByDefault
     public void removeData(String key) {
         if (removeCacheInternal(key) != null) {
-            Slimefun.getDatabaseManager().getBlockDataController().scheduleDelayedChunkDataUpdate(this, key);
+            Slimefun.getDatabaseManager().getBlockDataController(chunk.getWorld()).scheduleDelayedChunkDataUpdate(this, key);
         }
     }
 }

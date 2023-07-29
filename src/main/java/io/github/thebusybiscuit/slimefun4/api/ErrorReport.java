@@ -106,7 +106,7 @@ public class ErrorReport<T extends Throwable> {
 
             stream.println("Slimefun Data:");
             stream.println("  ID: " + item.getId());
-            var blockData = Slimefun.getDatabaseManager().getBlockDataController().getBlockData(l);
+            var blockData = Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).getBlockData(l);
             if (blockData == null) {
                 stream.println("Block data is not presented.");
             } else {

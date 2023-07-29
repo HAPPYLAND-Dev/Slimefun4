@@ -115,7 +115,7 @@ public class ElevatorPlate extends SimpleSlimefunItem<BlockUseHandler> {
         }
 
         if (shouldLoad) {
-            Slimefun.getDatabaseManager().getBlockDataController().loadBlockDataAsync(blockDataList, new IAsyncReadCallback<>() {
+            Slimefun.getDatabaseManager().getBlockDataController(b.getWorld()).loadBlockDataAsync(blockDataList, new IAsyncReadCallback<>() {
                 @Override
                 public boolean runOnMainThread() {
                     return true;

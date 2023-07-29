@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -34,7 +35,11 @@ public class AutoSavingService {
         plugin.getServer().getScheduler().runTaskTimer(plugin, this::saveAllPlayers, 2000L, interval * 60L * 20L);
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(
                 plugin,
-                () -> Slimefun.getDatabaseManager().getBlockDataController().saveAllBlockInventories(),
+                () -> {
+                    Bukkit.getWorlds().forEach(world -> {
+                        Slimefun.getDatabaseManager().getBlockDataController(world).saveAllBlockInventories();
+                    });
+                },
                 2000L,
                 interval * 60L * 20L
         );

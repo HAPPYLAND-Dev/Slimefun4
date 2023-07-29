@@ -908,7 +908,7 @@ public class ProgrammableAndroid extends SlimefunItem implements InventoryBlock,
             });
 
             b.setType(Material.AIR);
-            Slimefun.getDatabaseManager().getBlockDataController().setBlockDataLocation(blockData, block.getLocation());
+            Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).setBlockDataLocation(blockData, block.getLocation());
         }
     }
 

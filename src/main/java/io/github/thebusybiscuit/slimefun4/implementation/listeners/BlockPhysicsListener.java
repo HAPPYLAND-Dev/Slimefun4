@@ -69,7 +69,7 @@ public class BlockPhysicsListener implements Listener {
                 var block = e.getBlock();
                 var item = SlimefunItem.getById(blockData.getSfId());
 
-                var controller = Slimefun.getDatabaseManager().getBlockDataController();
+                var controller = Slimefun.getDatabaseManager().getBlockDataController(block.getWorld());
                 if (item != null && !(item instanceof WitherProof) && !item.callItemHandler(BlockBreakHandler.class, handler -> {
                     if (blockData.isDataLoaded()) {
                         callHandler(handler, block);
@@ -102,7 +102,7 @@ public class BlockPhysicsListener implements Listener {
 
             var drops = new ArrayList<ItemStack>();
             handler.onExplode(b, drops);
-            Slimefun.getDatabaseManager().getBlockDataController().removeBlock(b.getLocation());
+            Slimefun.getDatabaseManager().getBlockDataController(b.getWorld()).removeBlock(b.getLocation());
 
             for (var drop : drops) {
                 if (drop != null && !drop.getType().isAir()) {

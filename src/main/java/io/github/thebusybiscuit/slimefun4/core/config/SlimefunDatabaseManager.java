@@ -9,6 +9,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.*;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 import javax.annotation.Nullable;
@@ -133,8 +134,7 @@ public class SlimefunDatabaseManager {
 
     public void shutdown() {
         getProfileDataController().shutdown();
-        worldController.values().forEach(BlockDataController::shutdown);
-        worldAdapter.values().forEach(SqliteAdapter::shutdown);
+        Bukkit.getWorlds().forEach(world -> unloadWorld(world, true));
         profileAdapter.shutdown();
         ControllerHolder.clearControllers();
     }
@@ -152,6 +152,7 @@ public class SlimefunDatabaseManager {
     }
 
     public void loadWorld(World world) {
+        plugin.getLogger().info("为世界 " + world.getName() + " 加载数据中...");
         var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
         var writeExecutorThread = 1;
         initWorldAdapter(world);
@@ -166,6 +167,7 @@ public class SlimefunDatabaseManager {
                     blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
             );
         }
+        plugin.getLogger().info("为世界 " + world.getName() + " 加载数据完成!");
     }
 
     public void unloadWorld(World world, boolean save) {

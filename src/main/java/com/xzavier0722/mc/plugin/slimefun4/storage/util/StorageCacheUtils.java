@@ -29,7 +29,7 @@ public class StorageCacheUtils {
     @ParametersAreNonnullByDefault
     @Nullable
     public static SlimefunBlockData getBlock(Location l) {
-        return Slimefun.getDatabaseManager().getBlockDataController().getBlockDataFromCache(l);
+        return Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).getBlockDataFromCache(l);
     }
 
     @ParametersAreNonnullByDefault
@@ -100,7 +100,7 @@ public class StorageCacheUtils {
             loadingData.add(blockData);
         }
 
-        Slimefun.getDatabaseManager().getBlockDataController().loadBlockDataAsync(
+        Slimefun.getDatabaseManager().getBlockDataController(blockData.getLocation().getWorld()).loadBlockDataAsync(
                 blockData,
                 new IAsyncReadCallback<>() {
                     @Override
@@ -117,7 +117,7 @@ public class StorageCacheUtils {
             return;
         }
 
-        Slimefun.getDatabaseManager().getBlockDataController().loadBlockDataAsync(
+        Slimefun.getDatabaseManager().getBlockDataController(data.getLocation().getWorld()).loadBlockDataAsync(
                 data,
                 new IAsyncReadCallback<>() {
                     @Override

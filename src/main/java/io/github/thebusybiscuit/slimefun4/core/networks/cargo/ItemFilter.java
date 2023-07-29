@@ -89,7 +89,7 @@ class ItemFilter implements Predicate<ItemStack> {
             update(blockData);
         } else {
             isLoading = true;
-            Slimefun.getDatabaseManager().getBlockDataController().loadBlockDataAsync(
+            Slimefun.getDatabaseManager().getBlockDataController(b.getWorld()).loadBlockDataAsync(
                     blockData,
                     new IAsyncReadCallback<>() {
                         @Override
