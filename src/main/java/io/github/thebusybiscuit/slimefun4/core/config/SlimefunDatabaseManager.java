@@ -117,7 +117,7 @@ public class SlimefunDatabaseManager {
         var adapter = new SqliteAdapter();
 
         File databasePath = new File(world.getWorldFolder(), "block-storage.db");
-
+        //TODO Fixing
         adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
         worldAdapter.put(world, adapter);
     }
@@ -127,13 +127,13 @@ public class SlimefunDatabaseManager {
         return ControllerHolder.getController(ProfileDataController.class, profileStorageType);
     }
 
-    public BlockDataController getBlockDataController() {
+    public BlockDataController getBlockDataController() { //TODO Change
         return ControllerHolder.getController(BlockDataController.class, StorageType.SQLITE);
     }
 
     public void shutdown() {
         getProfileDataController().shutdown();
-        getBlockDataController().shutdown();
+        getBlockDataController().shutdown(); //TODO Removal
         worldAdapter.values().forEach(SqliteAdapter::shutdown);
         profileAdapter.shutdown();
         ControllerHolder.clearControllers();
