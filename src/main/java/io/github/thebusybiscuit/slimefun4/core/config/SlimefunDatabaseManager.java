@@ -12,6 +12,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ProfileDataControl
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.World;
 
 import javax.annotation.Nullable;
 import java.io.File;
@@ -49,7 +50,7 @@ public class SlimefunDatabaseManager {
         try {
             blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
             var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
-            var writeExecutorThread = blockDataStorageType == StorageType.SQLITE ? 1 : blockStorageConfig.getInt("writeExecutorThread");
+            var writeExecutorThread = 1;
 
             initAdapter(blockDataStorageType, DataType.BLOCK_STORAGE, blockStorageConfig);
 
@@ -122,6 +123,15 @@ public class SlimefunDatabaseManager {
                 adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
             }
         }
+    }
+
+    private void initWorldAdapter(World world) throws IOException {
+        var adapter = new SqliteAdapter();
+
+        File databasePath = new File(world.getWorldFolder(), "block-storage.db");
+        blockStorageAdapter = adapter;
+
+        adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
     }
 
     @Nullable
