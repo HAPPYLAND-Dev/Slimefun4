@@ -17,6 +17,7 @@ import org.bukkit.World;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
 public class SlimefunDatabaseManager {
@@ -29,6 +30,7 @@ public class SlimefunDatabaseManager {
     private StorageType blockDataStorageType;
     private IDataSourceAdapter<?> profileAdapter;
     private IDataSourceAdapter<?> blockStorageAdapter;
+    private ConcurrentHashMap<World, SqliteAdapter> worldAdapter;
 
 
     public SlimefunDatabaseManager(Slimefun plugin) {
@@ -132,6 +134,7 @@ public class SlimefunDatabaseManager {
         blockStorageAdapter = adapter;
 
         adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
+        worldAdapter.put(world, adapter);
     }
 
     @Nullable
