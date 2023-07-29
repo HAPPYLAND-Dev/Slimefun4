@@ -60,12 +60,13 @@ public class SlimefunItemInteractListener implements Listener {
             PlayerRightClickEvent event = new PlayerRightClickEvent(e);
             Bukkit.getPluginManager().callEvent(event);
 
-            // Old result support
-            if (e.isCancelled()) event.cancel();
-
             // Modern result support
-            if (e.useInteractedBlock() == Result.DENY) event.setUseBlock(Result.DENY);
-            if (e.useItemInHand() == Result.DENY) event.setUseItem(Result.DENY);
+            if (e.useInteractedBlock() == Result.DENY) {
+                event.setUseBlock(Result.DENY);
+            }
+            if (e.useItemInHand() == Result.DENY) {
+                event.setUseItem(Result.DENY);
+            }
 
             boolean itemUsed = e.getHand() == EquipmentSlot.OFF_HAND;
 
