@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -94,7 +95,11 @@ public class TickerTask implements Runnable {
                     loc = new HashSet<>(tickingLocations.entrySet());
                 }
                 for (Map.Entry<ChunkPosition, Set<Location>> entry : loc) {
-                    tickChunk(entry.getKey(), tickers, new HashSet<>(entry.getValue()));
+                    if (Bukkit.getWorlds().contains(entry.getKey().getWorld())) {
+                        tickChunk(entry.getKey(), tickers, new HashSet<>(entry.getValue()));
+                    } else {
+                        tickingLocations.remove(entry.getKey());
+                    }
                 }
             }
 
