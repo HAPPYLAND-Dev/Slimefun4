@@ -8,8 +8,6 @@ import io.github.thebusybiscuit.slimefun4.api.items.groups.SeasonalItemGroup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 
@@ -56,11 +54,11 @@ public class DefaultItemGroups {
     public final LockedItemGroup gps = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "gps"), new CustomItemStack(Material.STRUCTURE_VOID, "&bGPS-based Machines"), 4, basicMachines.getKey());
 
     // Seasonal Item Groups
-    public final SeasonalItemGroup christmas = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "christmas"), Month.DECEMBER, 1, new CustomItemStack(SlimefunUtils.getCustomHead("215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45"), ChatUtils.christmas("Christmas") + " &7(December only)"));
-    public final SeasonalItemGroup valentinesDay = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "valentines_day"), Month.FEBRUARY, 2, new CustomItemStack(SlimefunUtils.getCustomHead("55d89431d14bfef2060461b4a3565614dc51115c001fae2508e8684bc0ae6a80"), "&dValentine's Day" + " &7(14th February)"));
-    public final SeasonalItemGroup easter = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "easter"), Month.APRIL, 2, new CustomItemStack(HeadTexture.EASTER_EGG.getAsItemStack(), "&6Easter" + " &7(April)"));
-    public final SeasonalItemGroup birthday = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "birthday"), Month.OCTOBER, 1, new CustomItemStack(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
-    public final SeasonalItemGroup halloween = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "halloween"), Month.OCTOBER, 1, new CustomItemStack(Material.JACK_O_LANTERN, "&6&lHalloween &7(31st October)"));
+    public final SeasonalItemGroup christmas = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "christmas"), Month.DECEMBER, 1, new CustomItemStack(Material.STRUCTURE_VOID, ChatUtils.christmas("Christmas") + " &7(December only)"));
+    public final SeasonalItemGroup valentinesDay = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "valentines_day"), Month.FEBRUARY, 2, new CustomItemStack(Material.STRUCTURE_VOID, "&dValentine's Day" + " &7(14th February)"));
+    public final SeasonalItemGroup easter = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "easter"), Month.APRIL, 2, new CustomItemStack(Material.STRUCTURE_VOID, "&6Easter" + " &7(April)"));
+    public final SeasonalItemGroup birthday = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "birthday"), Month.OCTOBER, 1, new CustomItemStack(Material.STRUCTURE_VOID, "&a&lTheBusyBiscuit's Birthday &7(26th October)"));
+    public final SeasonalItemGroup halloween = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "halloween"), Month.OCTOBER, 1, new CustomItemStack(Material.STRUCTURE_VOID, "&6&lHalloween &7(31st October)"));
 
     // Flex Item Groups
     public final FlexItemGroup rickFlexGroup = new RickFlexGroup(new NamespacedKey(Slimefun.instance(), "rick"));
