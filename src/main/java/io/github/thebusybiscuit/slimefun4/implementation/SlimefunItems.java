@@ -10,10 +10,12 @@ import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ColoredFireworkStar;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -27,7 +29,7 @@ import org.bukkit.potion.PotionEffectType;
  * This class holds a static references to every {@link SlimefunItemStack}
  * found in Slimefun.
  */
-@SuppressWarnings("java:S1192") // Suppress "duplicate string literal" warnings
+@SuppressWarnings({"java:S1192", "deprecation"}) // Suppress "duplicate string literal" warnings
 public final class SlimefunItems {
 
     private SlimefunItems() {
@@ -78,24 +80,24 @@ public final class SlimefunItems {
     public static final SlimefunItemStack RESTORED_BACKPACK = new SlimefunItemStack("RESTORED_BACKPACK", HeadTexture.RESTORED_BACKPACK, "&e背包恢复器", "", "&7重新获取你丢失背包里的物品", PlayerBackpack.LORE_OWNER, "", LoreBuilder.RIGHT_CLICK_TO_OPEN);
 
     /*		 Jetpacks		*/
-    public static final SlimefunItemStack DURALUMIN_JETPACK = new SlimefunItemStack("DURALUMIN_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eI", "", LoreBuilder.material("硬铝"), LoreBuilder.powerCharged(0, 20), "&8\u21E8 &7推力: &c0.35", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack SOLDER_JETPACK = new SlimefunItemStack("SOLDER_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eII", "", LoreBuilder.material("焊锡"), LoreBuilder.powerCharged(0, 30), "&8\u21E8 &7推力: &c0.4", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack BILLON_JETPACK = new SlimefunItemStack("BILLON_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eIII", "", LoreBuilder.material("银铜合金"), LoreBuilder.powerCharged(0, 45), "&8\u21E8 &7推力: &c0.45", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack STEEL_JETPACK = new SlimefunItemStack("STEEL_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eIV", "", LoreBuilder.material("钢"), LoreBuilder.powerCharged(0, 60), "&8\u21E8 &7推力: &c0.5", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack DAMASCUS_STEEL_JETPACK = new SlimefunItemStack("DAMASCUS_STEEL_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eV", "", LoreBuilder.material("大马士革钢"), LoreBuilder.powerCharged(0, 75), "&8\u21E8 &7推力: &c0.55", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack REINFORCED_ALLOY_JETPACK = new SlimefunItemStack("REINFORCED_ALLOY_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eVI", "", LoreBuilder.material("强化合金"), LoreBuilder.powerCharged(0, 100), "&8\u21E8 &7推力: &c0.6", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack CARBONADO_JETPACK = new SlimefunItemStack("CARBONADO_JETPACK", Material.LEATHER_CHESTPLATE, Color.BLACK, "&9电力喷气背包 &7- &eVII", "", LoreBuilder.material("黑金刚石"), LoreBuilder.powerCharged(0, 150), "&8\u21E8 &7推力: &c0.7", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack ARMORED_JETPACK = new SlimefunItemStack("ARMORED_JETPACK", Material.IRON_CHESTPLATE, "&9装甲喷气背包", LoreBuilder.material("钢"), "", LoreBuilder.powerCharged(0, 50), "&8\u21E8 &7推力: &c0.5", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack DURALUMIN_JETPACK = new SlimefunItemStack("DURALUMIN_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eI", "", LoreBuilder.material("硬铝"), LoreBuilder.powerCharged(0, 20), "&8⇨ &7推力: &c0.35", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack SOLDER_JETPACK = new SlimefunItemStack("SOLDER_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eII", "", LoreBuilder.material("焊锡"), LoreBuilder.powerCharged(0, 30), "&8⇨ &7推力: &c0.4", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack BILLON_JETPACK = new SlimefunItemStack("BILLON_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eIII", "", LoreBuilder.material("银铜合金"), LoreBuilder.powerCharged(0, 45), "&8⇨ &7推力: &c0.45", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack STEEL_JETPACK = new SlimefunItemStack("STEEL_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eIV", "", LoreBuilder.material("钢"), LoreBuilder.powerCharged(0, 60), "&8⇨ &7推力: &c0.5", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack DAMASCUS_STEEL_JETPACK = new SlimefunItemStack("DAMASCUS_STEEL_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eV", "", LoreBuilder.material("大马士革钢"), LoreBuilder.powerCharged(0, 75), "&8⇨ &7推力: &c0.55", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack REINFORCED_ALLOY_JETPACK = new SlimefunItemStack("REINFORCED_ALLOY_JETPACK", Material.LEATHER_CHESTPLATE, Color.SILVER, "&9电力喷气背包 &7- &eVI", "", LoreBuilder.material("强化合金"), LoreBuilder.powerCharged(0, 100), "&8⇨ &7推力: &c0.6", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack CARBONADO_JETPACK = new SlimefunItemStack("CARBONADO_JETPACK", Material.LEATHER_CHESTPLATE, Color.BLACK, "&9电力喷气背包 &7- &eVII", "", LoreBuilder.material("黑金刚石"), LoreBuilder.powerCharged(0, 150), "&8⇨ &7推力: &c0.7", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack ARMORED_JETPACK = new SlimefunItemStack("ARMORED_JETPACK", Material.IRON_CHESTPLATE, "&9装甲喷气背包", LoreBuilder.material("钢"), "", LoreBuilder.powerCharged(0, 50), "&8⇨ &7推力: &c0.5", "", LoreBuilder.CROUCH_TO_USE);
 
     /*		 Jetboots		*/
-    public static final SlimefunItemStack DURALUMIN_JETBOOTS = new SlimefunItemStack("DURALUMIN_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eI", "", LoreBuilder.material("硬铝"), LoreBuilder.powerCharged(0, 20), "&8\u21E8 &7速度: &a0.35", "&8\u21E8 &7准确度: &c50%", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack SOLDER_JETBOOTS = new SlimefunItemStack("SOLDER_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eII", "", LoreBuilder.material("焊锡"), LoreBuilder.powerCharged(0, 30), "&8\u21E8 &7速度: &a0.4", "&8\u21E8 &7准确度: &660%", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack BILLON_JETBOOTS = new SlimefunItemStack("BILLON_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eIII", "", LoreBuilder.material("银铜合金"), LoreBuilder.powerCharged(0, 40), "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &665%", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack STEEL_JETBOOTS = new SlimefunItemStack("STEEL_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eIV", "", LoreBuilder.material("钢"), LoreBuilder.powerCharged(0, 50), "&8\u21E8 &7速度: &a0.5", "&8\u21E8 &7准确度: &e70%", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack DAMASCUS_STEEL_JETBOOTS = new SlimefunItemStack("DAMASCUS_STEEL_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eV", "", LoreBuilder.material("大马士革钢"), LoreBuilder.powerCharged(0, 75), "&8\u21E8 &7速度: &a0.55", "&8\u21E8 &7准确度: &a75%", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack REINFORCED_ALLOY_JETBOOTS = new SlimefunItemStack("REINFORCED_ALLOY_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eVI", "", LoreBuilder.material("强化合金"), LoreBuilder.powerCharged(0, 100), "&8\u21E8 &7速度: &a0.6", "&8\u21E8 &7准确度: &c80%", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack CARBONADO_JETBOOTS = new SlimefunItemStack("CARBONADO_JETBOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&9喷气靴 &7- &eVII", "", LoreBuilder.material("黑金刚石"), LoreBuilder.powerCharged(0, 125), "&8\u21E8 &7速度: &a0.7", "&8\u21E8 &7准确度: &c99.9%", "", LoreBuilder.CROUCH_TO_USE);
-    public static final SlimefunItemStack ARMORED_JETBOOTS = new SlimefunItemStack("ARMORED_JETBOOTS", Material.IRON_BOOTS, "&9装甲喷气靴", "", LoreBuilder.material("钢"), LoreBuilder.powerCharged(0, 50), "&8\u21E8 &7速度: &a0.45", "&8\u21E8 &7准确度: &e70%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack DURALUMIN_JETBOOTS = new SlimefunItemStack("DURALUMIN_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eI", "", LoreBuilder.material("硬铝"), LoreBuilder.powerCharged(0, 20), "&8⇨ &7速度: &a0.35", "&8⇨ &7准确度: &c50%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack SOLDER_JETBOOTS = new SlimefunItemStack("SOLDER_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eII", "", LoreBuilder.material("焊锡"), LoreBuilder.powerCharged(0, 30), "&8⇨ &7速度: &a0.4", "&8⇨ &7准确度: &660%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack BILLON_JETBOOTS = new SlimefunItemStack("BILLON_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eIII", "", LoreBuilder.material("银铜合金"), LoreBuilder.powerCharged(0, 40), "&8⇨ &7速度: &a0.45", "&8⇨ &7准确度: &665%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack STEEL_JETBOOTS = new SlimefunItemStack("STEEL_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eIV", "", LoreBuilder.material("钢"), LoreBuilder.powerCharged(0, 50), "&8⇨ &7速度: &a0.5", "&8⇨ &7准确度: &e70%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack DAMASCUS_STEEL_JETBOOTS = new SlimefunItemStack("DAMASCUS_STEEL_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eV", "", LoreBuilder.material("大马士革钢"), LoreBuilder.powerCharged(0, 75), "&8⇨ &7速度: &a0.55", "&8⇨ &7准确度: &a75%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack REINFORCED_ALLOY_JETBOOTS = new SlimefunItemStack("REINFORCED_ALLOY_JETBOOTS", Material.LEATHER_BOOTS, Color.SILVER, "&9喷气靴 &7- &eVI", "", LoreBuilder.material("强化合金"), LoreBuilder.powerCharged(0, 100), "&8⇨ &7速度: &a0.6", "&8⇨ &7准确度: &c80%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack CARBONADO_JETBOOTS = new SlimefunItemStack("CARBONADO_JETBOOTS", Material.LEATHER_BOOTS, Color.BLACK, "&9喷气靴 &7- &eVII", "", LoreBuilder.material("黑金刚石"), LoreBuilder.powerCharged(0, 125), "&8⇨ &7速度: &a0.7", "&8⇨ &7准确度: &c99.9%", "", LoreBuilder.CROUCH_TO_USE);
+    public static final SlimefunItemStack ARMORED_JETBOOTS = new SlimefunItemStack("ARMORED_JETBOOTS", Material.IRON_BOOTS, "&9装甲喷气靴", "", LoreBuilder.material("钢"), LoreBuilder.powerCharged(0, 50), "&8⇨ &7速度: &a0.45", "&8⇨ &7准确度: &e70%", "", LoreBuilder.CROUCH_TO_USE);
 
     /*		 Multi Tools		*/
     public static final SlimefunItemStack DURALUMIN_MULTI_TOOL = new SlimefunItemStack("DURALUMIN_MULTI_TOOL", Material.SHEARS, "&9多功能工具 &7- &eI", "", LoreBuilder.material("硬铝"), LoreBuilder.powerCharged(0, 20), "", LoreBuilder.RIGHT_CLICK_TO_USE, "&7按住 &eShift + 右键&7 以更改模式");
@@ -261,12 +263,14 @@ public final class SlimefunItems {
     static {
         ItemMeta helmetMeta = SCUBA_HELMET.getItemMeta();
         List<String> helmetLore = helmetMeta.getLore();
+        //noinspection DataFlowIssue
         helmetLore.addAll(hazmatLore);
         helmetMeta.setLore(helmetLore);
         SCUBA_HELMET.setItemMeta(helmetMeta);
 
         ItemMeta chestplateMeta = HAZMAT_CHESTPLATE.getItemMeta();
         List<String> chestplateLore = chestplateMeta.getLore();
+        //noinspection DataFlowIssue
         chestplateLore.addAll(hazmatLore);
         chestplateMeta.setLore(chestplateLore);
         HAZMAT_CHESTPLATE.setItemMeta(chestplateMeta);
@@ -448,7 +452,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN = new SlimefunItemStack("RAINBOW_GLAZED_TERRACOTTA_HALLOWEEN", Material.ORANGE_GLAZED_TERRACOTTA, "&5彩虹带釉陶瓦 &7(万圣节版)", "", HALLOWEEN);
 
     /*		锭 		*/
-    public static final SlimefunItemStack COPPER_INGOT = new SlimefunItemStack("COPPER_INGOT", Material.BRICK, "&b铜锭");
+    public static final SlimefunItemStack COPPER_INGOT = new SlimefunItemStack("COPPER_INGOT", Material.BRICK, "&b退火铜锭");
     public static final SlimefunItemStack TIN_INGOT = new SlimefunItemStack("TIN_INGOT", Material.IRON_INGOT, "&b锡锭");
     public static final SlimefunItemStack SILVER_INGOT = new SlimefunItemStack("SILVER_INGOT", Material.IRON_INGOT, "&b银锭");
     public static final SlimefunItemStack ALUMINUM_INGOT = new SlimefunItemStack("ALUMINUM_INGOT", Material.IRON_INGOT, "&b铝锭");
@@ -577,7 +581,6 @@ public final class SlimefunItems {
     public static final SlimefunItemStack MAGIC_WORKBENCH = new SlimefunItemStack("MAGIC_WORKBENCH", Material.CRAFTING_TABLE, "&6魔法工作台", "", "&d给物品注入魔法能量");
     public static final SlimefunItemStack ORE_WASHER = new SlimefunItemStack("ORE_WASHER", Material.CAULDRON, "&6洗矿机", "", "&a&o清洗筛矿变成过滤矿石", "&a&o并且给你一些小石块");
     public static final SlimefunItemStack TABLE_SAW = new SlimefunItemStack("TABLE_SAW", Material.STONECUTTER, "&6台锯", "", "&a&o从1个木头里获得8个木板", "&a&o(支持所有的原木)");
-    ;
     public static final SlimefunItemStack COMPOSTER = new SlimefunItemStack("COMPOSTER", Material.CAULDRON, "&a搅拌机", "", "&a&o随着时间的推移可以转换各种材料...");
     public static final SlimefunItemStack ENHANCED_CRAFTING_TABLE = new SlimefunItemStack("ENHANCED_CRAFTING_TABLE", Material.CRAFTING_TABLE, "&e增强型工作台", "", "&a&o一个原始的工作台", "&a&o无法承受强大的力量...");
     public static final SlimefunItemStack CRUCIBLE = new SlimefunItemStack("CRUCIBLE", Material.CAULDRON, "&c坩埚", "", "&a&o用来把物品变为液体");
@@ -660,29 +663,29 @@ public final class SlimefunItems {
     public static final SlimefunItemStack LAVA_GENERATOR = new SlimefunItemStack("LAVA_GENERATOR", HeadTexture.GENERATOR, "&4岩浆发电机", "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.GENERATOR), LoreBuilder.powerBuffer(512), LoreBuilder.powerPerSecond(20));
     public static final SlimefunItemStack LAVA_GENERATOR_2 = new SlimefunItemStack("LAVA_GENERATOR_2", HeadTexture.GENERATOR, "&4岩浆发电机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.GENERATOR), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(40));
 
-    public static final SlimefunItemStack ELECTRIC_FURNACE = new SlimefunItemStack("ELECTRIC_FURNACE", Material.FURNACE, "&c电炉", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(4));
-    public static final SlimefunItemStack ELECTRIC_FURNACE_2 = new SlimefunItemStack("ELECTRIC_FURNACE_2", Material.FURNACE, "&c电炉 &7- &eII", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerPerSecond(6));
-    public static final SlimefunItemStack ELECTRIC_FURNACE_3 = new SlimefunItemStack("ELECTRIC_FURNACE_3", Material.FURNACE, "&c电炉 &7- &eIII", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 4x", LoreBuilder.powerPerSecond(10));
+    public static final SlimefunItemStack ELECTRIC_FURNACE = new SlimefunItemStack("ELECTRIC_FURNACE", Material.FURNACE, "&c电炉", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(4));
+    public static final SlimefunItemStack ELECTRIC_FURNACE_2 = new SlimefunItemStack("ELECTRIC_FURNACE_2", Material.FURNACE, "&c电炉 &7- &eII", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8⇨ &7速度: 2x", LoreBuilder.powerPerSecond(6));
+    public static final SlimefunItemStack ELECTRIC_FURNACE_3 = new SlimefunItemStack("ELECTRIC_FURNACE_3", Material.FURNACE, "&c电炉 &7- &eIII", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8⇨ &7速度: 4x", LoreBuilder.powerPerSecond(10));
 
-    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER = new SlimefunItemStack("ELECTRIC_ORE_GRINDER", Material.FURNACE, "&c电力碎矿机", "", "&r矿物粉碎机与磨石的完美结合", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(12));
-    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER_2 = new SlimefunItemStack("ELECTRIC_ORE_GRINDER_2", Material.FURNACE, "&c电力碎矿机 &7(&eII&7)", "", "&r矿物粉碎机与磨石的完美结合", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 4x", LoreBuilder.powerPerSecond(30));
+    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER = new SlimefunItemStack("ELECTRIC_ORE_GRINDER", Material.FURNACE, "&c电力碎矿机", "", "&r矿物粉碎机与磨石的完美结合", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(12));
+    public static final SlimefunItemStack ELECTRIC_ORE_GRINDER_2 = new SlimefunItemStack("ELECTRIC_ORE_GRINDER_2", Material.FURNACE, "&c电力碎矿机 &7(&eII&7)", "", "&r矿物粉碎机与磨石的完美结合", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 4x", LoreBuilder.powerPerSecond(30));
     public static final SlimefunItemStack ELECTRIC_ORE_GRINDER_3 = new SlimefunItemStack("ELECTRIC_ORE_GRINDER_3", Material.FURNACE, "&c电力碎矿机 &7(&eIII&7)", "", "&f矿物粉碎机与磨石的完美结合", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.speed(10), LoreBuilder.powerPerSecond(90));
-    public static final SlimefunItemStack ELECTRIC_INGOT_PULVERIZER = new SlimefunItemStack("ELECTRIC_INGOT_PULVERIZER", Material.FURNACE, "&c电力打粉机", "", "&r将锭变为粉", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(14));
-    public static final SlimefunItemStack AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.SMOKER, "&e自动烘干机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(10));
+    public static final SlimefunItemStack ELECTRIC_INGOT_PULVERIZER = new SlimefunItemStack("ELECTRIC_INGOT_PULVERIZER", Material.FURNACE, "&c电力打粉机", "", "&r将锭变为粉", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(14));
+    public static final SlimefunItemStack AUTO_DRIER = new SlimefunItemStack("AUTO_DRIER", Material.SMOKER, "&e自动烘干机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(10));
     public static final SlimefunItemStack AUTO_ENCHANTER = new SlimefunItemStack("AUTO_ENCHANTER", Material.ENCHANTING_TABLE, "&5自动附魔机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(18));
     public static final SlimefunItemStack AUTO_ENCHANTER_2 = new SlimefunItemStack("AUTO_ENCHANTER_2", Material.ENCHANTING_TABLE, "&5自动附魔机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.speed(3), LoreBuilder.powerPerSecond(48));
     public static final SlimefunItemStack AUTO_DISENCHANTER = new SlimefunItemStack("AUTO_DISENCHANTER", Material.ENCHANTING_TABLE, "&5自动祛魔机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(18));
     public static final SlimefunItemStack AUTO_DISENCHANTER_2 = new SlimefunItemStack("AUTO_DISENCHANTER_2", Material.ENCHANTING_TABLE, "&5自动祛魔机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.speed(3), LoreBuilder.powerPerSecond(48));
-    public static final SlimefunItemStack AUTO_ANVIL = new SlimefunItemStack("AUTO_ANVIL", Material.IRON_BLOCK, "&7自动铁砧", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7可修复百分比: 10%", LoreBuilder.powerPerSecond(24));
-    public static final SlimefunItemStack AUTO_ANVIL_2 = new SlimefunItemStack("AUTO_ANVIL_2", Material.IRON_BLOCK, "&7自动铁砧 Mk.II", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7可修复百分比: 25%", LoreBuilder.powerPerSecond(32));
+    public static final SlimefunItemStack AUTO_ANVIL = new SlimefunItemStack("AUTO_ANVIL", Material.IRON_BLOCK, "&7自动铁砧", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &7可修复百分比: 10%", LoreBuilder.powerPerSecond(24));
+    public static final SlimefunItemStack AUTO_ANVIL_2 = new SlimefunItemStack("AUTO_ANVIL_2", Material.IRON_BLOCK, "&7自动铁砧 Mk.II", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7可修复百分比: 25%", LoreBuilder.powerPerSecond(32));
     public static final SlimefunItemStack AUTO_BREWER = new SlimefunItemStack("AUTO_BREWER", Material.SMOKER, "&e自动酿造机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.speed(1), LoreBuilder.powerPerSecond(12));
 
     public static final SlimefunItemStack BOOK_BINDER = new SlimefunItemStack("BOOK_BINDER", Material.BOOKSHELF, "&6附魔书整合机", "", "&f将多个附魔书全部绑定到一本上.", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), LoreBuilder.powerPerSecond(16));
 
-    public static final SlimefunItemStack BIO_REACTOR = new SlimefunItemStack("BIO_REACTOR", Material.LIME_TERRACOTTA, "&2生物发电机", "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.GENERATOR), "&8\u21E8 &e\u26A1 &7128 J 可储存", LoreBuilder.powerPerSecond(8));
+    public static final SlimefunItemStack BIO_REACTOR = new SlimefunItemStack("BIO_REACTOR", Material.LIME_TERRACOTTA, "&2生物发电机", "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.GENERATOR), "&8⇨ &e⚡ &7128 J 可储存", LoreBuilder.powerPerSecond(8));
     public static final SlimefunItemStack MULTIMETER = new SlimefunItemStack("MULTIMETER", Material.CLOCK, "&e万用表", "", "&r查看机器中储存的能量");
 
-    public static final SlimefunItemStack SMALL_CAPACITOR = new SlimefunItemStack("SMALL_CAPACITOR", HeadTexture.CAPACITOR_25, "&a小型储能电容", LoreBuilder.range(6), "", LoreBuilder.machine(MachineTier.BASIC, MachineType.CAPACITOR), "&8\u21E8 &e\u26A1 &7128 J 可储存");
+    public static final SlimefunItemStack SMALL_CAPACITOR = new SlimefunItemStack("SMALL_CAPACITOR", HeadTexture.CAPACITOR_25, "&a小型储能电容", LoreBuilder.range(6), "", LoreBuilder.machine(MachineTier.BASIC, MachineType.CAPACITOR), "&8⇨ &e⚡ &7128 J 可储存");
     public static final SlimefunItemStack MEDIUM_CAPACITOR = new SlimefunItemStack("MEDIUM_CAPACITOR", HeadTexture.CAPACITOR_25, "&a中型储能电容", LoreBuilder.range(6), "", LoreBuilder.machine(MachineTier.AVERAGE, MachineType.CAPACITOR), LoreBuilder.powerBuffer(512));
     public static final SlimefunItemStack BIG_CAPACITOR = new SlimefunItemStack("BIG_CAPACITOR", HeadTexture.CAPACITOR_25, "&a大型储能电容", LoreBuilder.range(6), "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.CAPACITOR), LoreBuilder.powerBuffer(1024));
     public static final SlimefunItemStack LARGE_CAPACITOR = new SlimefunItemStack("LARGE_CAPACITOR", HeadTexture.CAPACITOR_25, "&a巨型储能电容", LoreBuilder.range(6), "", LoreBuilder.machine(MachineTier.GOOD, MachineType.CAPACITOR), LoreBuilder.powerBuffer(8192));
@@ -690,21 +693,21 @@ public final class SlimefunItems {
     public static final SlimefunItemStack ENERGIZED_CAPACITOR = new SlimefunItemStack("ENERGIZED_CAPACITOR", HeadTexture.CAPACITOR_25, "&a终极储能电容", LoreBuilder.range(6), "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.CAPACITOR), LoreBuilder.powerBuffer(524288));
 
     /*		Robots				*/
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID = new SlimefunItemStack("PROGRAMMABLE_ANDROID", HeadTexture.PROGRAMMABLE_ANDROID, "&c可编程式机器人 &7(普通)", "", "&8\u21E8 &7功能: 无", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_FARMER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_FARMER", HeadTexture.PROGRAMMABLE_ANDROID_FARMER, "&c可编程式机器人 &7(农夫)", "", "&8\u21E8 &7功能: 耕作", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_MINER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_MINER", HeadTexture.PROGRAMMABLE_ANDROID_MINER, "&c可编程式机器人 &7(矿工)", "", "&8\u21E8 &7功能: 挖矿", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_WOODCUTTER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_WOODCUTTER", HeadTexture.PROGRAMMABLE_ANDROID_WOODCUTTER, "&c可编程式机器人 &7(樵夫)", "", "&8\u21E8 &7功能: 伐木", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_BUTCHER", HeadTexture.PROGRAMMABLE_ANDROID_BUTCHER, "&c可编程式机器人 &7(屠夫)", "", "&8\u21E8 &7功能: 屠宰", "&8\u21E8 &7伤害: 4", "&8\u21E8 &7燃料效率: 1.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_FISHERMAN", HeadTexture.PROGRAMMABLE_ANDROID_FISHERMAN, "&c可编程式机器人 &7(渔夫)", "", "&8\u21E8 &7功能: 钓鱼", "&8\u21E8 &7成功几率: 10%", "&8\u21E8 &7燃料效率: 1.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID = new SlimefunItemStack("PROGRAMMABLE_ANDROID", HeadTexture.PROGRAMMABLE_ANDROID, "&c可编程式机器人 &7(普通)", "", "&8⇨ &7功能: 无", "&8⇨ &7燃料效率: 1.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_FARMER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_FARMER", HeadTexture.PROGRAMMABLE_ANDROID_FARMER, "&c可编程式机器人 &7(农夫)", "", "&8⇨ &7功能: 耕作", "&8⇨ &7燃料效率: 1.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_MINER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_MINER", HeadTexture.PROGRAMMABLE_ANDROID_MINER, "&c可编程式机器人 &7(矿工)", "", "&8⇨ &7功能: 挖矿", "&8⇨ &7燃料效率: 1.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_WOODCUTTER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_WOODCUTTER", HeadTexture.PROGRAMMABLE_ANDROID_WOODCUTTER, "&c可编程式机器人 &7(樵夫)", "", "&8⇨ &7功能: 伐木", "&8⇨ &7燃料效率: 1.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_BUTCHER", HeadTexture.PROGRAMMABLE_ANDROID_BUTCHER, "&c可编程式机器人 &7(屠夫)", "", "&8⇨ &7功能: 屠宰", "&8⇨ &7伤害: 4", "&8⇨ &7燃料效率: 1.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_FISHERMAN", HeadTexture.PROGRAMMABLE_ANDROID_FISHERMAN, "&c可编程式机器人 &7(渔夫)", "", "&8⇨ &7功能: 钓鱼", "&8⇨ &7成功几率: 10%", "&8⇨ &7燃料效率: 1.0x");
 
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2 = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2", HeadTexture.PROGRAMMABLE_ANDROID, "&c高级可编程式机器人 &7(普通)", "", "&8\u21E8 &7功能: 无", "&8\u21E8 &7燃料效率: 1.5x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_FISHERMAN", HeadTexture.PROGRAMMABLE_ANDROID_FISHERMAN, "&c高级可编程式机器人 &7(渔夫)", "", "&8\u21E8 &7功能: 钓鱼", "&8\u21E8 &7成功几率: 20%", "&8\u21E8 &7燃料效率: 1.5x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FARMER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_FARMER", HeadTexture.PROGRAMMABLE_ANDROID_FARMER, "&c高级可编程式机器人 &7(农夫)", "", "&8\u21E8 &7功能: 耕作", "&8\u21E8 &7燃料效率: 1.5x", "&8\u21E8 &7可以收割异域花园内的植物");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_BUTCHER", HeadTexture.PROGRAMMABLE_ANDROID_BUTCHER, "&c高级可编程式机器人 &7(屠夫)", "", "&8\u21E8 &7功能: 屠宰", "&8\u21E8 &7伤害: 8", "&8\u21E8 &7燃料效率: 1.5x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2 = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2", HeadTexture.PROGRAMMABLE_ANDROID, "&c高级可编程式机器人 &7(普通)", "", "&8⇨ &7功能: 无", "&8⇨ &7燃料效率: 1.5x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_FISHERMAN", HeadTexture.PROGRAMMABLE_ANDROID_FISHERMAN, "&c高级可编程式机器人 &7(渔夫)", "", "&8⇨ &7功能: 钓鱼", "&8⇨ &7成功几率: 20%", "&8⇨ &7燃料效率: 1.5x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_FARMER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_FARMER", HeadTexture.PROGRAMMABLE_ANDROID_FARMER, "&c高级可编程式机器人 &7(农夫)", "", "&8⇨ &7功能: 耕作", "&8⇨ &7燃料效率: 1.5x", "&8⇨ &7可以收割异域花园内的植物");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_2_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_2_BUTCHER", HeadTexture.PROGRAMMABLE_ANDROID_BUTCHER, "&c高级可编程式机器人 &7(屠夫)", "", "&8⇨ &7功能: 屠宰", "&8⇨ &7伤害: 8", "&8⇨ &7燃料效率: 1.5x");
 
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3 = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3", HeadTexture.PROGRAMMABLE_ANDROID, "&e可授权式可编程式机器人 &7(普通)", "", "&8\u21E8 &7功能: 无", "&8\u21E8 &7燃料效率: 3.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3_FISHERMAN", HeadTexture.PROGRAMMABLE_ANDROID_FISHERMAN, "&e可授权式可编程式机器人 &7(渔夫)", "", "&8\u21E8 &7功能: 钓鱼", "&8\u21E8 &7成功几率: 30%", "&8\u21E8 &7燃料效率: 8.0x");
-    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3_BUTCHER", HeadTexture.PROGRAMMABLE_ANDROID_BUTCHER, "&e可授权式可编程式机器人 &7(屠夫)", "", "&8\u21E8 &7功能: 屠宰", "&8\u21E8 &7伤害: 20", "&8\u21E8 &7燃料效率: 8.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3 = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3", HeadTexture.PROGRAMMABLE_ANDROID, "&e可授权式可编程式机器人 &7(普通)", "", "&8⇨ &7功能: 无", "&8⇨ &7燃料效率: 3.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_FISHERMAN = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3_FISHERMAN", HeadTexture.PROGRAMMABLE_ANDROID_FISHERMAN, "&e可授权式可编程式机器人 &7(渔夫)", "", "&8⇨ &7功能: 钓鱼", "&8⇨ &7成功几率: 30%", "&8⇨ &7燃料效率: 8.0x");
+    public static final SlimefunItemStack PROGRAMMABLE_ANDROID_3_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3_BUTCHER", HeadTexture.PROGRAMMABLE_ANDROID_BUTCHER, "&e可授权式可编程式机器人 &7(屠夫)", "", "&8⇨ &7功能: 屠宰", "&8⇨ &7伤害: 20", "&8⇨ &7燃料效率: 8.0x");
 
     /*		       GPS		       */
     public static final SlimefunItemStack GPS_TRANSMITTER = new SlimefunItemStack("GPS_TRANSMITTER", HeadTexture.GPS_TRANSMITTER, "&bGPS 发射器", "", LoreBuilder.powerBuffer(16), LoreBuilder.powerPerSecond(2));
@@ -721,7 +724,7 @@ public final class SlimefunItems {
 
     public static final SlimefunItemStack GPS_GEO_SCANNER = new SlimefunItemStack("GPS_GEO_SCANNER", HeadTexture.GEO_SCANNER, "&bGPS 地形扫描器", "", "&r扫描一个区块中有多少自然资源", "&r例如 &8原油");
     public static final SlimefunItemStack PORTABLE_GEO_SCANNER = new SlimefunItemStack("PORTABLE_GEO_SCANNER", Material.CLOCK, "&b便携式资源扫描器", "", "&r扫描出区块中的自然资源", "", "&e右键&7 扫描");
-    public static final SlimefunItemStack GEO_MINER = new SlimefunItemStack("GEO_MINER", HeadTexture.GEO_MINER, "&6自然资源开采机", "", "&e从区块中开采出资源", "&e可以开采出不能被矿镐挖出的资源", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(48), "", "&c&l! &c确保你已经进行了 GEO 地形扫描");
+    public static final SlimefunItemStack GEO_MINER = new SlimefunItemStack("GEO_MINER", HeadTexture.GEO_MINER, "&6自然资源开采机", "", "&e从区块中开采出资源", "&e可以开采出不能被矿镐挖出的资源", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(48), "", "&c&l! &c确保你已经进行了 GEO 地形扫描");
     public static final SlimefunItemStack OIL_PUMP = new SlimefunItemStack("OIL_PUMP", HeadTexture.OIL_PUMP, "&r原油泵", "", "&7泵出原油并把它装进桶里", "", "&c&l! &c请先对所在区块进行地形扫描");
     public static final SlimefunItemStack OIL_BUCKET = new SlimefunItemStack("BUCKET_OF_OIL", HeadTexture.OIL_BUCKET, "&r原油桶");
     public static final SlimefunItemStack FUEL_BUCKET = new SlimefunItemStack("BUCKET_OF_FUEL", HeadTexture.FUEL_BUCKET, "&r燃料桶");
@@ -742,22 +745,22 @@ public final class SlimefunItems {
 
     public static final SlimefunItemStack PLASTIC_SHEET = new SlimefunItemStack("PLASTIC_SHEET", Material.PAPER, "&r塑料纸");
 
-    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER = new SlimefunItemStack("HEATED_PRESSURE_CHAMBER", Material.LIGHT_GRAY_STAINED_GLASS, "&c加热压力舱", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(10));
-    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER_2 = new SlimefunItemStack("HEATED_PRESSURE_CHAMBER_2", Material.LIGHT_GRAY_STAINED_GLASS, "&c加热压力舱 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 5x", LoreBuilder.powerPerSecond(44));
+    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER = new SlimefunItemStack("HEATED_PRESSURE_CHAMBER", Material.LIGHT_GRAY_STAINED_GLASS, "&c加热压力舱", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(10));
+    public static final SlimefunItemStack HEATED_PRESSURE_CHAMBER_2 = new SlimefunItemStack("HEATED_PRESSURE_CHAMBER_2", Material.LIGHT_GRAY_STAINED_GLASS, "&c加热压力舱 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 5x", LoreBuilder.powerPerSecond(44));
 
-    public static final SlimefunItemStack ELECTRIC_SMELTERY = new SlimefunItemStack("ELECTRIC_SMELTERY", Material.FURNACE, "&c电力冶炼炉", "", "&4仅支持合金, 不能将粉冶炼成锭", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(20));
-    public static final SlimefunItemStack ELECTRIC_SMELTERY_2 = new SlimefunItemStack("ELECTRIC_SMELTERY_2", Material.FURNACE, "&c电力冶炼炉 &7- &eII", "", "&4仅支持合金, 不能将粉冶炼成锭", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", LoreBuilder.powerPerSecond(40));
+    public static final SlimefunItemStack ELECTRIC_SMELTERY = new SlimefunItemStack("ELECTRIC_SMELTERY", Material.FURNACE, "&c电力冶炼炉", "", "&4仅支持合金, 不能将粉冶炼成锭", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(20));
+    public static final SlimefunItemStack ELECTRIC_SMELTERY_2 = new SlimefunItemStack("ELECTRIC_SMELTERY_2", Material.FURNACE, "&c电力冶炼炉 &7- &eII", "", "&4仅支持合金, 不能将粉冶炼成锭", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 3x", LoreBuilder.powerPerSecond(40));
 
-    public static final SlimefunItemStack ELECTRIC_PRESS = new SlimefunItemStack("ELECTRIC_PRESS", HeadTexture.ELECTRIC_PRESS, "&e压缩机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(16));
-    public static final SlimefunItemStack ELECTRIC_PRESS_2 = new SlimefunItemStack("ELECTRIC_PRESS_2", HeadTexture.ELECTRIC_PRESS, "&e压缩机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", LoreBuilder.powerPerSecond(40));
+    public static final SlimefunItemStack ELECTRIC_PRESS = new SlimefunItemStack("ELECTRIC_PRESS", HeadTexture.ELECTRIC_PRESS, "&e压缩机", "", LoreBuilder.machine(MachineTier.MEDIUM, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(16));
+    public static final SlimefunItemStack ELECTRIC_PRESS_2 = new SlimefunItemStack("ELECTRIC_PRESS_2", HeadTexture.ELECTRIC_PRESS, "&e压缩机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 3x", LoreBuilder.powerPerSecond(40));
 
-    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE", Material.RED_TERRACOTTA, "&c电动坩埚", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(48));
-    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_2 = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE_2", Material.RED_TERRACOTTA, "&c电动坩埚 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", "&8\u21E8 &e\u26A1 &780 J/s");
-    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_3 = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE_3", Material.RED_TERRACOTTA, "&c电动坩埚 &7- &eIII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 4x", "&8\u21E8 &e\u26A1 &7120 J/s");
+    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE", Material.RED_TERRACOTTA, "&c电动坩埚", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(48));
+    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_2 = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE_2", Material.RED_TERRACOTTA, "&c电动坩埚 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 2x", "&8⇨ &e⚡ &780 J/s");
+    public static final SlimefunItemStack ELECTRIFIED_CRUCIBLE_3 = new SlimefunItemStack("ELECTRIFIED_CRUCIBLE_3", Material.RED_TERRACOTTA, "&c电动坩埚 &7- &eIII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 4x", "&8⇨ &e⚡ &7120 J/s");
 
-    public static final SlimefunItemStack CARBON_PRESS = new SlimefunItemStack("CARBON_PRESS", Material.BLACK_STAINED_GLASS, "&c碳压机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(20));
-    public static final SlimefunItemStack CARBON_PRESS_2 = new SlimefunItemStack("CARBON_PRESS_2", Material.BLACK_STAINED_GLASS, "&c碳压机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", "&8\u21E8 &e\u26A1 &750 J/s");
-    public static final SlimefunItemStack CARBON_PRESS_3 = new SlimefunItemStack("CARBON_PRESS_3", Material.BLACK_STAINED_GLASS, "&c碳压机 &7- &eIII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 15x", "&8\u21E8 &e\u26A1 &7180 J/s");
+    public static final SlimefunItemStack CARBON_PRESS = new SlimefunItemStack("CARBON_PRESS", Material.BLACK_STAINED_GLASS, "&c碳压机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(20));
+    public static final SlimefunItemStack CARBON_PRESS_2 = new SlimefunItemStack("CARBON_PRESS_2", Material.BLACK_STAINED_GLASS, "&c碳压机 &7- &eII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 3x", "&8⇨ &e⚡ &750 J/s");
+    public static final SlimefunItemStack CARBON_PRESS_3 = new SlimefunItemStack("CARBON_PRESS_3", Material.BLACK_STAINED_GLASS, "&c碳压机 &7- &eIII", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 15x", "&8⇨ &e⚡ &7180 J/s");
 
     public static final SlimefunItemStack BLISTERING_INGOT = new SlimefunItemStack("BLISTERING_INGOT", Material.GOLD_INGOT, "&6起泡锭 &7(33%)", "", LoreBuilder.radioactive(Radioactivity.HIGH), LoreBuilder.HAZMAT_SUIT_REQUIRED);
     public static final SlimefunItemStack BLISTERING_INGOT_2 = new SlimefunItemStack("BLISTERING_INGOT_2", Material.GOLD_INGOT, "&6起泡锭 &7(66%)", "", LoreBuilder.radioactive(Radioactivity.HIGH), LoreBuilder.HAZMAT_SUIT_REQUIRED);
@@ -779,7 +782,7 @@ public final class SlimefunItems {
     public static final SlimefunItemStack CARGO_OUTPUT_NODE_2 = new SlimefunItemStack("CARGO_NODE_OUTPUT_ADVANCED", HeadTexture.CARGO_OUTPUT_NODE, "&6高级货运节点 &c(输出)", "", "&r货运输出管道");
 
     // Animal farm
-    public static final SlimefunItemStack AUTO_BREEDER = new SlimefunItemStack("AUTO_BREEDER", Material.HAY_BLOCK, "&e自动喂食机", "", "&r需要 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), "&8\u21E8 &e\u26A1 &760 J/个动物");
+    public static final SlimefunItemStack AUTO_BREEDER = new SlimefunItemStack("AUTO_BREEDER", Material.HAY_BLOCK, "&e自动喂食机", "", "&r需要 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), "&8⇨ &e⚡ &760 J/个动物");
     public static final SlimefunItemStack PRODUCE_COLLECTOR = new SlimefunItemStack("PRODUCE_COLLECTOR", Material.HAY_BLOCK, "&b全自动收集机", "", "&f此机器可以自动收取", "&f附近动物生产的动物产品.", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), LoreBuilder.powerBuffer(512), LoreBuilder.powerPerSecond(32));
 
     public static final SlimefunItemStack ORGANIC_FOOD = new SlimefunItemStack("ORGANIC_FOOD", HeadTexture.FILLED_CAN, "&a有机食物", "&7内含 &9???");
@@ -809,51 +812,51 @@ public final class SlimefunItems {
     public static final SlimefunItemStack SEAGRASS_FERTILIZER = new SlimefunItemStack("FERTILIZER_SEAGRASS", HeadTexture.FILLED_CAN, FERTILIZER.getDisplayName(), "&7内含: &9海草");
 
     public static final SlimefunItemStack ANIMAL_GROWTH_ACCELERATOR = new SlimefunItemStack("ANIMAL_GROWTH_ACCELERATOR", Material.HAY_BLOCK, "&b动物生长加速器", "", "&r需要 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(28));
-    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR = new SlimefunItemStack("CROP_GROWTH_ACCELERATOR", Material.LIME_TERRACOTTA, "&a作物生长加速器", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7半径: 7x7", "&8\u21E8 &7速度: &a3/次", LoreBuilder.powerBuffer(1024), "&8\u21E8 &e\u26A1 &750 J/s");
-    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR_2 = new SlimefunItemStack("CROP_GROWTH_ACCELERATOR_2", Material.LIME_TERRACOTTA, "&a作物生长加速器 &7(&eII&7)", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7半径: 9x9", "&8\u21E8 &7速度: &a4/次", LoreBuilder.powerBuffer(1024), "&8\u21E8 &e\u26A1 &760 J/s");
-    public static final SlimefunItemStack TREE_GROWTH_ACCELERATOR = new SlimefunItemStack("TREE_GROWTH_ACCELERATOR", Material.BROWN_TERRACOTTA, "&a树木生长加速器", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7半径: 9x9", "&8\u21E8 &7速度: &a4/次", LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(48));
+    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR = new SlimefunItemStack("CROP_GROWTH_ACCELERATOR", Material.LIME_TERRACOTTA, "&a作物生长加速器", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7半径: 7x7", "&8⇨ &7速度: &a3/次", LoreBuilder.powerBuffer(1024), "&8⇨ &e⚡ &750 J/s");
+    public static final SlimefunItemStack CROP_GROWTH_ACCELERATOR_2 = new SlimefunItemStack("CROP_GROWTH_ACCELERATOR_2", Material.LIME_TERRACOTTA, "&a作物生长加速器 &7(&eII&7)", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7半径: 9x9", "&8⇨ &7速度: &a4/次", LoreBuilder.powerBuffer(1024), "&8⇨ &e⚡ &760 J/s");
+    public static final SlimefunItemStack TREE_GROWTH_ACCELERATOR = new SlimefunItemStack("TREE_GROWTH_ACCELERATOR", Material.BROWN_TERRACOTTA, "&a树木生长加速器", "", "&r需要 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7半径: 9x9", "&8⇨ &7速度: &a4/次", LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(48));
 
-    public static final SlimefunItemStack FOOD_FABRICATOR = new SlimefunItemStack("FOOD_FABRICATOR", Material.GREEN_STAINED_GLASS, "&c食品加工机", "", "&r可制造 &a有机食物", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(14));
-    public static final SlimefunItemStack FOOD_FABRICATOR_2 = new SlimefunItemStack("FOOD_FABRICATOR_2", Material.GREEN_STAINED_GLASS, "&c食品加工机 &7(&eII&7)", "", "&r可制造 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 6x", LoreBuilder.powerBuffer(512), LoreBuilder.powerPerSecond(48));
+    public static final SlimefunItemStack FOOD_FABRICATOR = new SlimefunItemStack("FOOD_FABRICATOR", Material.GREEN_STAINED_GLASS, "&c食品加工机", "", "&r可制造 &a有机食物", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(14));
+    public static final SlimefunItemStack FOOD_FABRICATOR_2 = new SlimefunItemStack("FOOD_FABRICATOR_2", Material.GREEN_STAINED_GLASS, "&c食品加工机 &7(&eII&7)", "", "&r可制造 &a有机食物", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 6x", LoreBuilder.powerBuffer(512), LoreBuilder.powerPerSecond(48));
 
-    public static final SlimefunItemStack FOOD_COMPOSTER = new SlimefunItemStack("FOOD_COMPOSTER", Material.GREEN_TERRACOTTA, "&c食品堆肥器", "", "&r可制造 &a有机肥料", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(16));
-    public static final SlimefunItemStack FOOD_COMPOSTER_2 = new SlimefunItemStack("FOOD_COMPOSTER_2", Material.GREEN_TERRACOTTA, "&c食品堆肥器 &7(&eII&7)", "", "&r可制造 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 10x", LoreBuilder.powerBuffer(512), "&8\u21E8 &e\u26A1 &752 J/s");
+    public static final SlimefunItemStack FOOD_COMPOSTER = new SlimefunItemStack("FOOD_COMPOSTER", Material.GREEN_TERRACOTTA, "&c食品堆肥器", "", "&r可制造 &a有机肥料", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(16));
+    public static final SlimefunItemStack FOOD_COMPOSTER_2 = new SlimefunItemStack("FOOD_COMPOSTER_2", Material.GREEN_TERRACOTTA, "&c食品堆肥器 &7(&eII&7)", "", "&r可制造 &a有机肥料", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 10x", LoreBuilder.powerBuffer(512), "&8⇨ &e⚡ &752 J/s");
 
     public static final SlimefunItemStack EXP_COLLECTOR = new SlimefunItemStack("XP_COLLECTOR", HeadTexture.EXP_COLLECTOR, "&a经验收集器", "", "&r收集附近的经验并储存它们", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(20));
     public static final SlimefunItemStack REACTOR_COOLANT_CELL = new SlimefunItemStack("REACTOR_COLLANT_CELL", HeadTexture.COOLANT_CELL, "&b反应堆冷却剂");
 
-    public static final SlimefunItemStack NUCLEAR_REACTOR = new SlimefunItemStack("NUCLEAR_REACTOR", HeadTexture.NUCLEAR_REACTOR, "&2核反应堆", "", "&r需要冷却剂!", "&8\u21E8 &b必须被水包围", "&8\u21E8 &b必须使用反应堆冷却剂工作", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), "&8\u21E8 &e\u26A1 &716384 J 可储存", "&8\u21E8 &e\u26A1 &7500 J/s");
-    public static final SlimefunItemStack NETHER_STAR_REACTOR = new SlimefunItemStack("NETHERSTAR_REACTOR", HeadTexture.NETHER_STAR_REACTOR, "&r下界之星反应堆", "", "&r需要下界之星", "&8\u21E8 &b必须被水包围", "&8\u21E8 &b必须使用下界冰冷却剂工作", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), "&8\u21E8 &e\u26A1 &732768 J 可储存", "&8\u21E8 &e\u26A1 &71024 J/s", "&8\u21E8 &4会导致附近的生物获得凋零效果");
-    public static final SlimefunItemStack REACTOR_ACCESS_PORT = new SlimefunItemStack("REACTOR_ACCESS_PORT", Material.CYAN_TERRACOTTA, "&2反应堆访问接口", "", "&r允许你通过货运节点来访问反应堆", "&r也可以用于储存", "", "&8\u21E8 &c必须 &e放置在反应堆上方的第三格处");
+    public static final SlimefunItemStack NUCLEAR_REACTOR = new SlimefunItemStack("NUCLEAR_REACTOR", HeadTexture.NUCLEAR_REACTOR, "&2核反应堆", "", "&r需要冷却剂!", "&8⇨ &b必须被水包围", "&8⇨ &b必须使用反应堆冷却剂工作", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), "&8⇨ &e⚡ &716384 J 可储存", "&8⇨ &e⚡ &7500 J/s");
+    public static final SlimefunItemStack NETHER_STAR_REACTOR = new SlimefunItemStack("NETHERSTAR_REACTOR", HeadTexture.NETHER_STAR_REACTOR, "&r下界之星反应堆", "", "&r需要下界之星", "&8⇨ &b必须被水包围", "&8⇨ &b必须使用下界冰冷却剂工作", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), "&8⇨ &e⚡ &732768 J 可储存", "&8⇨ &e⚡ &71024 J/s", "&8⇨ &4会导致附近的生物获得凋零效果");
+    public static final SlimefunItemStack REACTOR_ACCESS_PORT = new SlimefunItemStack("REACTOR_ACCESS_PORT", Material.CYAN_TERRACOTTA, "&2反应堆访问接口", "", "&r允许你通过货运节点来访问反应堆", "&r也可以用于储存", "", "&8⇨ &c必须 &e放置在反应堆上方的第三格处");
 
-    public static final SlimefunItemStack FREEZER = new SlimefunItemStack("FREEZER", Material.LIGHT_BLUE_STAINED_GLASS, "&b冰箱", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(18));
-    public static final SlimefunItemStack FREEZER_2 = new SlimefunItemStack("FREEZER_2", Material.LIGHT_BLUE_STAINED_GLASS, "&b冰箱 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(30));
+    public static final SlimefunItemStack FREEZER = new SlimefunItemStack("FREEZER", Material.LIGHT_BLUE_STAINED_GLASS, "&b冰箱", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(18));
+    public static final SlimefunItemStack FREEZER_2 = new SlimefunItemStack("FREEZER_2", Material.LIGHT_BLUE_STAINED_GLASS, "&b冰箱 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 2x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(30));
     public static final SlimefunItemStack FREEZER_3 = new SlimefunItemStack("FREEZER_3", Material.LIGHT_GRAY_STAINED_GLASS, "&b冰箱 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.speed(3), LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(42));
 
-    public static final SlimefunItemStack ELECTRIC_GOLD_PAN = new SlimefunItemStack("ELECTRIC_GOLD_PAN", Material.BROWN_TERRACOTTA, "&6电动淘金机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(2));
-    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_2 = new SlimefunItemStack("ELECTRIC_GOLD_PAN_2", Material.BROWN_TERRACOTTA, "&6电动淘金机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 3x", LoreBuilder.powerPerSecond(4));
-    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_3 = new SlimefunItemStack("ELECTRIC_GOLD_PAN_3", Material.BROWN_TERRACOTTA, "&6电动淘金机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 10x", LoreBuilder.powerPerSecond(14));
+    public static final SlimefunItemStack ELECTRIC_GOLD_PAN = new SlimefunItemStack("ELECTRIC_GOLD_PAN", Material.BROWN_TERRACOTTA, "&6电动淘金机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(2));
+    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_2 = new SlimefunItemStack("ELECTRIC_GOLD_PAN_2", Material.BROWN_TERRACOTTA, "&6电动淘金机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &7速度: 3x", LoreBuilder.powerPerSecond(4));
+    public static final SlimefunItemStack ELECTRIC_GOLD_PAN_3 = new SlimefunItemStack("ELECTRIC_GOLD_PAN_3", Material.BROWN_TERRACOTTA, "&6电动淘金机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 10x", LoreBuilder.powerPerSecond(14));
 
-    public static final SlimefunItemStack ELECTRIC_DUST_WASHER = new SlimefunItemStack("ELECTRIC_DUST_WASHER", Material.BLUE_STAINED_GLASS, "&3电动洗矿机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(6));
-    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_2 = new SlimefunItemStack("ELECTRIC_DUST_WASHER_2", Material.BLUE_STAINED_GLASS, "&3电动洗矿机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerPerSecond(10));
-    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_3 = new SlimefunItemStack("ELECTRIC_DUST_WASHER_3", Material.BLUE_STAINED_GLASS, "&3电动洗矿机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 10x", LoreBuilder.powerPerSecond(30));
+    public static final SlimefunItemStack ELECTRIC_DUST_WASHER = new SlimefunItemStack("ELECTRIC_DUST_WASHER", Material.BLUE_STAINED_GLASS, "&3电动洗矿机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(6));
+    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_2 = new SlimefunItemStack("ELECTRIC_DUST_WASHER_2", Material.BLUE_STAINED_GLASS, "&3电动洗矿机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &7速度: 2x", LoreBuilder.powerPerSecond(10));
+    public static final SlimefunItemStack ELECTRIC_DUST_WASHER_3 = new SlimefunItemStack("ELECTRIC_DUST_WASHER_3", Material.BLUE_STAINED_GLASS, "&3电动洗矿机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 10x", LoreBuilder.powerPerSecond(30));
 
-    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY", Material.RED_TERRACOTTA, "&c电动铸锭机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 1x", LoreBuilder.powerPerSecond(8));
-    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_2 = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY_2", Material.RED_TERRACOTTA, "&c电动铸锭机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &7速度: 2x", LoreBuilder.powerPerSecond(14));
-    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_3 = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY_3", Material.RED_TERRACOTTA, "&c电动铸锭机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7速度: 8x", LoreBuilder.powerPerSecond(40));
+    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY", Material.RED_TERRACOTTA, "&c电动铸锭机", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &7速度: 1x", LoreBuilder.powerPerSecond(8));
+    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_2 = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY_2", Material.RED_TERRACOTTA, "&c电动铸锭机 &7(&eII&7)", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &7速度: 2x", LoreBuilder.powerPerSecond(14));
+    public static final SlimefunItemStack ELECTRIC_INGOT_FACTORY_3 = new SlimefunItemStack("ELECTRIC_INGOT_FACTORY_3", Material.RED_TERRACOTTA, "&c电动铸锭机 &7(&eIII&7)", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7速度: 8x", LoreBuilder.powerPerSecond(40));
 
     //@Deprecated
-    //public static final SlimefunItemStack AUTOMATED_CRAFTING_CHAMBER = new SlimefunItemStack("AUTOMATED_CRAFTING_CHAMBER", Material.CRAFTING_TABLE, "&6自动合成机", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &710 J/个物品");
+    //public static final SlimefunItemStack AUTOMATED_CRAFTING_CHAMBER = new SlimefunItemStack("AUTOMATED_CRAFTING_CHAMBER", Material.CRAFTING_TABLE, "&6自动合成机", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &e⚡ &710 J/个物品");
 
-    public static final SlimefunItemStack FLUID_PUMP = new SlimefunItemStack("FLUID_PUMP", Material.BLUE_TERRACOTTA, "&9流体泵", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &732 J/个方块");
-    public static final SlimefunItemStack CHARGING_BENCH = new SlimefunItemStack("CHARGING_BENCH", Material.CRAFTING_TABLE, "&6充电台", "", "&r能够给物品充电, 比如喷气背包", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &7128 J 可储存", "&8\u21E8 &e\u26A1 &7能源损失率: &c50%");
+    public static final SlimefunItemStack FLUID_PUMP = new SlimefunItemStack("FLUID_PUMP", Material.BLUE_TERRACOTTA, "&9流体泵", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &e⚡ &732 J/个方块");
+    public static final SlimefunItemStack CHARGING_BENCH = new SlimefunItemStack("CHARGING_BENCH", Material.CRAFTING_TABLE, "&6充电台", "", "&r能够给物品充电, 比如喷气背包", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), "&8⇨ &e⚡ &7128 J 可储存", "&8⇨ &e⚡ &7能源损失率: &c50%");
 
-    public static final SlimefunItemStack VANILLA_AUTO_CRAFTER = new SlimefunItemStack("VANILLA_AUTO_CRAFTER", HeadTexture.VANILLA_AUTO_CRAFTER, "&2自动合成机 &8(原版)", "", "&f将机器放在任意能装物品的方块上", "&f就能自动合成任何东西!", "&f可以合成 &e普通工作台 &f能合成的物品", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &7合成物品消耗 16 J");
-    public static final SlimefunItemStack ENHANCED_AUTO_CRAFTER = new SlimefunItemStack("ENHANCED_AUTO_CRAFTER", HeadTexture.ENHANCED_AUTO_CRAFTER, "&2自动合成机 &8(高级)", "", "&f将机器放在任意能装物品的方块上", "&f就能自动合成任何东西!", "&f可以合成 &e高级工作台 &f能合成的物品",  "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &7合成物品消耗 16 J");
-    public static final SlimefunItemStack ARMOR_AUTO_CRAFTER = new SlimefunItemStack("ARMOR_AUTO_CRAFTER", HeadTexture.ARMOR_AUTO_CRAFTER, "&2自动合成机 &8(盔甲锻造)", "", "&f将机器放在任意能装物品的方块上", "&f就能自动合成盔甲锻造台可以合成的东西", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &7合成物品消耗 32 J");
+    public static final SlimefunItemStack VANILLA_AUTO_CRAFTER = new SlimefunItemStack("VANILLA_AUTO_CRAFTER", HeadTexture.VANILLA_AUTO_CRAFTER, "&2自动合成机 &8(原版)", "", "&f将机器放在任意能装物品的方块上", "&f就能自动合成任何东西!", "&f可以合成 &e普通工作台 &f能合成的物品", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &e⚡ &7合成物品消耗 16 J");
+    public static final SlimefunItemStack ENHANCED_AUTO_CRAFTER = new SlimefunItemStack("ENHANCED_AUTO_CRAFTER", HeadTexture.ENHANCED_AUTO_CRAFTER, "&2自动合成机 &8(高级)", "", "&f将机器放在任意能装物品的方块上", "&f就能自动合成任何东西!", "&f可以合成 &e高级工作台 &f能合成的物品", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &e⚡ &7合成物品消耗 16 J");
+    public static final SlimefunItemStack ARMOR_AUTO_CRAFTER = new SlimefunItemStack("ARMOR_AUTO_CRAFTER", HeadTexture.ARMOR_AUTO_CRAFTER, "&2自动合成机 &8(盔甲锻造)", "", "&f将机器放在任意能装物品的方块上", "&f就能自动合成盔甲锻造台可以合成的东西", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8⇨ &e⚡ &7合成物品消耗 32 J");
 
-    public static final SlimefunItemStack IRON_GOLEM_ASSEMBLER = new SlimefunItemStack("IRON_GOLEM_ASSEMBLER", Material.IRON_BLOCK, "&6铁傀儡装配机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7冷却时间: &b30 秒", LoreBuilder.powerBuffer(4096), "&8\u21E8 &e\u26A1 &72048 J/个铁傀儡");
-    public static final SlimefunItemStack WITHER_ASSEMBLER = new SlimefunItemStack("WITHER_ASSEMBLER", Material.OBSIDIAN, "&5凋灵装配机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7冷却时间: &b30 秒", "&8\u21E8 &e\u26A1 &74096 J 可储存", "&8\u21E8 &e\u26A1 &74096 J/个凋灵");
+    public static final SlimefunItemStack IRON_GOLEM_ASSEMBLER = new SlimefunItemStack("IRON_GOLEM_ASSEMBLER", Material.IRON_BLOCK, "&6铁傀儡装配机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7冷却时间: &b30 秒", LoreBuilder.powerBuffer(4096), "&8⇨ &e⚡ &72048 J/个铁傀儡");
+    public static final SlimefunItemStack WITHER_ASSEMBLER = new SlimefunItemStack("WITHER_ASSEMBLER", Material.OBSIDIAN, "&5凋灵装配机", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8⇨ &7冷却时间: &b30 秒", "&8⇨ &e⚡ &74096 J 可储存", "&8⇨ &e⚡ &74096 J/个凋灵");
 
     public static final SlimefunItemStack TRASH_CAN = new SlimefunItemStack("TRASH_CAN_BLOCK", HeadTexture.TRASH_CAN, "&3垃圾箱", "", "&r可以把不要的物品放进这里");
 

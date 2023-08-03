@@ -31,29 +31,29 @@ import java.time.Month;
 public class DefaultItemGroups {
 
     // Standard Item Groups
-    public final ItemGroup weapons = new ItemGroup(new NamespacedKey(Slimefun.instance(), "weapons"), new CustomItemStack(SlimefunItems.BLADE_OF_VAMPIRES, "&7Weapons"), 1);
-    public final ItemGroup tools = new ItemGroup(new NamespacedKey(Slimefun.instance(), "tools"), new CustomItemStack(SlimefunItems.SMELTERS_PICKAXE, "&7Tools"), 1);
-    public final ItemGroup usefulItems = new ItemGroup(new NamespacedKey(Slimefun.instance(), "items"), new CustomItemStack(SlimefunItems.BACKPACK_MEDIUM, "&7Useful Items"), 1);
+    public final ItemGroup weapons = new ItemGroup(new NamespacedKey(Slimefun.instance(), "weapons"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Weapons"), 1);
+    public final ItemGroup tools = new ItemGroup(new NamespacedKey(Slimefun.instance(), "tools"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Tools"), 1);
+    public final ItemGroup usefulItems = new ItemGroup(new NamespacedKey(Slimefun.instance(), "items"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Useful Items"), 1);
     public final ItemGroup basicMachines = new ItemGroup(new NamespacedKey(Slimefun.instance(), "basic_machines"), new CustomItemStack(SlimefunItems.ENHANCED_CRAFTING_TABLE, "&7Basic Machines"), 1);
-    public final ItemGroup food = new ItemGroup(new NamespacedKey(Slimefun.instance(), "food"), new CustomItemStack(SlimefunItems.FORTUNE_COOKIE, "&7Food"), 2);
-    public final ItemGroup armor = new ItemGroup(new NamespacedKey(Slimefun.instance(), "armor"), new CustomItemStack(SlimefunItems.DAMASCUS_STEEL_CHESTPLATE, "&7Armor"), 2);
+    public final ItemGroup food = new ItemGroup(new NamespacedKey(Slimefun.instance(), "food"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Food"), 2);
+    public final ItemGroup armor = new ItemGroup(new NamespacedKey(Slimefun.instance(), "armor"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Armor"), 2);
 
     // Magical
-    public final ItemGroup magicalResources = new ItemGroup(new NamespacedKey(Slimefun.instance(), "magical_items"), new CustomItemStack(SlimefunItems.ENDER_RUNE, "&7Magical Items"), 2);
-    public final ItemGroup magicalGadgets = new ItemGroup(new NamespacedKey(Slimefun.instance(), "magical_gadgets"), new CustomItemStack(SlimefunItems.INFUSED_ELYTRA, "&7Magical Gadgets"), 3);
-    public final ItemGroup magicalArmor = new ItemGroup(new NamespacedKey(Slimefun.instance(), "magical_armor"), new CustomItemStack(SlimefunItems.ENDER_HELMET, "&7Magical Armor"), 2);
+    public final ItemGroup magicalResources = new ItemGroup(new NamespacedKey(Slimefun.instance(), "magical_items"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Magical Items"), 2);
+    public final ItemGroup magicalGadgets = new ItemGroup(new NamespacedKey(Slimefun.instance(), "magical_gadgets"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Magical Gadgets"), 3);
+    public final ItemGroup magicalArmor = new ItemGroup(new NamespacedKey(Slimefun.instance(), "magical_armor"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Magical Armor"), 2);
 
     // Resources and tech stuff
-    public final ItemGroup misc = new ItemGroup(new NamespacedKey(Slimefun.instance(), "misc"), new CustomItemStack(SlimefunItems.TIN_CAN, "&7Miscellaneous"), 2);
+    public final ItemGroup misc = new ItemGroup(new NamespacedKey(Slimefun.instance(), "misc"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Miscellaneous"), 2);
     public final ItemGroup technicalComponents = new ItemGroup(new NamespacedKey(Slimefun.instance(), "tech_misc"), new CustomItemStack(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
     public final ItemGroup technicalGadgets = new ItemGroup(new NamespacedKey(Slimefun.instance(), "technical_gadgets"), new CustomItemStack(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
     public final ItemGroup resources = new ItemGroup(new NamespacedKey(Slimefun.instance(), "resources"), new CustomItemStack(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);
 
     // Locked Item Groups
-    public final LockedItemGroup electricity = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "electricity"), new CustomItemStack(SlimefunItems.NUCLEAR_REACTOR, "&bEnergy and Electricity"), 4, basicMachines.getKey());
-    public final LockedItemGroup androids = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "androids"), new CustomItemStack(SlimefunItems.PROGRAMMABLE_ANDROID, "&cProgrammable Androids"), 4, basicMachines.getKey());
-    public final ItemGroup cargo = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "cargo"), new CustomItemStack(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
-    public final LockedItemGroup gps = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "gps"), new CustomItemStack(SlimefunItems.GPS_TRANSMITTER, "&bGPS-based Machines"), 4, basicMachines.getKey());
+    public final LockedItemGroup electricity = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "electricity"), new CustomItemStack(Material.STRUCTURE_VOID, "&bEnergy and Electricity"), 4, basicMachines.getKey());
+    public final LockedItemGroup androids = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "androids"), new CustomItemStack(Material.STRUCTURE_VOID, "&cProgrammable Androids"), 4, basicMachines.getKey());
+    public final ItemGroup cargo = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "cargo"), new CustomItemStack(Material.STRUCTURE_VOID, "&cCargo Management"), 4, basicMachines.getKey());
+    public final LockedItemGroup gps = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "gps"), new CustomItemStack(Material.STRUCTURE_VOID, "&bGPS-based Machines"), 4, basicMachines.getKey());
 
     // Seasonal Item Groups
     public final SeasonalItemGroup christmas = new SeasonalItemGroup(new NamespacedKey(Slimefun.instance(), "christmas"), Month.DECEMBER, 1, new CustomItemStack(SlimefunUtils.getCustomHead("215ba31cde2671b8f176de6a9ffd008035f0590d63ee240be6e8921cd2037a45"), ChatUtils.christmas("Christmas") + " &7(December only)"));

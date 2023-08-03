@@ -397,6 +397,11 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.IRON_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
         .register(plugin);
 
+        new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_DUST, RecipeType.ORE_CRUSHER,
+        new ItemStack[] {new ItemStack(Material.COPPER_ORE), null, null, null, null, null, null, null, null},
+        new SlimefunItemStack(SlimefunItems.COPPER_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
+        .register(plugin);
+
         new SlimefunItem(itemGroups.resources, SlimefunItems.GOLD_DUST, RecipeType.ORE_CRUSHER,
         new ItemStack[] {new ItemStack(Material.GOLD_ORE), null, null, null, null, null, null, null, null}, 
         new SlimefunItemStack(SlimefunItems.GOLD_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
@@ -431,7 +436,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_INGOT, RecipeType.SMELTERY,
-        new ItemStack[] {SlimefunItems.COPPER_DUST, null, null, null, null, null, null, null, null})
+        new ItemStack[] {new ItemStack(Material.COPPER_INGOT), SlimefunItems.COPPER_DUST, null, null, null, null, null, null, null})
         .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.TIN_INGOT, RecipeType.SMELTERY,
@@ -681,7 +686,6 @@ public final class SlimefunItemSetup {
 
         ItemStack weaknessPotion = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) weaknessPotion.getItemMeta();
-        //noinspection DataFlowIssue
         meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
         weaknessPotion.setItemMeta(meta);
 
