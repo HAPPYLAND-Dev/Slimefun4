@@ -28,6 +28,7 @@ public final class PostSetup {
     public static List<MachineRecipe> GRINDER_RECIPES = new ArrayList<>();
 
     public static boolean DONE = false;
+    public static Object SETUP_MONITOR = new Object();
 
     private PostSetup() {
     }
@@ -83,6 +84,7 @@ public final class PostSetup {
         Slimefun.getConfigManager().setAutoLoadingMode(true);
 
         DONE = true;
+        SETUP_MONITOR.notifyAll();
     }
 
     /**
