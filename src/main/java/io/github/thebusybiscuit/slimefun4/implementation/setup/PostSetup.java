@@ -84,7 +84,10 @@ public final class PostSetup {
         Slimefun.getConfigManager().setAutoLoadingMode(true);
 
         DONE = true;
-        SETUP_MONITOR.notifyAll();
+
+        synchronized (SETUP_MONITOR) {
+            SETUP_MONITOR.notifyAll();
+        }
     }
 
     /**
