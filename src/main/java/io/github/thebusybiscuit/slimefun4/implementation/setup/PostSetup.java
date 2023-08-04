@@ -22,7 +22,15 @@ import java.util.stream.Stream;
 
 public final class PostSetup {
 
-    private PostSetup() {}
+    @SuppressWarnings("unused")
+    public static List<MachineRecipe> SMELTERY_RECIPES = new ArrayList<>();
+    public static List<MachineRecipe> DUST_TO_INGOT_RECIPES = new ArrayList<>();
+    public static List<MachineRecipe> GRINDER_RECIPES = new ArrayList<>();
+
+    public static boolean DONE = false;
+
+    private PostSetup() {
+    }
 
     public static void setupWiki() {
         Slimefun.logger().log(Level.INFO, "加载 Wiki 页面...");
@@ -30,6 +38,7 @@ public final class PostSetup {
         WikiUtils.setupJson(Slimefun.instance(), (page) -> page.replace("#", "?id="));
     }
 
+    @SuppressWarnings("deprecation")
     public static void loadItems() {
         Iterator<SlimefunItem> iterator = Slimefun.getRegistry().getEnabledSlimefunItems().iterator();
 
@@ -64,20 +73,22 @@ public final class PostSetup {
         sender.sendMessage("");
 
         sender.sendMessage("");
-        sender.sendMessage(ChatColor.GREEN + " - 源码:      https://github.com/StarWishsama/Slimefun4");
-        sender.sendMessage(ChatColor.GREEN + " - Bug 反馈:  https://github.com/StarWishsama/Slimefun4/issues");
+        sender.sendMessage(ChatColor.GREEN + " - 源码:      https://github.com/HAPPYLAND-Dev/Slimefun4");
+        sender.sendMessage(ChatColor.GREEN + " - Bug 反馈:  https://github.com/HAPPYLAND-Dev/Slimefun4/issues");
 
         sender.sendMessage("");
 
         Slimefun.getItemCfg().save();
         Slimefun.getResearchCfg().save();
         Slimefun.getConfigManager().setAutoLoadingMode(true);
+
+        DONE = true;
     }
 
     /**
      * This method counts the amount of {@link SlimefunItem SlimefunItems} registered
      * by Slimefun itself and not by any addons.
-     * 
+     *
      * @return The amount of {@link SlimefunItem SlimefunItems} added by Slimefun itself
      */
     private static int countNonAddonItems() {
@@ -100,7 +111,7 @@ public final class PostSetup {
                     input = recipe;
                 } else {
                     if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
+                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
                     }
 
                     input = null;
@@ -117,7 +128,7 @@ public final class PostSetup {
                     input = recipe;
                 } else {
                     if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[] { input[0], recipe[0] });
+                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
                     }
 
                     input = null;
@@ -132,13 +143,16 @@ public final class PostSetup {
             stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
         }
 
-        stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[] { recipe[0] }, new ItemStack[] { recipe[1] }));
+        stream.forEach(recipe -> {
+            registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[]{recipe[0]}, new ItemStack[]{recipe[1]});
+            GRINDER_RECIPES.add(new MachineRecipe(4, new ItemStack[]{recipe[0]}, new ItemStack[]{recipe[1]}));
+        });
     }
 
     private static void loadSmelteryRecipes() {
         Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
 
-        if (smeltery != null && !smeltery.isDisabled()) {
+        if (smeltery != null) {
             MakeshiftSmeltery makeshiftSmeltery = ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem());
             ItemStack[] input = null;
 
@@ -158,7 +172,7 @@ public final class PostSetup {
                 if (item instanceof AContainer machine) {
                     if (machine.getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
                         List<MachineRecipe> recipes = machine.getMachineRecipes();
-                        Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
+                        recipes.sort(Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
                     }
                 }
             }
@@ -177,12 +191,14 @@ public final class PostSetup {
 
         // We want to redirect Dust to Ingot Recipes
         if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
-            makeshiftSmeltery.addRecipe(new ItemStack[] { ingredients.get(0) }, output[0]);
+            makeshiftSmeltery.addRecipe(new ItemStack[]{ingredients.get(0)}, output[0]);
 
-            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[] { ingredients.get(0) }, new ItemStack[] { output[0] });
-            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[] { output[0] }, new ItemStack[] { ingredients.get(0) });
+            DUST_TO_INGOT_RECIPES.add(new MachineRecipe(8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]}));
+            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]});
+            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)});
         } else {
-            registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[] { output[0] });
+            DUST_TO_INGOT_RECIPES.add(new MachineRecipe(12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]}));
+            registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
         }
     }
 
