@@ -202,7 +202,7 @@ public final class PostSetup {
             registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]});
             registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)});
         } else {
-            DUST_TO_INGOT_RECIPES.add(new MachineRecipe(12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]}));
+            SMELTERY_RECIPES.add(new MachineRecipe(12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]}));
             registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
         }
     }
