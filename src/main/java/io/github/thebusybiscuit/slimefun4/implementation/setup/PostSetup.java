@@ -26,6 +26,7 @@ public final class PostSetup {
     public static List<MachineRecipe> SMELTERY_RECIPES = new ArrayList<>();
     public static List<MachineRecipe> DUST_TO_INGOT_RECIPES = new ArrayList<>();
     public static List<MachineRecipe> GRINDER_RECIPES = new ArrayList<>();
+    public static List<MachineRecipe> INGOT_PULVERIZER_RECIPES = new ArrayList<>();
 
     public static boolean DONE = false;
     public static final Object SETUP_MONITOR = new Object();
@@ -200,6 +201,7 @@ public final class PostSetup {
 
             DUST_TO_INGOT_RECIPES.add(new MachineRecipe(8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]}));
             registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]});
+            INGOT_PULVERIZER_RECIPES.add(new MachineRecipe(3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)}));
             registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)});
         } else {
             SMELTERY_RECIPES.add(new MachineRecipe(12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]}));
