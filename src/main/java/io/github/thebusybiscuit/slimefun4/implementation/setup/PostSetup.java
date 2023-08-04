@@ -28,7 +28,7 @@ public final class PostSetup {
     public static List<MachineRecipe> GRINDER_RECIPES = new ArrayList<>();
 
     public static boolean DONE = false;
-    public static Object SETUP_MONITOR = new Object();
+    public static final Object SETUP_MONITOR = new Object();
 
     private PostSetup() {
     }
