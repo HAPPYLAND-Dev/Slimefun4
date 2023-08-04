@@ -42,7 +42,7 @@ public class DefaultItemGroups {
     public final ItemGroup magicalArmor = new ItemGroup(new NamespacedKey(Slimefun.instance(), "magical_armor"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Magical Armor"), 2);
 
     // Resources and tech stuff
-    public final ItemGroup misc = new ItemGroup(new NamespacedKey(Slimefun.instance(), "misc"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Miscellaneous"), 2);
+    public final ItemGroup misc = new ItemGroup(new NamespacedKey(Slimefun.instance(), "misc"), new CustomItemStack(SlimefunItems.TIN_CAN, "&7Miscellaneous"), 2);
     public final ItemGroup technicalComponents = new ItemGroup(new NamespacedKey(Slimefun.instance(), "tech_misc"), new CustomItemStack(SlimefunItems.HEATING_COIL, "&7Technical Components"), 2);
     public final ItemGroup technicalGadgets = new ItemGroup(new NamespacedKey(Slimefun.instance(), "technical_gadgets"), new CustomItemStack(SlimefunItems.STEEL_JETPACK, "&7Technical Gadgets"), 3);
     public final ItemGroup resources = new ItemGroup(new NamespacedKey(Slimefun.instance(), "resources"), new CustomItemStack(SlimefunItems.SYNTHETIC_SAPPHIRE, "&7Resources"), 1);

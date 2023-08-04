@@ -2173,6 +2173,7 @@ public final class SlimefunItemSetup {
         .setProcessingSpeed(6)
         .register(plugin);
 
+        /*
         new OrganicFood(itemGroups.misc, SlimefunItems.WHEAT_ORGANIC_FOOD, Material.WHEAT)
         .register(plugin);
 
@@ -2205,6 +2206,7 @@ public final class SlimefunItemSetup {
 
         new OrganicFood(itemGroups.misc, SlimefunItems.SEAGRASS_ORGANIC_FOOD, Material.SEAGRASS)
         .register(plugin);
+         */
 
         new AutoBreeder(itemGroups.electricity, SlimefunItems.AUTO_BREEDER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.GOLD_18K, SlimefunItems.TIN_CAN, SlimefunItems.GOLD_18K, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.HAY_BLOCK), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.LEAD_INGOT})
