@@ -199,12 +199,12 @@ public final class PostSetup {
         if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
             makeshiftSmeltery.addRecipe(new ItemStack[]{ingredients.get(0)}, output[0]);
 
-            DUST_TO_INGOT_RECIPES.add(new MachineRecipe(8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]}));
+            DUST_TO_INGOT_RECIPES.add(new MachineRecipe(16, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]}));
             registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]});
-            INGOT_PULVERIZER_RECIPES.add(new MachineRecipe(3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)}));
+            INGOT_PULVERIZER_RECIPES.add(new MachineRecipe(12, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)}));
             registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)});
         } else {
-            SMELTERY_RECIPES.add(new MachineRecipe(12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]}));
+            SMELTERY_RECIPES.add(new MachineRecipe(24, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]}));
             registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
         }
     }
