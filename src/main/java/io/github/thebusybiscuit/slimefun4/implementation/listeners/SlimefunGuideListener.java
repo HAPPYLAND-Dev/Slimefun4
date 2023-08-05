@@ -83,7 +83,6 @@ public class SlimefunGuideListener implements Listener {
         if (SlimefunUtils.isItemSimilar(item, SlimefunGuide.getItem(layout), true, false)) {
 
             if (!Slimefun.getWorldSettingsService().isWorldEnabled(p.getWorld())) {
-                Slimefun.getLocalization().sendMessage(p, "messages.disabled-item", true);
                 return Result.DENY;
             }
 
