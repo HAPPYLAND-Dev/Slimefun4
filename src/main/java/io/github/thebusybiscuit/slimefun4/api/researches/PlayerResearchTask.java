@@ -98,7 +98,7 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
 
     private void unlockResearch(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         profile.setResearched(research, true);
-        Slimefun.getLocalization().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)));
+        //Slimefun.getLocalization().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)));
         onFinish(p);
 
         // Check if the Server and the Player have enabled fireworks for researches
