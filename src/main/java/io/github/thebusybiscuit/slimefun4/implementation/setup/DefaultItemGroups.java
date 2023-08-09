@@ -50,7 +50,7 @@ public class DefaultItemGroups {
     // Locked Item Groups
     public final LockedItemGroup electricity = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "electricity"), new CustomItemStack(Material.STRUCTURE_VOID, "&bEnergy and Electricity"), 4, basicMachines.getKey());
     public final LockedItemGroup androids = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "androids"), new CustomItemStack(Material.STRUCTURE_VOID, "&cProgrammable Androids"), 4, basicMachines.getKey());
-    public final ItemGroup cargo = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "cargo"), new CustomItemStack(Material.STRUCTURE_VOID, "&cCargo Management"), 4, basicMachines.getKey());
+    public final ItemGroup cargo = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "cargo"), new CustomItemStack(SlimefunItems.CARGO_MANAGER, "&cCargo Management"), 4, basicMachines.getKey());
     public final LockedItemGroup gps = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "gps"), new CustomItemStack(Material.STRUCTURE_VOID, "&bGPS-based Machines"), 4, basicMachines.getKey());
 
     // Seasonal Item Groups
