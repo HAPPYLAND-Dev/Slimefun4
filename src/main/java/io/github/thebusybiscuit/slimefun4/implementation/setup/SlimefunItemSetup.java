@@ -397,13 +397,14 @@ public final class SlimefunItemSetup {
         new SlimefunItemStack(SlimefunItems.IRON_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
         .register(plugin);
 
+        new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_DUST, RecipeType.ORE_CRUSHER,
+        new ItemStack[] {new ItemStack(Material.COPPER_ORE), null, null, null, null, null, null, null, null},
+        new SlimefunItemStack(SlimefunItems.COPPER_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
+        .register(plugin);
+
         new SlimefunItem(itemGroups.resources, SlimefunItems.GOLD_DUST, RecipeType.ORE_CRUSHER,
         new ItemStack[] {new ItemStack(Material.GOLD_ORE), null, null, null, null, null, null, null, null}, 
         new SlimefunItemStack(SlimefunItems.GOLD_DUST, oreCrusher.isOreDoublingEnabled() ? 2 : 1))
-        .register(plugin);
-
-        new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_DUST, RecipeType.ORE_WASHER,
-        new ItemStack[] {SlimefunItems.SIFTED_ORE, null, null, null, null, null, null, null, null})
         .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.TIN_DUST, RecipeType.ORE_WASHER,
@@ -431,7 +432,7 @@ public final class SlimefunItemSetup {
         .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.COPPER_INGOT, RecipeType.SMELTERY,
-        new ItemStack[] {SlimefunItems.COPPER_DUST, null, null, null, null, null, null, null, null})
+        new ItemStack[] {new ItemStack(Material.COPPER_INGOT), SlimefunItems.COPPER_DUST, null, null, null, null, null, null, null})
         .register(plugin);
 
         new SlimefunItem(itemGroups.resources, SlimefunItems.TIN_INGOT, RecipeType.SMELTERY,
@@ -681,7 +682,6 @@ public final class SlimefunItemSetup {
 
         ItemStack weaknessPotion = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) weaknessPotion.getItemMeta();
-        //noinspection DataFlowIssue
         meta.setBasePotionData(new PotionData(PotionType.WEAKNESS, false, false));
         weaknessPotion.setItemMeta(meta);
 
@@ -2173,6 +2173,7 @@ public final class SlimefunItemSetup {
         .setProcessingSpeed(6)
         .register(plugin);
 
+        /*
         new OrganicFood(itemGroups.misc, SlimefunItems.WHEAT_ORGANIC_FOOD, Material.WHEAT)
         .register(plugin);
 
@@ -2205,6 +2206,7 @@ public final class SlimefunItemSetup {
 
         new OrganicFood(itemGroups.misc, SlimefunItems.SEAGRASS_ORGANIC_FOOD, Material.SEAGRASS)
         .register(plugin);
+         */
 
         new AutoBreeder(itemGroups.electricity, SlimefunItems.AUTO_BREEDER, RecipeType.ENHANCED_CRAFTING_TABLE,
         new ItemStack[] {SlimefunItems.GOLD_18K, SlimefunItems.TIN_CAN, SlimefunItems.GOLD_18K, SlimefunItems.ELECTRIC_MOTOR, new ItemStack(Material.HAY_BLOCK), SlimefunItems.ELECTRIC_MOTOR, SlimefunItems.LEAD_INGOT, SlimefunItems.FOOD_FABRICATOR, SlimefunItems.LEAD_INGOT})

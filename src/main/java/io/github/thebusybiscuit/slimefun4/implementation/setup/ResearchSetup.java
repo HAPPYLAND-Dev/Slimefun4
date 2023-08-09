@@ -153,7 +153,7 @@ public final class ResearchSetup {
         register("block_placer", 138, "Block Placer", 17, SlimefunItems.BLOCK_PLACER);
         register("scroll_of_dimensional_teleposition", 142, "Turning things around", 38, SlimefunItems.SCROLL_OF_DIMENSIONAL_TELEPOSITION);
         register("special_bows", 143, "Robin Hood", 22, SlimefunItems.EXPLOSIVE_BOW, SlimefunItems.ICY_BOW);
-        register("tome_of_knowledge_sharing", 144, "Sharing with friends", 30, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING);
+        //register("tome_of_knowledge_sharing", 144, "Sharing with friends", 30, SlimefunItems.TOME_OF_KNOWLEDGE_SHARING);
         register("flask_of_knowledge", 145, "XP Storage", 13, SlimefunItems.FLASK_OF_KNOWLEDGE);
         register("hardened_glass", 146, "Withstanding Explosions", 15, SlimefunItems.REINFORCED_PLATE, SlimefunItems.HARDENED_GLASS);
         register("golden_apple_juice", 149, "Golden potion", 24, SlimefunItems.GOLDEN_APPLE_JUICE);
