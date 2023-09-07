@@ -11,10 +11,12 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 
@@ -49,29 +51,6 @@ public class SlimefunDatabaseManager {
     }
 
     public void init() {
-// 世界应该单独持有自己的db文件,还在研究
-//        try {
-//            blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
-//            var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
-//            var writeExecutorThread = 1;
-//
-//            initAdapter(blockDataStorageType, DataType.BLOCK_STORAGE, blockStorageConfig);
-//
-//            var blockDataController = ControllerHolder.createController(BlockDataController.class, blockDataStorageType);
-//            blockDataController.init(blockStorageAdapter, readExecutorThread, writeExecutorThread);
-//
-//            if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
-//                blockDataController.initDelayedSaving(
-//                        plugin,
-//                        blockStorageConfig.getInt("delayedWriting.delayedSecond"),
-//                        blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
-//                );
-//            }
-//        } catch (IOException e) {
-//            plugin.getLogger().log(Level.SEVERE, "加载 Slimefun 方块存储适配器失败", e);
-//            return;
-//        }
-
         try {
             profileStorageType = StorageType.valueOf(profileConfig.getString("storageType"));
             var readExecutorThread = profileConfig.getInt("readExecutorThread");
@@ -115,14 +94,6 @@ public class SlimefunDatabaseManager {
         }
     }
 
-    private void initWorldAdapter(World world) {
-        var adapter = new SqliteAdapter();
-
-        File databasePath = new File(world.getWorldFolder(), "block-storage.db");
-        adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
-        worldAdapter.put(world, adapter);
-    }
-
     @Nullable
     public ProfileDataController getProfileDataController() {
         return ControllerHolder.getController(ProfileDataController.class, profileStorageType);
@@ -153,21 +124,32 @@ public class SlimefunDatabaseManager {
 
     public void loadWorld(World world) {
         plugin.getLogger().info("为世界 " + world.getName() + " 加载数据中...");
+        var folder = world.getWorldFolder();
         var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
         var writeExecutorThread = 1;
-        initWorldAdapter(world);
 
-        var blockDataController = new BlockDataController(world);
-        worldController.put(world, blockDataController);
-        blockDataController.init(worldAdapter.get(world), readExecutorThread, writeExecutorThread);
-        if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
-            blockDataController.initDelayedSaving(
-                    plugin,
-                    blockStorageConfig.getInt("delayedWriting.delayedSecond"),
-                    blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
-            );
-        }
-        plugin.getLogger().info("为世界 " + world.getName() + " 加载数据完成!");
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                var adapter = new SqliteAdapter();
+
+                File databasePath = new File(folder, "block-storage.db");
+                adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
+                worldAdapter.put(world, adapter);
+
+                var blockDataController = new BlockDataController(world);
+                worldController.put(world, blockDataController);
+                blockDataController.init(worldAdapter.get(world), readExecutorThread, writeExecutorThread);
+                if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
+                    blockDataController.initDelayedSaving(
+                            plugin,
+                            blockStorageConfig.getInt("delayedWriting.delayedSecond"),
+                            blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
+                    );
+                }
+                plugin.getLogger().info("为世界 " + world.getName() + " 加载数据完成!");
+            }
+        }.runTaskAsynchronously(Slimefun.instance());
     }
 
     public void unloadWorld(World world, boolean save) {

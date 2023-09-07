@@ -41,12 +41,7 @@ public class ChunkListener implements Listener {
 
     @EventHandler
     public void onWorldLoad(WorldLoadEvent e) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Slimefun.getDatabaseManager().loadWorld(e.getWorld());
-            }
-        }.runTaskAsynchronously(Slimefun.instance());
+        Slimefun.getDatabaseManager().loadWorld(e.getWorld());
     }
 
     @EventHandler
