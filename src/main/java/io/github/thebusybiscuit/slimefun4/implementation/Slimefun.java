@@ -357,6 +357,14 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
             return;
         }
 
+        /**
+         * Close all inventories on the server to prevent item dupes
+         * (Incase some idiot uses /reload)
+         */
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            p.closeInventory();
+        }
+
         SlimefunExtended.shutdown();
 
         // Cancel all tasks from this plugin immediately
@@ -392,14 +400,6 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
 
         // Terminate our Plugin instance
         setInstance(null);
-
-        /**
-         * Close all inventories on the server to prevent item dupes
-         * (Incase some idiot uses /reload)
-         */
-        for (Player p : Bukkit.getOnlinePlayers()) {
-            p.closeInventory();
-        }
     }
 
     /**

@@ -480,7 +480,7 @@ public class BlockDataController extends ADataController {
         reqKey.addCondition(FieldKey.INVENTORY_SLOT, slot + "");
         reqKey.addField(FieldKey.INVENTORY_ITEM);
 
-        if (enableDelayedSaving) {
+        if (enableDelayedSaving && !Bukkit.isStopping()) {
             scheduleDelayedUpdateTask(
                     new LinkedKey(scopeKey, reqKey),
                     () -> scheduleBlockInvUpdate(scopeKey, reqKey, blockData.getKey(), blockData.getMenuContents(), slot)
@@ -506,11 +506,11 @@ public class BlockDataController extends ADataController {
 
     @Override
     public void shutdown() {
-        saveAllBlockInventories();
         if (enableDelayedSaving) {
             looperTask.cancel();
             executeAllDelayedTasks();
         }
+        saveAllBlockInventories();
         super.shutdown();
     }
 
