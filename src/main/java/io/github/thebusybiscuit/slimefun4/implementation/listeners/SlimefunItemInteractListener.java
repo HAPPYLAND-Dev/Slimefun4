@@ -48,7 +48,7 @@ public class SlimefunItemInteractListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             // Exclude the Debug Fish here because it is handled in a seperate Listener
@@ -59,14 +59,6 @@ public class SlimefunItemInteractListener implements Listener {
             // Fire our custom Event
             PlayerRightClickEvent event = new PlayerRightClickEvent(e);
             Bukkit.getPluginManager().callEvent(event);
-
-            // Modern result support
-            if (e.useInteractedBlock() == Result.DENY) {
-                event.setUseBlock(Result.DENY);
-            }
-            if (e.useItemInHand() == Result.DENY) {
-                event.setUseItem(Result.DENY);
-            }
 
             boolean itemUsed = e.getHand() == EquipmentSlot.OFF_HAND;
 
