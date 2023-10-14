@@ -54,7 +54,7 @@ public class SlimefunChunkData extends ASlimefunDataContainer {
             re.setBlockMenu(new BlockMenu(preset, l));
         }
 
-        Slimefun.getDatabaseManager().getBlockDataController().saveNewBlock(l, sfId);
+        Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).saveNewBlock(l, sfId);
 
         return re;
     }

@@ -23,8 +23,6 @@ public final class SlimefunExtended {
     public static void register(@Nonnull Slimefun sf) {
         logger = sf.getLogger();
 
-        EnvironmentChecker.scheduleSlimeGlueCheck(sf, logger);
-
         VaultIntegration.register(sf);
 
         migrateListener.register(sf);

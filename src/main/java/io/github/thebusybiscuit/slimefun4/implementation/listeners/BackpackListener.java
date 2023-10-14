@@ -1,6 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
-import city.norain.slimefun4.holder.SlimefunBackpackHolder;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.InvStorageUtils;
 import io.github.bakedlibs.dough.collections.Pair;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;

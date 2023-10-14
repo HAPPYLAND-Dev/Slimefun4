@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves;
 
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import org.bukkit.Bukkit;

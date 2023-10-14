@@ -53,7 +53,7 @@ public class BlockDataController extends ADataController {
     private boolean initLoading = false;
     private final World world;
 
-    BlockDataController(World world) {
+    public BlockDataController(World world) {
         super(DataType.BLOCK_STORAGE);
         delayedWriteTasks = new HashMap<>();
         loadedChunk = new ConcurrentHashMap<>();

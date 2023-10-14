@@ -15,8 +15,14 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ProfileDataControl
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import javax.annotation.Nullable;
 
@@ -29,8 +35,8 @@ public class SlimefunDatabaseManager {
     private StorageType profileStorageType;
     private StorageType blockDataStorageType;
     private IDataSourceAdapter<?> profileAdapter;
-    private final ConcurrentHashMap<World, SqliteAdapter> worldAdapter;
-    private final ConcurrentHashMap<World, BlockDataController> worldController;
+    private final ConcurrentHashMap<World, IDataSourceAdapter<?>> blockStorageAdapters;
+    private final ConcurrentHashMap<World, BlockDataController> blockDataControllers;
 
 
     public SlimefunDatabaseManager(Slimefun plugin) {
@@ -44,37 +50,15 @@ public class SlimefunDatabaseManager {
             plugin.saveResource(BLOCK_STORAGE_FILE_NAME, false);
         }
 
-        worldAdapter = new ConcurrentHashMap<>();
-        worldController = new ConcurrentHashMap<>();
-
         profileConfig = new Config(plugin, PROFILE_CONFIG_FILE_NAME);
         blockStorageConfig = new Config(plugin, BLOCK_STORAGE_FILE_NAME);
+
+        blockStorageAdapters = new ConcurrentHashMap<>();
+        blockDataControllers = new ConcurrentHashMap<>();
     }
 
     public void init() {
         initDefaultVal();
-        try {
-            blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
-            var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
-            var writeExecutorThread = blockStorageConfig.getInt("writeExecutorThread");
-
-            initAdapter(blockDataStorageType, DataType.BLOCK_STORAGE, blockStorageConfig);
-
-            var blockDataController = ControllerHolder.createController(BlockDataController.class, blockDataStorageType);
-            blockDataController.init(blockStorageAdapter, readExecutorThread, writeExecutorThread);
-
-            if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
-                plugin.getLogger().log(Level.INFO, "已启用延时写入功能");
-                blockDataController.initDelayedSaving(
-                        plugin,
-                        blockStorageConfig.getInt("delayedWriting.delayedSecond"),
-                        blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
-                );
-            }
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "加载 Slimefun 方块存储适配器失败", e);
-            return;
-        }
 
         try {
             profileStorageType = StorageType.valueOf(profileConfig.getString("storageType"));
@@ -106,9 +90,8 @@ public class SlimefunDatabaseManager {
                                 databaseConfig.getInt("mysql.maxConnection")
                         ));
 
-                switch (dataType) {
-                    case BLOCK_STORAGE -> blockStorageAdapter = adapter;
-                    case PLAYER_PROFILE -> profileAdapter = adapter;
+                if (Objects.requireNonNull(dataType) == DataType.PLAYER_PROFILE) {
+                    profileAdapter = adapter;
                 }
             }
             case SQLITE -> {
@@ -116,17 +99,13 @@ public class SlimefunDatabaseManager {
 
                 File databasePath = null;
 
-                switch (dataType) {
-                    case PLAYER_PROFILE -> {
-                        databasePath = new File("data-storage/Slimefun", "profile.db");
-                        profileAdapter = adapter;
-                    }
-                    case BLOCK_STORAGE -> {
-                        databasePath = new File("data-storage/Slimefun", "block-storage.db");
-                        blockStorageAdapter = adapter;
-                    }
+                if (Objects.requireNonNull(dataType) == DataType.PLAYER_PROFILE) {
+                    databasePath = new File("data-storage/Slimefun", "profile.db");
+                    profileAdapter = adapter;
                 }
-                adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath(), databaseConfig.getInt("sqlite.maxConnection")));
+                if (databasePath != null) {
+                    adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath(), databaseConfig.getInt("sqlite.maxConnection")));
+                }
             }
             case POSTGRESQL -> {
                 var adapter = new PostgreSqlAdapter();
@@ -143,12 +122,20 @@ public class SlimefunDatabaseManager {
                                 databaseConfig.getInt("postgresql.maxConnection")
                         ));
 
-                switch (dataType) {
-                    case BLOCK_STORAGE -> blockStorageAdapter = adapter;
-                    case PLAYER_PROFILE -> profileAdapter = adapter;
+                if (Objects.requireNonNull(dataType) == DataType.PLAYER_PROFILE) {
+                    profileAdapter = adapter;
                 }
             }
         }
+    }
+
+    public void initDataAdapter(World world, Config databaseConfig) {
+        var adapter = new SqliteAdapter();
+        var folder = world.getWorldFolder();
+        File databasePath = new File(folder, "block-storage.db");
+
+        blockStorageAdapters.put(world, adapter);
+        adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath(), databaseConfig.getInt("sqlite.maxConnection")));
     }
 
     @Nullable
@@ -157,7 +144,7 @@ public class SlimefunDatabaseManager {
     }
 
     public BlockDataController getBlockDataController(World world) {
-        return worldController.get(world);
+        return blockDataControllers.get(world);
     }
 
     public void shutdown() {
@@ -165,11 +152,10 @@ public class SlimefunDatabaseManager {
             getProfileDataController().shutdown();
         }
 
-        if (getBlockDataController() != null) {
-            getBlockDataController().shutdown();
+        if (!blockDataControllers.isEmpty()) {
+            blockDataControllers.forEach((world, controller) -> controller.shutdown());
         }
-
-        Bukkit.getWorlds().forEach(world -> unloadWorld(world, true));
+        blockStorageAdapters.forEach( (world, iDataSourceAdapter) -> iDataSourceAdapter.shutdown());
 
         profileAdapter.shutdown();
         ControllerHolder.clearControllers();
@@ -195,55 +181,64 @@ public class SlimefunDatabaseManager {
         return profileStorageType;
     }
 
-    private void initDefaultVal() {
-        profileConfig.setDefaultValue("sqlite.maxConnection", 5);
-        profileConfig.save();
-        blockStorageConfig.setDefaultValue("sqlite.maxConnection", 5);
-        blockStorageConfig.setDefaultValue("dataLoadMode", "LOAD_WITH_CHUNK");
-        blockStorageConfig.save();
-    }
-
     public void loadWorld(World world) {
         plugin.getLogger().info("为世界 " + world.getName() + " 加载数据中...");
-        var folder = world.getWorldFolder();
-        var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
-        var writeExecutorThread = 1;
-
         new BukkitRunnable() {
             @Override
             public void run() {
-                var adapter = new SqliteAdapter();
+                blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
+                var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
+                var writeExecutorThread = blockStorageConfig.getInt("writeExecutorThread");
 
-                File databasePath = new File(folder, "block-storage.db");
-                adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
-                worldAdapter.put(world, adapter);
+                initDataAdapter(world, blockStorageConfig);
 
                 var blockDataController = new BlockDataController(world);
-                worldController.put(world, blockDataController);
-                blockDataController.init(worldAdapter.get(world), readExecutorThread, writeExecutorThread);
+                blockDataController.init(blockStorageAdapters.get(world), readExecutorThread, writeExecutorThread);
+
                 if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
+                    plugin.getLogger().log(Level.INFO, "已启用延时写入功能");
                     blockDataController.initDelayedSaving(
                             plugin,
                             blockStorageConfig.getInt("delayedWriting.delayedSecond"),
                             blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
                     );
                 }
+                blockDataControllers.put(world, blockDataController);
                 plugin.getLogger().info("为世界 " + world.getName() + " 加载数据完成!");
             }
         }.runTaskAsynchronously(Slimefun.instance());
     }
 
-    public void unloadWorld(World world, boolean save) {
-        var adapter = worldAdapter.get(world);
-        if (adapter != null) {
-            if (save) {
-                plugin.getLogger().info("为世界 " + world.getName() + " 保存数据中...");
-                worldController.get(world).shutdown();
-            }
-            adapter.shutdown();
-            worldController.remove(world);
-            worldAdapter.remove(world);
-            plugin.getLogger().info("世界 " + world.getName() + " 保存操作完成!");
+    public void unloadWorld(World world, Boolean save) {
+        plugin.getLogger().info("为世界 " + world.getName() + " 保存数据中...");
+
+        if (Bukkit.getServer().isStopping()) {
+            shutdownWorld(world);
+        } else {
+            Bukkit.getScheduler().runTaskAsynchronously(
+                    Slimefun.instance(),
+                    () -> {
+                        shutdownWorld(world);
+                    }
+            );
         }
+
+        plugin.getLogger().info("世界 " + world.getName() + " 保存操作完成!");
+    }
+
+    private void shutdownWorld(World world) {
+        blockDataControllers.get(world).shutdown();
+        blockStorageAdapters.get(world).shutdown();
+
+        blockDataControllers.remove(world);
+        blockStorageAdapters.remove(world);
+    }
+
+    private void initDefaultVal() {
+        profileConfig.setDefaultValue("sqlite.maxConnection", 5);
+        profileConfig.save();
+        blockStorageConfig.setDefaultValue("sqlite.maxConnection", 5);
+        blockStorageConfig.setDefaultValue("dataLoadMode", "LOAD_WITH_CHUNK");
+        blockStorageConfig.save();
     }
 }

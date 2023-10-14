@@ -239,7 +239,7 @@ public class ChestMenu extends SlimefunInventoryHolder {
     }
 
     private void setup() {
-        if (this.inv != null)
+        if (this.inventory != null)
             return;
         initMenu();
         for (int i = 0; i < this.items.size(); i++) {

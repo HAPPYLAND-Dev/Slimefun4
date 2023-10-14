@@ -484,7 +484,7 @@ public abstract class Reactor extends AbstractEnergyProvider implements Hologram
     @Nullable
     protected BlockMenu getAccessPort(BlockMenu menu, @Nonnull Location l) {
         Location portLoc = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
-        var controller = Slimefun.getDatabaseManager().getBlockDataController();
+        var controller = Slimefun.getDatabaseManager().getBlockDataController(l.getWorld());
         var port = controller.getBlockData(portLoc);
 
         if (port == null || port.isPendingRemove()) {

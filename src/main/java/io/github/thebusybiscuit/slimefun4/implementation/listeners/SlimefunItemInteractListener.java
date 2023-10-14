@@ -24,6 +24,10 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
+
 /**
  * This {@link Listener} listens to the {@link PlayerInteractEvent}.
  * It is also responsible for calling our {@link PlayerRightClickEvent} and triggering any

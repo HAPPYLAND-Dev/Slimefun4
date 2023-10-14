@@ -7,6 +7,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.xzavier0722.mc.plugin.slimefun4.autocrafter.CrafterSmartPort;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
