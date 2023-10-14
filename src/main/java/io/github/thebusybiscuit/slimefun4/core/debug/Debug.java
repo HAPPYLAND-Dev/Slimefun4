@@ -1,10 +1,11 @@
 package io.github.thebusybiscuit.slimefun4.core.debug;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.logging.Level;
 
 /**
  * This class is responsible for debug logging.
@@ -16,7 +17,7 @@ import java.util.logging.Level;
  */
 public final class Debug {
 
-    private static String testCase = null;
+    private static final List<String> testCase = new ArrayList<>();
 
     private Debug() {}
 
@@ -69,7 +70,7 @@ public final class Debug {
      *            The variables to replace, use "{}" in the message and have it replaced with a specified thing
      */
     public static void log(@Nonnull String test, @Nonnull String msg, @Nonnull Object... vars) {
-        if (testCase == null || !testCase.equals(test)) {
+        if (testCase == null || !testCase.contains(test)) {
             return;
         }
 
@@ -94,7 +95,7 @@ public final class Debug {
      *            The message to send. For variables, you can pass "{}"
      * @param vars
      *            A varargs of the variables you wish to use
-     * 
+     *
      * @return The resulting String
      */
     private static @Nonnull String formatMessage(@Nonnull String msg, @Nonnull Object... vars) {
@@ -115,11 +116,10 @@ public final class Debug {
      * Set the current test case for this server.
      * This will enable debug logging for this specific case which can be helpful by Slimefun or addon developers.
      *
-     * @param test
-     *            The test case to enable or null to disable it
+     * @param test The test case to enable or null to disable it
      */
-    public static void setTestCase(@Nullable String test) {
-        testCase = test;
+    public static void addTestCase(@Nullable String test) {
+        testCase.add(test);
     }
 
     /**
@@ -127,7 +127,15 @@ public final class Debug {
      *
      * @return The current test case to enable or null if disabled
      */
-    public static @Nullable String getTestCase() {
+    public static @Nonnull List<String> getTestCase() {
         return testCase;
+    }
+
+    public static boolean hasTestCase(TestCase tc) {
+        return testCase.contains(tc.toString());
+    }
+
+    public static void disableTestCase() {
+        testCase.clear();
     }
 }

@@ -18,16 +18,11 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
 
 /**
  * This {@link Listener} listens to the {@link PlayerInteractEvent}.
@@ -48,7 +43,7 @@ public class SlimefunItemInteractListener implements Listener {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler(priority = EventPriority.LOW)
+    @EventHandler
     public void onRightClick(PlayerInteractEvent e) {
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
             // Exclude the Debug Fish here because it is handled in a seperate Listener
@@ -156,7 +151,11 @@ public class SlimefunItemInteractListener implements Listener {
 
                                 @Override
                                 public void onResult(SlimefunBlockData result) {
-                                    openMenu(blockData.getBlockMenu(), clickedBlock, p);
+                                    if (!p.isOnline()) {
+                                        return;
+                                    }
+
+                                    openMenu(result.getBlockMenu(), clickedBlock, p);
                                 }
                             }
                     );

@@ -1,12 +1,20 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
+import city.norain.slimefun4.utils.StringUtil;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.DataUtils;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import java.util.ArrayList;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
@@ -14,9 +22,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.ArrayList;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public class DirtyChestMenu extends ChestMenu {
@@ -32,7 +43,7 @@ public class DirtyChestMenu extends ChestMenu {
 
     /**
      * This method checks whether this {@link DirtyChestMenu} is currently viewed by a {@link Player}.
-     * 
+     *
      * @return Whether anyone is currently viewing this {@link Inventory}
      */
     public boolean hasViewer() {
@@ -76,40 +87,52 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public boolean fits(@Nonnull ItemStack item, int... slots) {
-        for (int slot : slots) {
-            // A small optimization for empty slots
-            if (getItemInSlot(slot) == null) {
-                return true;
-            }
-        }
+        Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - start check fits | item {} | slots {}", StringUtil.itemStackToString(item), Arrays.stream(slots).mapToObj(String::valueOf).collect(Collectors.joining(",")));
 
+        var isSfItem = SlimefunItem.getByItem(item) != null;
         var wrapper = ItemStackWrapper.wrap(item);
         var remain = item.getAmount();
-        if (SlimefunItem.getByItem(item) != null) {
-            // Patch: use sf item check
-            for (var slot : slots) {
-                var itemInSlot = getItemInSlot(slot);
-                if (item.getType() != itemInSlot.getType()) {
+
+        for (int slot : slots) {
+            // A small optimization for empty slots
+            var slotItem = getItemInSlot(slot);
+            if (slotItem == null || slotItem.getType().isAir()) {
+                return true;
+            }
+
+            Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - Now checking item | Slot {} | Item {}", slot, StringUtil.itemStackToString(slotItem));
+
+            if (isSfItem) {
+                Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - Check slimefun item fits");
+
+                if (!slotItem.hasItemMeta() || item.getType() != slotItem.getType() || !SlimefunUtils.isItemSimilar(slotItem, wrapper, true, false)) {
                     continue;
                 }
 
-                if (!itemInSlot.hasItemMeta()) {
-                    continue;
-                }
+                var slotRemain = slotItem.getMaxStackSize() - slotItem.getAmount();
 
-                if (!SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)) {
-                    continue;
-                }
+                Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - current slot remain: {}", slotRemain);
 
-                remain -= itemInSlot.getMaxStackSize() - item.getAmount();
+                remain -= slotRemain;
+
+                Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - remaining amount: {}", remain);
+
                 if (remain <= 0) {
+                    Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - check fits result (no remain): false");
                     return true;
                 }
             }
-            return false;
         }
 
-        return InvUtils.fits(toInventory(), wrapper, slots);
+        boolean result = false;
+
+        if (!isSfItem) {
+            result = InvUtils.fits(toInventory(), wrapper, slots);
+        }
+
+        Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - check fits result: {}", result);
+
+        return result;
     }
 
     /**
@@ -118,12 +141,10 @@ public class DirtyChestMenu extends ChestMenu {
      * Items will be added either to any empty inventory slots or any partially filled slots, in which case
      * as many items as can fit will be added to that specific spot.
      *
-     * @param item
-     *            {@link ItemStack} to be added to the inventory
-     * @param slots
-     *            Numbers of slots to add the {@link ItemStack} to
+     * @param item  {@link ItemStack} to be added to the inventory
+     * @param slots Numbers of slots to add the {@link ItemStack} to
      * @return {@link ItemStack} with any items that did not fit into the inventory
-     *         or null when everything had fit
+     * or null when everything had fit
      */
     @Nullable
     public ItemStack pushItem(ItemStack item, int... slots) {

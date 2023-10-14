@@ -1,26 +1,31 @@
 package io.github.thebusybiscuit.slimefun4.api.researches;
 
-import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
+import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.function.Consumer;
+
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
+import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
+
 
 /**
  * A {@link PlayerResearchTask} is run when a {@link Player} unlocks a {@link Research}.
  *
  * @author TheBusyBiscuit
+ *
  * @see Research
  * @see ResearchUnlockEvent
  * @see PlayerProfile
+ *
  */
 public class PlayerResearchTask implements Consumer<PlayerProfile> {
 
@@ -34,9 +39,12 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
     /**
      * This constructs a new {@link PlayerResearchTask}.
      *
-     * @param research  The {@link Research} to unlock
-     * @param isInstant Whether to unlock this {@link Research} instantaneously
-     * @param callback  The callback to run when the task has completed
+     * @param research
+     *            The {@link Research} to unlock
+     * @param isInstant
+     *            Whether to unlock this {@link Research} instantaneously
+     * @param callback
+     *            The callback to run when the task has completed
      */
     PlayerResearchTask(@Nonnull Research research, boolean isInstant, @Nullable Consumer<Player> callback) {
         Validate.notNull(research, "The Research must not be null");
@@ -57,7 +65,7 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
 
             if (!isInstant) {
                 Slimefun.runSync(() -> {
-                    p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1F);
+                    SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
                     Slimefun.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)).replace("%progress%", "0%"));
                 }, 5L);
             }
@@ -86,7 +94,7 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
             int index = i;
 
             Slimefun.runSync(() -> {
-                p.playSound(p.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 1);
+                SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
 
                 Slimefun.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> {
                     String progress = RESEARCH_PROGRESS[index - 1] + "%";
@@ -110,12 +118,12 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
     /**
      * This method is called when the {@link Research} successfully finished to unlock.
      *
-     * @param p The {@link Player} who has unlocked this {@link Research}
+     * @param p
+     *            The {@link Player} who has unlocked this {@link Research}
      */
     private void onFinish(@Nonnull Player p) {
         if (callback != null) {
             callback.accept(p);
         }
     }
-
 }

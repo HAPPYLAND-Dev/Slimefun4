@@ -27,4 +27,9 @@ public class ScopeKey {
     public boolean equals(Object obj) {
         return obj instanceof ScopeKey other && scope == other.scope;
     }
+
+    @Override
+    public String toString() {
+        return getKeyStr();
+    }
 }

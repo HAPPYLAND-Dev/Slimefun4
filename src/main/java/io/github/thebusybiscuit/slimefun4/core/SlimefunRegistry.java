@@ -101,6 +101,18 @@ public final class SlimefunRegistry {
     }
 
     /**
+     * This {@link List} contains every disabled {@link SlimefunItem}.
+     *
+     * @return A {@link List} containing every disabled{@link SlimefunItem}
+     */
+    public @Nonnull List<SlimefunItem> getDisabledSlimefunItems() {
+        List<SlimefunItem> allItems = new ArrayList<>(getAllSlimefunItems());
+        List<SlimefunItem> enabledItems = getEnabledSlimefunItems();
+        allItems.removeAll(enabledItems);
+        return allItems;
+    }
+
+    /**
      * This {@link List} contains every <strong>enabled</strong> {@link SlimefunItem}.
      * 
      * @return A {@link List} containing every enabled {@link SlimefunItem}
@@ -260,10 +272,5 @@ public final class SlimefunRegistry {
     @Deprecated
     public boolean isFreeCreativeResearchingEnabled() {
         return Slimefun.getConfigManager().isFreeCreativeResearchingEnabled();
-    }
-
-    @Deprecated
-    public boolean isBackwardsCompatible() {
-        return Slimefun.getConfigManager().isBackwardsCompatible();
     }
 }

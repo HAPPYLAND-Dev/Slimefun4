@@ -1,5 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
+import java.util.*;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -10,24 +25,15 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import static io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils.isDust;
 
 /**
  * The {@link ElectricSmeltery} is an electric version of the standard {@link Smeltery}.
@@ -158,4 +164,46 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
         return "ELECTRIC_SMELTERY";
     }
 
+    @Override
+    protected void registerDefaultRecipes() {
+        Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
+
+        if (smeltery != null && !smeltery.isDisabled()) {
+            MakeshiftSmeltery makeshiftSmeltery = ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem());
+            ItemStack[] input = null;
+
+            for (ItemStack[] output : smeltery.getRecipes()) {
+                if (input == null) {
+                    input = output;
+                } else {
+                    if (input[0] != null && output[0] != null) {
+                        addSmelteryRecipe(input, output, makeshiftSmeltery);
+                    }
+
+                    input = null;
+                }
+            }
+
+            List<MachineRecipe> recipes = this.getMachineRecipes();
+            Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
+        }
+    }
+
+    private void addSmelteryRecipe(ItemStack[] input, ItemStack[] output, MakeshiftSmeltery makeshiftSmeltery) {
+        List<ItemStack> ingredients = new ArrayList<>();
+
+        // Filter out 'null' items
+        for (ItemStack item : input) {
+            if (item != null) {
+                ingredients.add(item);
+            }
+        }
+
+        // We want to redirect Dust to Ingot Recipes
+        if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
+            makeshiftSmeltery.addRecipe(new ItemStack[]{ingredients.get(0)}, output[0]);
+        } else {
+            super.registerRecipe(12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
+        }
+    }
 }

@@ -6,7 +6,7 @@ import org.bukkit.inventory.InventoryHolder;
 public class SlimefunInventoryHolder implements InventoryHolder {
     protected Inventory inventory;
 
-    public void setInventory(Inventory inv) {
+    protected void setInventory(Inventory inv) {
         inventory = inv;
     }
 

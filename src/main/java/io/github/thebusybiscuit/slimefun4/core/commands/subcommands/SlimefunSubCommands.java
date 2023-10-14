@@ -4,10 +4,10 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
-import javax.annotation.Nonnull;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 /**
  * This class holds the implementations of every {@link SubCommand}.
@@ -46,7 +46,8 @@ public final class SlimefunSubCommands {
         commands.add(new ReloadCommand(plugin, cmd));
         commands.add(new MigrateCommand(plugin, cmd));
         commands.add(new BlockDataCommand(plugin, cmd));
-
+        commands.add(new BanItemCommand(plugin, cmd));
+        commands.add(new UnbanItemCommand(plugin, cmd));
         return commands;
     }
 }

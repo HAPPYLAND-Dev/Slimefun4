@@ -3,22 +3,22 @@ package io.github.thebusybiscuit.slimefun4.core.config;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.IDataSourceAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.mysql.MysqlAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.mysql.MysqlConfig;
+import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.postgresql.PostgreSqlAdapter;
+import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.postgresql.PostgreSqlConfig;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlite.SqliteAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlite.SqliteConfig;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataType;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.*;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ControllerHolder;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ChunkDataLoadMode;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ProfileDataController;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
+import javax.annotation.Nullable;
 
 public class SlimefunDatabaseManager {
     private static final String PROFILE_CONFIG_FILE_NAME = "profile-storage.yml";
@@ -27,6 +27,7 @@ public class SlimefunDatabaseManager {
     private final Config profileConfig;
     private final Config blockStorageConfig;
     private StorageType profileStorageType;
+    private StorageType blockDataStorageType;
     private IDataSourceAdapter<?> profileAdapter;
     private final ConcurrentHashMap<World, SqliteAdapter> worldAdapter;
     private final ConcurrentHashMap<World, BlockDataController> worldController;
@@ -51,12 +52,36 @@ public class SlimefunDatabaseManager {
     }
 
     public void init() {
+        initDefaultVal();
+        try {
+            blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
+            var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
+            var writeExecutorThread = blockStorageConfig.getInt("writeExecutorThread");
+
+            initAdapter(blockDataStorageType, DataType.BLOCK_STORAGE, blockStorageConfig);
+
+            var blockDataController = ControllerHolder.createController(BlockDataController.class, blockDataStorageType);
+            blockDataController.init(blockStorageAdapter, readExecutorThread, writeExecutorThread);
+
+            if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
+                plugin.getLogger().log(Level.INFO, "已启用延时写入功能");
+                blockDataController.initDelayedSaving(
+                        plugin,
+                        blockStorageConfig.getInt("delayedWriting.delayedSecond"),
+                        blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
+                );
+            }
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "加载 Slimefun 方块存储适配器失败", e);
+            return;
+        }
+
         try {
             profileStorageType = StorageType.valueOf(profileConfig.getString("storageType"));
             var readExecutorThread = profileConfig.getInt("readExecutorThread");
             var writeExecutorThread = profileStorageType == StorageType.SQLITE ? 1 : profileConfig.getInt("writeExecutorThread");
 
-            initAdapter(profileStorageType, profileConfig);
+            initAdapter(profileStorageType, DataType.PLAYER_PROFILE, profileConfig);
             var profileController = ControllerHolder.createController(ProfileDataController.class, profileStorageType);
             profileController.init(profileAdapter, readExecutorThread, writeExecutorThread);
         } catch (IOException e) {
@@ -64,7 +89,7 @@ public class SlimefunDatabaseManager {
         }
     }
 
-    private void initAdapter(StorageType storageType, Config databaseConfig) throws IOException {
+    private void initAdapter(StorageType storageType, DataType dataType, Config databaseConfig) throws IOException {
         switch (storageType) {
             case MYSQL -> {
                 var adapter = new MysqlAdapter();
@@ -81,15 +106,47 @@ public class SlimefunDatabaseManager {
                                 databaseConfig.getInt("mysql.maxConnection")
                         ));
 
-                profileAdapter = adapter;
+                switch (dataType) {
+                    case BLOCK_STORAGE -> blockStorageAdapter = adapter;
+                    case PLAYER_PROFILE -> profileAdapter = adapter;
+                }
             }
             case SQLITE -> {
                 var adapter = new SqliteAdapter();
 
-                File databasePath = new File("data-storage/Slimefun", "profile.db");
-                profileAdapter = adapter;
+                File databasePath = null;
 
-                adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath()));
+                switch (dataType) {
+                    case PLAYER_PROFILE -> {
+                        databasePath = new File("data-storage/Slimefun", "profile.db");
+                        profileAdapter = adapter;
+                    }
+                    case BLOCK_STORAGE -> {
+                        databasePath = new File("data-storage/Slimefun", "block-storage.db");
+                        blockStorageAdapter = adapter;
+                    }
+                }
+                adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath(), databaseConfig.getInt("sqlite.maxConnection")));
+            }
+            case POSTGRESQL -> {
+                var adapter = new PostgreSqlAdapter();
+
+                adapter.prepare(
+                        new PostgreSqlConfig(
+                                databaseConfig.getString("postgresql.host"),
+                                databaseConfig.getInt("postgresql.port"),
+                                databaseConfig.getString("postgresql.database"),
+                                databaseConfig.getString("postgresql.tablePrefix"),
+                                databaseConfig.getString("postgresql.user"),
+                                databaseConfig.getString("postgresql.password"),
+                                databaseConfig.getBoolean("postgresql.useSSL"),
+                                databaseConfig.getInt("postgresql.maxConnection")
+                        ));
+
+                switch (dataType) {
+                    case BLOCK_STORAGE -> blockStorageAdapter = adapter;
+                    case PLAYER_PROFILE -> profileAdapter = adapter;
+                }
             }
         }
     }
@@ -104,8 +161,16 @@ public class SlimefunDatabaseManager {
     }
 
     public void shutdown() {
-        getProfileDataController().shutdown();
+        if (getProfileDataController() != null) {
+            getProfileDataController().shutdown();
+        }
+
+        if (getBlockDataController() != null) {
+            getBlockDataController().shutdown();
+        }
+
         Bukkit.getWorlds().forEach(world -> unloadWorld(world, true));
+
         profileAdapter.shutdown();
         ControllerHolder.clearControllers();
     }
@@ -118,8 +183,24 @@ public class SlimefunDatabaseManager {
         return profileConfig.getBoolean("base64EncodeVal");
     }
 
+    public ChunkDataLoadMode getChunkDataLoadMode() {
+        return ChunkDataLoadMode.valueOf(blockStorageConfig.getString("dataLoadMode"));
+    }
+
+    public StorageType getBlockDataStorageType() {
+        return blockDataStorageType;
+    }
+
     public StorageType getProfileStorageType() {
         return profileStorageType;
+    }
+
+    private void initDefaultVal() {
+        profileConfig.setDefaultValue("sqlite.maxConnection", 5);
+        profileConfig.save();
+        blockStorageConfig.setDefaultValue("sqlite.maxConnection", 5);
+        blockStorageConfig.setDefaultValue("dataLoadMode", "LOAD_WITH_CHUNK");
+        blockStorageConfig.save();
     }
 
     public void loadWorld(World world) {

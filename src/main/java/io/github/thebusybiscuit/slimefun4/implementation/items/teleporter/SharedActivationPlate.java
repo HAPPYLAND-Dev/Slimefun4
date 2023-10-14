@@ -31,4 +31,9 @@ public class SharedActivationPlate extends AbstractTeleporterPlate {
         // Shared - Everyone has access
         return true;
     }
+
+    @Override
+    public boolean loadDataByDefault() {
+        return true;
+    }
 }

@@ -1,26 +1,29 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.magical.runes;
 
+import java.util.Collection;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import org.bukkit.Location;
+import org.bukkit.SoundCategory;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Soulbound;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemDropHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.SoulboundItem;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * This {@link SlimefunItem} allows you to convert any {@link ItemStack} into a
@@ -44,7 +47,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
     }
 
     @Override
-    public ItemDropHandler getItemHandler() {
+    public @Nonnull ItemDropHandler getItemHandler() {
         return (e, p, item) -> {
             if (isItem(item.getItemStack())) {
 
@@ -83,7 +86,7 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
                     if (rune.isValid() && item.isValid() && itemStack.getAmount() == 1) {
 
                         l.getWorld().createExplosion(l, 0);
-                        l.getWorld().playSound(l, Sound.ENTITY_GENERIC_EXPLODE, 0.3F, 1);
+                        SoundEffect.SOULBOUND_RUNE_RITUAL_SOUND.playAt(l, SoundCategory.PLAYERS);
 
                         item.remove();
                         rune.remove();
@@ -113,13 +116,10 @@ public class SoulboundRune extends SimpleSlimefunItem<ItemDropHandler> {
      * @return Whether this {@link Entity} is compatible
      */
     private boolean findCompatibleItem(@Nonnull Entity entity) {
-        if (entity instanceof Item) {
-            Item item = (Item) entity;
-
-            return item.getPickupDelay() == 0 && !SlimefunUtils.isSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
+        if (entity instanceof Item item) {
+            return item.getPickupDelay() <= 0 && !SlimefunUtils.isSoulbound(item.getItemStack()) && !isItem(item.getItemStack());
         }
 
         return false;
     }
-
 }

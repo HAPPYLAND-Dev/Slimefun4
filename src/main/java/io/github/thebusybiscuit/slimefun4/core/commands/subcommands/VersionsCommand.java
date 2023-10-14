@@ -80,18 +80,6 @@ class VersionsCommand extends SubCommand {
 
             addJavaVersion(builder);
 
-            if (Slimefun.getConfigManager().isBackwardsCompatible()) {
-                // @formatter:off
-                HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent(
-                        "向后兼容将会极大地影响服务器性能!\n" +
-                                "我们推荐你关闭它, 除非服务器中还有" +
-                                "旧版本中的 Slimefun 物品 (通常为 1.13 版本前的)."
-                )});
-                // @formatter:on
-
-                builder.append("\n向后兼容已启用!\n").color(ChatColor.RED).event(hoverEvent);
-            }
-
             // Add notice to warn those smart people
             builder.append("\n由 StarWishsama 汉化").color(ChatColor.WHITE)
                     .append(

@@ -11,6 +11,12 @@ commands:
   stats: 查看玩家的统计数据
   transform: 将物品转换为英文物品
   id: 获取手持物品的 Slimefun ID
+  banitem:
+    description: 禁用 Slimefun 物品
+    success: '&a禁用成功'
+  unbanitem:
+    description: 启用 Slimefun 物品
+    success: '&a启用成功'
   research:
     description: 解锁/重置玩家的研究进度
     reset: '&c你已重置了 %player% 的研究进度'

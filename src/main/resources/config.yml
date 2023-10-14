@@ -21,6 +21,9 @@ options:
   chat-prefix: '&7[&b科技&7] '
   armor-update-interval: 10
   enable-armor-effects: true
+  radiation-update-interval: 1
+  radiation-grace-period: 15
+  rainbow-armor-update-interval: 3
   auto-save-delay-in-minutes: 10
   legacy-ore-washer: false
   legacy-dust-washer: false

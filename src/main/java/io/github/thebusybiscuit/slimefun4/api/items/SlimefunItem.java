@@ -1,17 +1,26 @@
 package io.github.thebusybiscuit.slimefun4.api.items;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.blocks.ChunkPosition;
 import io.github.bakedlibs.dough.collections.OptionalMap;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
-import io.github.thebusybiscuit.slimefun4.api.exceptions.*;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IdConflictException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandlerException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.MissingDependencyException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.UnregisteredItemException;
+import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.SlimefunRegistry;
-import io.github.thebusybiscuit.slimefun4.core.attributes.*;
+import io.github.thebusybiscuit.slimefun4.core.attributes.NotConfigurable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Placeable;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
+import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.core.handlers.GlobalItemHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
@@ -19,10 +28,28 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.SlimefunBackpack;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoEnchanter;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.TickerTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+
+import java.text.MessageFormat;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.Collection;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.apache.commons.lang.Validate;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -30,15 +57,6 @@ import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.text.MessageFormat;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * A {@link SlimefunItem} is a custom item registered by a {@link SlimefunAddon}.
@@ -108,14 +126,10 @@ public class SlimefunItem implements Placeable {
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
      *
-     * @param itemGroup
-     *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
-     * @param item
-     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
-     * @param recipeType
-     *            the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
-     * @param recipe
-     *            An Array representing the recipe of this {@link SlimefunItem}
+     * @param itemGroup  The {@link ItemGroup} this {@link SlimefunItem} belongs to
+     * @param item       The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeType the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe     An Array representing the recipe of this {@link SlimefunItem}
      */
     @ParametersAreNonnullByDefault
     public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -125,16 +139,11 @@ public class SlimefunItem implements Placeable {
     /**
      * This creates a new {@link SlimefunItem} from the given arguments.
      *
-     * @param itemGroup
-     *            The {@link ItemGroup} this {@link SlimefunItem} belongs to
-     * @param item
-     *            The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
-     * @param recipeType
-     *            the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
-     * @param recipe
-     *            An Array representing the recipe of this {@link SlimefunItem}
-     * @param recipeOutput
-     *            The result of crafting this item
+     * @param itemGroup    The {@link ItemGroup} this {@link SlimefunItem} belongs to
+     * @param item         The {@link SlimefunItemStack} that describes the visual features of our {@link SlimefunItem}
+     * @param recipeType   the {@link RecipeType} that determines how this {@link SlimefunItem} is crafted
+     * @param recipe       An Array representing the recipe of this {@link SlimefunItem}
+     * @param recipeOutput The result of crafting this item
      */
     @ParametersAreNonnullByDefault
     public SlimefunItem(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
@@ -178,7 +187,7 @@ public class SlimefunItem implements Placeable {
      * This method returns the {@link ItemState} this {@link SlimefunItem}
      * is currently in. This can be used to determine whether a {@link SlimefunItem}
      * is enabled or disabled.
-     *
+     * <p>
      * {@link VanillaItem} represents a special case here.
      *
      * @return The {@link ItemState} of this {@link SlimefunItem}
@@ -457,6 +466,14 @@ public class SlimefunItem implements Placeable {
             // Now we can be certain this item should be enabled
             if (state == ItemState.ENABLED) {
                 onEnable();
+            } else {
+                // Clear item handlers if we are disabled so that calling them isn't possible later on
+                for (ItemHandler handler : this.itemhandlers.values()) {
+                    if (handler instanceof BlockTicker) {
+                        Slimefun.getRegistry().getTickerBlocks().remove(getId());
+                    }
+                }
+                this.itemhandlers.clear();
             }
 
             // Lock the SlimefunItemStack from any accidental manipulations
@@ -485,9 +502,16 @@ public class SlimefunItem implements Placeable {
             Slimefun.getRegistry().getRadioactiveItems().add(this);
         }
 
+        // enable ticking block
+        Slimefun.getRegistry().getTickerBlocks().add(getId());
+
         state = ItemState.ENABLED;
 
         Slimefun.getRegistry().getEnabledSlimefunItems().add(this);
+
+        if (!hidden) {
+            itemGroup.add(this);
+        }
     }
 
     /**
@@ -504,6 +528,10 @@ public class SlimefunItem implements Placeable {
         state = ItemState.DISABLED;
 
         Slimefun.getRegistry().getEnabledSlimefunItems().remove(this);
+
+        if (!hidden) {
+            itemGroup.remove(this);
+        }
     }
 
     /**
@@ -763,17 +791,7 @@ public class SlimefunItem implements Placeable {
             }
         }
 
-        if (this instanceof LoreSensitive) {
-            return SlimefunUtils.isItemSimilar(item, this.itemStackTemplate, ((LoreSensitive) this).isLoreSensitive());
-        }
-
-        // Backwards compatibility
-        if (Slimefun.getConfigManager().isBackwardsCompatible()) {
-            boolean loreInsensitive = this instanceof Rechargeable || this instanceof SlimefunBackpack || id.equals("BROKEN_SPAWNER") || id.equals("REINFORCED_SPAWNER");
-            return SlimefunUtils.isItemSimilar(item, this.itemStackTemplate, !loreInsensitive);
-        } else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -1157,7 +1175,8 @@ public class SlimefunItem implements Placeable {
     /**
      * Retrieve a {@link SlimefunItem} by its id.
      *
-     * @param id The id of the {@link SlimefunItem}
+     * @param id
+     *            The id of the {@link SlimefunItem}
      * @return The {@link SlimefunItem} associated with that id. Null if non-existent
      */
     public static @Nullable SlimefunItem getById(@Nonnull String id) {
@@ -1183,28 +1202,6 @@ public class SlimefunItem implements Placeable {
 
         if (itemID.isPresent()) {
             return getById(itemID.get());
-        }
-
-        // Backwards compatibility
-        if (Slimefun.getConfigManager().isBackwardsCompatible()) {
-            // This wrapper improves the heavy ItemStack#getItemMeta() call by caching it.
-            ItemStackWrapper wrapper = ItemStackWrapper.wrap(item);
-
-            /*
-             * Quite expensive performance-wise.
-             * But necessary for supporting legacy items
-             */
-            for (SlimefunItem sfi : Slimefun.getRegistry().getAllSlimefunItems()) {
-                if (sfi.isItem(wrapper)) {
-                    /*
-                     * If we have to loop all items for the given item, then at least
-                     * set the id via PersistentDataAPI for future performance boosts
-                     */
-                    Slimefun.getItemDataService().setItemData(item, sfi.getId());
-
-                    return sfi;
-                }
-            }
         }
 
         return null;

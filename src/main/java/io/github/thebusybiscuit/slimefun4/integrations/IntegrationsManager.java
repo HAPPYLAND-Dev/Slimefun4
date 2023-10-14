@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.integrations;
 
-import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
-import com.gmail.nossr50.util.skills.SkillUtils;
-import dev.lone.itemsadder.api.ItemsAdder;
-import io.github.bakedlibs.dough.protection.ProtectionManager;
-import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
+import java.util.function.Consumer;
+import java.util.logging.Level;
+
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import dev.lone.itemsadder.api.CustomBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -15,10 +15,15 @@ import org.bukkit.event.Event;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Consumer;
-import java.util.logging.Level;
+import com.gmail.nossr50.events.fake.FakeBlockBreakEvent;
+import com.gmail.nossr50.util.skills.SkillUtils;
+
+import io.github.bakedlibs.dough.protection.ProtectionManager;
+import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines.enchanting.AutoDisenchanter;
+
+import dev.lone.itemsadder.api.ItemsAdder;
 
 /**
  * This Service holds all interactions and hooks with third-party {@link Plugin Plugins}
@@ -232,7 +237,7 @@ public class IntegrationsManager {
     public boolean isCustomBlock(@Nonnull Block block) {
         if (isItemsAdderInstalled) {
             try {
-                return ItemsAdder.isCustomBlock(block);
+                return CustomBlock.byAlreadyPlaced(block) != null;
             } catch (Exception | LinkageError x) {
                 logError("ItemsAdder", x);
             }

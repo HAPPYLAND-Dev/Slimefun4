@@ -250,8 +250,6 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
             super.register(addon);
         }
 
-        // Fixes #3429 - Initialize Item Settings before recipes
-        registerDefaultRecipes();
     }
 
     /**
@@ -434,5 +432,24 @@ public abstract class AContainer extends SlimefunItem implements InventoryBlock,
         }
 
         return null;
+    }
+
+    @Override
+    public void enable() {
+        super.enable();
+        registerDefaultRecipes();
+    }
+
+    @Override
+    public void disable() {
+        super.disable();
+        recipes.clear();
+    }
+
+    @Override
+    public void postRegister() {
+        if(getState() == ItemState.ENABLED){
+            registerDefaultRecipes();
+        }
     }
 }

@@ -21,7 +21,7 @@ import java.util.Optional;
  * The {@link Listener} for the {@link ElytraCap}.
  *
  * @author Seggan
- * 
+ *
  * @see ElytraCap
  */
 public class ElytraImpactListener implements Listener {

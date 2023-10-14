@@ -1,5 +1,28 @@
 package io.github.thebusybiscuit.slimefun4.core.multiblocks;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
+import com.google.common.base.Preconditions;
+
+import org.apache.commons.lang.Validate;
+
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.Container;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+
 import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
@@ -14,24 +37,6 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHan
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.OutputChest;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.Container;
-import org.bukkit.block.Dispenser;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * A {@link MultiBlockMachine} is a {@link SlimefunItem} that is built in the {@link World}.
@@ -85,7 +90,7 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
         Validate.notNull(output, "Recipes must have an Output!");
 
         recipes.add(input);
-        recipes.add(new ItemStack[]{output});
+        recipes.add(new ItemStack[] { output });
     }
 
     public void clearRecipe() {
@@ -107,11 +112,21 @@ public abstract class MultiBlockMachine extends SlimefunItem implements NotPlace
     public void load() {
         super.load();
 
-        for (ItemStack recipeItem : displayRecipes) {
-            SlimefunItem item = SlimefunItem.getByItem(recipeItem);
+        Preconditions.checkArgument(displayRecipes.size() % 2 == 0, "This MultiBlockMachine's display recipes were illegally modified!");
 
-            if (item == null || !item.isDisabled()) {
-                recipes.add(new ItemStack[] { recipeItem });
+        for (int i = 0; i < displayRecipes.size(); i += 2) {
+            ItemStack inputStack = displayRecipes.get(i);
+            ItemStack outputStack = null;
+            if (displayRecipes.size() >= i + 2) {
+                outputStack = displayRecipes.get(i + 1);
+            }
+
+            SlimefunItem inputItem = SlimefunItem.getByItem(inputStack);
+            SlimefunItem outputItem = SlimefunItem.getByItem(outputStack);
+            // If the input/output is not a Slimefun item or it's not disabled then it's valid.
+            if ((inputItem == null || !inputItem.isDisabled()) && (outputItem == null || !outputItem.isDisabled())) {
+                recipes.add(new ItemStack[] { inputStack });
+                recipes.add(new ItemStack[] { outputStack });
             }
         }
     }

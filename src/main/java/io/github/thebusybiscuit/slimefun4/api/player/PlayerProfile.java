@@ -8,6 +8,7 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.events.AsyncProfileLoadEvent;
 import io.github.thebusybiscuit.slimefun4.api.gps.Waypoint;
 import io.github.thebusybiscuit.slimefun4.api.items.HashedArmorpiece;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectionType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.ProtectiveArmor;
@@ -284,7 +285,7 @@ public class PlayerProfile {
     public void sendStats(@Nonnull CommandSender sender) {
         Set<Research> unlockedResearches = getResearches();
         int levels = unlockedResearches.stream().mapToInt(Research::getLevelCost).sum();
-        int allResearches = Slimefun.getRegistry().getResearches().size();
+        int allResearches = nonEmptyResearches();
 
         float progress = Math.round(((unlockedResearches.size() * 100.0F) / allResearches) * 100.0F) / 100.0F;
 
@@ -397,24 +398,17 @@ public class PlayerProfile {
 
         for (HashedArmorpiece armorpiece : armor) {
             Optional<SlimefunArmorPiece> armorPiece = armorpiece.getItem();
-
-            if (!armorPiece.isPresent()) {
-                setId = null;
-            } else if (armorPiece.get() instanceof ProtectiveArmor protectedArmor) {
-                if (setId == null && protectedArmor.isFullSetRequired()) {
-                    setId = protectedArmor.getArmorSetId();
-                }
-
-                for (ProtectionType protectionType : protectedArmor.getProtectionTypes()) {
+            if (armorPiece.isPresent() && armorPiece.get() instanceof ProtectiveArmor protectiveArmor) {
+                for (ProtectionType protectionType : protectiveArmor.getProtectionTypes()) {
                     if (protectionType == type) {
-                        if (setId == null) {
+                        if (!protectiveArmor.isFullSetRequired()) {
                             return true;
-                        } else if (setId.equals(protectedArmor.getArmorSetId())) {
+                        } else if (setId == null || setId.equals(protectiveArmor.getArmorSetId())) {
                             armorCount++;
+                            setId = protectiveArmor.getArmorSetId();
                         }
                     }
                 }
-
             }
         }
 
@@ -446,6 +440,14 @@ public class PlayerProfile {
 
     public boolean isInvalid() {
         return isInvalid;
+    }
+
+    // returns the amount of researches with at least 1 enabled item
+    private int nonEmptyResearches() {
+        return (int) Slimefun.getRegistry().getResearches()
+                .stream()
+                .filter(research -> research.getAffectedItems().stream().anyMatch(item -> item.getState() == ItemState.ENABLED))
+                .count();
     }
 
     private static void getOrCreate(OfflinePlayer p, Consumer<PlayerProfile> cb) {

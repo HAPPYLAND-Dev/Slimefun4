@@ -8,7 +8,6 @@ import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -38,7 +37,7 @@ public class TickerTask implements Runnable {
     /**
      * This Map holds all currently actively ticking locations.
      */
-    private final Map<ChunkPosition, Set<Location>> tickingLocations = new HashMap<>();
+    private final Map<ChunkPosition, Set<Location>> tickingLocations = new ConcurrentHashMap<>();
 
     /**
      * This Map tracks how many bugs have occurred in a given Location .
@@ -90,10 +89,12 @@ public class TickerTask implements Runnable {
 
             // Run our ticker code
             if (!halted) {
-                HashSet<Map.Entry<ChunkPosition, Set<Location>>> loc;
+                Set<Map.Entry<ChunkPosition, Set<Location>>> loc;
+
                 synchronized (tickingLocations) {
                     loc = new HashSet<>(tickingLocations.entrySet());
                 }
+
                 for (Map.Entry<ChunkPosition, Set<Location>> entry : loc) {
                     if (Bukkit.getWorlds().contains(entry.getKey().getWorld())) {
                         tickChunk(entry.getKey(), tickers, new HashSet<>(entry.getValue()));
@@ -132,7 +133,7 @@ public class TickerTask implements Runnable {
 
     private void tickLocation(@Nonnull Set<BlockTicker> tickers, @Nonnull Location l) {
         var blockData = StorageCacheUtils.getBlock(l);
-        if (blockData == null || !blockData.isDataLoaded() || blockData.isPendingRemove()) {
+        if (blockData == null || !blockData.isDataLoaded() || blockData.isPendingRemove() || SlimefunItem.getById(blockData.getSfId()).isDisabledIn(l.getWorld())) {
             return;
         }
         SlimefunItem item = SlimefunItem.getById(blockData.getSfId());

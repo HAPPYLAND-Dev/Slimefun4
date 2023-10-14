@@ -8,14 +8,18 @@ import javax.annotation.Nonnull;
 import org.bukkit.Bukkit;
 
 class EnvironmentChecker {
-    private static final List<String> UNSUPPORTED_PLUGINS = List.of("BedrockTechnology", "SlimefunFix", "SlimefunBugFixer", "Slimefunbookfix");
+    private static final List<String> UNSUPPORTED_PLUGINS = List.of("BedrockTechnology", "SlimefunFix", "SlimefunBugFixer", "Slimefunbookfix", "MiraiMC");
 
-    static void checkUnsupportedPlugins(@Nonnull Slimefun sf, @Nonnull Logger logger) {
+    static boolean checkIncompatiblePlugins(@Nonnull Slimefun sf, @Nonnull Logger logger) {
         for (String name : UNSUPPORTED_PLUGINS) {
-            if (sf.getServer().getPluginManager().isPluginEnabled(name)) {
+            if (sf.getServer().getPluginManager().getPlugin(name) != null) {
                 logger.log(Level.WARNING, "检测到安装了 {0}, 该插件已不再兼容新版 Slimefun, 可能会带来不良效果!", name);
+                Bukkit.getPluginManager().disablePlugin(sf);
+                return true;
             }
         }
+
+        return false;
     }
 
     static boolean checkHybridServer(@Nonnull Slimefun sf, @Nonnull Logger logger) {

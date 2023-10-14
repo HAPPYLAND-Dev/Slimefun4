@@ -1,15 +1,23 @@
 package io.github.thebusybiscuit.slimefun4.core.commands;
 
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.researches.Research;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 class SlimefunTabCompleter implements TabCompleter {
 
@@ -26,6 +34,15 @@ class SlimefunTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getSubCommandNames(), args[0]);
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("banitem")) {
+                return createReturnList(getSlimefunItems(), args[1]);
+            }
+            else if (args[0].equalsIgnoreCase("unbanitem")) {
+                List<String> list = Slimefun.getRegistry().getDisabledSlimefunItems().stream().map(sfItem -> sfItem.getId()).collect(Collectors.toList());
+                return createReturnList(list, args[1]);
+            }
+            return null;
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
                 return createReturnList(getSlimefunItems(), args[2]);
@@ -55,7 +72,7 @@ class SlimefunTabCompleter implements TabCompleter {
 
     /***
      * Returns a sublist from a given list containing items that start with the given string if string is not empty
-     * 
+     *
      * @param list
      *            The list to process
      * @param string
@@ -64,7 +81,7 @@ class SlimefunTabCompleter implements TabCompleter {
      */
     @Nonnull
     private List<String> createReturnList(@Nonnull List<String> list, @Nonnull String string) {
-        if (string.length() == 0) {
+        if (string.isEmpty()) {
             return list;
         }
 

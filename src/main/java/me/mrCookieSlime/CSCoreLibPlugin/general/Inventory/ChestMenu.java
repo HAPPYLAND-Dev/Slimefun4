@@ -3,6 +3,12 @@ package me.mrCookieSlime.CSCoreLibPlugin.general.Inventory;
 import dev.lone.itemsadder.api.FontImages.FontImageWrapper;
 import dev.lone.itemsadder.api.FontImages.TexturedInventoryWrapper;
 import io.sn.slimefun4.ChestMenuTexture;
+import city.norain.slimefun4.holder.SlimefunInventoryHolder;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArraySet;
+import javax.annotation.Nonnull;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,20 +25,19 @@ import java.util.Map;
  * This will be removed once we updated everything.
  * Don't look at the code, it will be gone soon, don't worry.
  */
-@SuppressWarnings({"FieldMayBeFinal", "unused"})
 @Deprecated
-public class ChestMenu {
+public class ChestMenu extends SlimefunInventoryHolder {
 
     private boolean clickable;
     private boolean emptyClickable;
-    private final String title;
-    private Inventory inv;
     private TexturedInventoryWrapper wrapper;
+    private String title;
     private List<ItemStack> items;
     private Map<Integer, MenuClickHandler> handlers;
     private MenuOpeningHandler open;
     private MenuCloseHandler close;
     private MenuClickHandler playerclick;
+    private final Set<UUID> viewers = new CopyOnWriteArraySet<>();
     private ChestMenuTexture texture;
 
     private int size = -1;
@@ -158,7 +163,7 @@ public class ChestMenu {
      */
     public ItemStack getItemInSlot(int slot) {
         setup();
-        return this.inv.getItem(slot);
+        return this.inventory.getItem(slot);
     }
 
     /**
@@ -218,14 +223,27 @@ public class ChestMenu {
      */
     public ItemStack[] getContents() {
         setup();
-        return this.inv.getContents();
+        return this.inventory.getContents();
+    }
+
+    public void addViewer(@Nonnull UUID uuid) {
+        viewers.add(uuid);
+    }
+
+    public void removeViewer(@Nonnull UUID uuid) {
+        viewers.remove(uuid);
+    }
+
+    public boolean contains(@Nonnull Player viewer) {
+        return viewers.contains(viewer.getUniqueId());
     }
 
     private void setup() {
-        if (this.inv != null) return;
+        if (this.inv != null)
+            return;
         initMenu();
         for (int i = 0; i < this.items.size(); i++) {
-            this.inv.setItem(i, this.items.get(i));
+            this.inventory.setItem(i, this.items.get(i));
         }
     }
 
@@ -233,16 +251,18 @@ public class ChestMenu {
      * Resets this ChestMenu to a Point BEFORE the User interacted with it
      */
     public void reset(boolean update) {
-        if (update) this.inv.clear();
-        else initMenu();
+        if (update)
+            this.inventory.clear();
+        else
+            initMenu();
         for (int i = 0; i < this.items.size(); i++) {
-            this.inv.setItem(i, this.items.get(i));
+            this.inventory.setItem(i, this.items.get(i));
         }
     }
 
     private void initMenu() {
         this.wrapper = new TexturedInventoryWrapper(null, this.size == -1 ? ((int) Math.ceil(this.items.size() / 9F)) * 9 : this.size, this.title, new FontImageWrapper(this.texture.getFullName()));
-        this.inv = this.wrapper.getInternal();
+        this.inventory = this.wrapper.getInternal();
     }
 
     /**
@@ -253,7 +273,7 @@ public class ChestMenu {
      */
     public void replaceExistingItem(int slot, ItemStack item) {
         setup();
-        this.inv.setItem(slot, item);
+        this.inventory.setItem(slot, item);
     }
 
     /**
@@ -265,8 +285,9 @@ public class ChestMenu {
         setup();
         for (Player p : players) {
             this.wrapper.showInventory(p);
-            MenuListener.menus.put(p.getUniqueId(), this);
-            if (open != null) open.onOpen(p);
+            addViewer(p.getUniqueId());
+            if (open != null)
+                open.onOpen(p);
         }
     }
 
@@ -315,29 +336,29 @@ public class ChestMenu {
      * @return The converted Inventory
      */
     public Inventory toInventory() {
-        return this.inv;
+        return this.inventory;
     }
 
     @FunctionalInterface
     public interface MenuClickHandler {
 
-        boolean onClick(Player p, int slot, ItemStack item, ClickAction action);
+        public boolean onClick(Player p, int slot, ItemStack item, ClickAction action);
     }
 
     public interface AdvancedMenuClickHandler extends MenuClickHandler {
 
-        boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action);
+        public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action);
     }
 
     @FunctionalInterface
     public interface MenuOpeningHandler {
 
-        void onOpen(Player p);
+        public void onOpen(Player p);
     }
 
     @FunctionalInterface
     public interface MenuCloseHandler {
 
-        void onClose(Player p);
+        public void onClose(Player p);
     }
 }

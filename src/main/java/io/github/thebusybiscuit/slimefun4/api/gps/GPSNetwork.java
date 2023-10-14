@@ -9,6 +9,7 @@ import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.api.geo.ResourceManager;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.gps.GPSTransmitter;
@@ -18,14 +19,23 @@ import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * The {@link GPSNetwork} is a manager class for all {@link GPSTransmitter Transmitters} and waypoints.
@@ -244,7 +254,7 @@ public class GPSNetwork {
                 menu.addItem(slot, new CustomItemStack(waypoint.getIcon(), waypoint.getName().replace("player:death ", ""), "&8\u21E8 &7世界: &f" + l.getWorld().getName(), "&8\u21E8 &7X: &f" + l.getX(), "&8\u21E8 &7Y: &f" + l.getY(), "&8\u21E8 &7Z: &f" + l.getZ(), "", "&8\u21E8 &cClick to delete"));
                 menu.addMenuClickHandler(slot, (pl, s, item, action) -> {
                     profile.removeWaypoint(waypoint);
-                    pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+                    SoundEffect.GPS_NETWORK_OPEN_PANEL_SOUND.playFor(p);
 
                     openWaypointControlPanel(pl);
                     return false;
@@ -277,7 +287,7 @@ public class GPSNetwork {
             }
 
             Slimefun.getLocalization().sendMessage(p, "gps.waypoint.new", true);
-            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 0.5F, 1F);
+            SoundEffect.GPS_NETWORK_CREATE_WAYPOINT.playFor(p);
 
             ChatInput.waitForPlayer(Slimefun.instance(), p, message -> addWaypoint(p, message, l));
         });
@@ -320,7 +330,7 @@ public class GPSNetwork {
 
                     profile.addWaypoint(new Waypoint(profile, id, event.getLocation(), event.getName()));
 
-                    p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1F, 1F);
+                    SoundEffect.GPS_NETWORK_ADD_WAYPOINT.playFor(p);
                     Slimefun.getLocalization().sendMessage(p, "gps.waypoint.added", true);
                 }
             });

@@ -11,9 +11,6 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.plugin.Plugin;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 import java.util.logging.Level;
 
 /**
@@ -25,26 +22,25 @@ import java.util.logging.Level;
 @Deprecated
 public class MenuListener implements Listener {
 
-    static final Map<UUID, ChestMenu> menus = new HashMap<>();
-
     public MenuListener(Plugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onClose(InventoryCloseEvent e) {
-        ChestMenu menu = menus.remove(e.getPlayer().getUniqueId());
+        var holder = e.getInventory().getHolder();
 
-        if (menu != null) {
+        if (holder instanceof ChestMenu menu) {
+            menu.removeViewer(e.getPlayer().getUniqueId());
             menu.getMenuCloseHandler().onClose((Player) e.getPlayer());
         }
     }
 
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        ChestMenu menu = menus.get(e.getWhoClicked().getUniqueId());
+        var holder = e.getInventory().getHolder();
 
-        if (menu != null) {
+        if (holder instanceof ChestMenu menu) {
             if (e.getRawSlot() < e.getInventory().getSize()) {
                 MenuClickHandler handler = menu.getMenuClickHandler(e.getSlot());
 
@@ -65,5 +61,4 @@ public class MenuListener implements Listener {
             }
         }
     }
-
 }

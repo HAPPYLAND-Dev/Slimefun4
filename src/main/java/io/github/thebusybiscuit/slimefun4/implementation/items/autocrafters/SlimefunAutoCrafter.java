@@ -1,19 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
-import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.papermc.lib.PaperLib;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Skull;
@@ -22,9 +15,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AsyncRecipeChoiceTask;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.papermc.lib.PaperLib;
+
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 /**
  * This extension of the {@link AbstractAutoCrafter} allows you to implement any
@@ -96,7 +98,7 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
                     menu.addItem(49, new CustomItemStack(Material.CRAFTING_TABLE, ChatColor.GREEN + Slimefun.getLocalization().getMessage(p, "messages.auto-crafting.select")));
                     menu.addMenuClickHandler(49, (pl, stack, slot, action) -> {
                         setSelectedRecipe(b, recipe);
-                        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                        SoundEffect.AUTO_CRAFTER_UPDATE_RECIPE.playAt(b);
                         Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-set");
                         showRecipe(p, b, recipe);
                         return false;
@@ -106,7 +108,7 @@ public class SlimefunAutoCrafter extends AbstractAutoCrafter {
                     recipe.show(menu, task);
                     menu.open(p);
 
-                    p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1, 1);
+                    SoundEffect.AUTO_CRAFTER_UPDATE_RECIPE.playAt(b);;
 
                     if (!task.isEmpty()) {
                         task.start(menu.toInventory());

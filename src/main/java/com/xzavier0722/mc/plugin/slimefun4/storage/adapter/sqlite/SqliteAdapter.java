@@ -1,47 +1,37 @@
 package com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlite;
 
-import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.IDataSourceAdapter;
+import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlCommonAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlUtils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataScope;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.RecordKey;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.RecordSet;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.*;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_BACKPACK_ID;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_BACKPACK_NAME;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_BACKPACK_NUM;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_BACKPACK_SIZE;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_CHUNK;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_DATA_KEY;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_DATA_VALUE;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_INVENTORY_ITEM;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_INVENTORY_SLOT;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_LOCATION;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_PLAYER_NAME;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_PLAYER_UUID;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_RESEARCH_KEY;
+import static com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon.SqlConstants.FIELD_SLIMEFUN_ID;
 
-public class SqliteAdapter implements IDataSourceAdapter<SqliteConfig> {
-    private SqliteConfig config;
-    private Connection conn;
-
-    @Override
-    public void prepare(SqliteConfig config) {
-        this.config = config;
-        conn = createConn();
-    }
-
+public class SqliteAdapter extends SqlCommonAdapter<SqliteConfig> {
     @Override
     public void initStorage(DataType type) {
-        executeSql("PRAGMA foreign_keys = ON;");
         switch (type) {
             case PLAYER_PROFILE -> createProfileTables();
             case BLOCK_STORAGE -> createBlockStorageTables();
         }
-    }
-
-    @Override
-    public void shutdown() {
-        try {
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        conn = null;
-        config = null;
     }
 
     @Override
@@ -67,8 +57,11 @@ public class SqliteAdapter implements IDataSourceAdapter<SqliteConfig> {
         var updateFields = key.getFields();
         var table = SqlUtils.mapTable(key.getScope());
 
-
         if (!updateFields.isEmpty()) {
+            if (key.getConditions().isEmpty()) {
+                throw new IllegalArgumentException("Condition is required for update statement!");
+            }
+
             var row = executeUpdate(
                     "UPDATE " + table + " SET "
                             + String.join(", ", updateFields.stream().map(field -> {
@@ -90,11 +83,11 @@ public class SqliteAdapter implements IDataSourceAdapter<SqliteConfig> {
     }
 
     @Override
-    public List<RecordSet> getData(RecordKey key) {
+    public List<RecordSet> getData(RecordKey key, boolean distinct) {
         return executeQuery(
-                "SELECT " + SqlUtils.buildFieldStr(key.getFields()).orElse("*")
-                +" FROM " + SqlUtils.mapTable(key.getScope())
-                + SqlUtils.buildConditionStr(key.getConditions()) + ";"
+                (distinct ? "SELECT DISTINCT " : "SELECT ") + SqlUtils.buildFieldStr(key.getFields()).orElse("*")
+                        +" FROM " + SqlUtils.mapTable(key.getScope())
+                        + SqlUtils.buildConditionStr(key.getConditions()) + ";"
         );
     }
 
@@ -244,35 +237,15 @@ public class SqliteAdapter implements IDataSourceAdapter<SqliteConfig> {
         );
     }
 
-    private synchronized void executeSql(String sql) {
-        try {
-            SqlUtils.execSql(conn, sql);
-        } catch (SQLException e) {
-            throw new IllegalStateException("An exception thrown while executing sql: " + sql, e);
-        }
+    public synchronized void executeSql(String sql) {
+        super.executeSql(sql);
     }
 
     private synchronized int executeUpdate(String sql) {
-        try {
+        try(var conn = ds.getConnection()) {
             return SqlUtils.execUpdate(conn, sql);
         } catch (SQLException e) {
             throw new IllegalStateException("An exception thrown while executing sql: " + sql, e);
-        }
-    }
-
-    private synchronized List<RecordSet> executeQuery(String sql) {
-        try {
-            return SqlUtils.execQuery(conn, sql);
-        } catch (SQLException e) {
-            throw new IllegalStateException("An exception thrown while executing sql: " + sql, e);
-        }
-    }
-
-    private Connection createConn() {
-        try {
-            return DriverManager.getConnection("jdbc:sqlite:" + config.path());
-        } catch (SQLException e) {
-            throw new IllegalStateException("Failed to create Sqlite connection: ", e);
         }
     }
 }

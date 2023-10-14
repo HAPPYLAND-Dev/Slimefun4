@@ -89,6 +89,12 @@ permissions:
   slimefun.command.blockdata:
     description: Allows you to do /sf blockdata
     default: op
+  slimefun.command.banitem:
+    description: Allows you to do /sf banitem
+    default: op
+  slimefun.command.unbanitem:
+    description: Allows you to do /sf unbanitem
+    default: op
   slimefun.android.bypass:
     description: Allows you to edit other Players Androids
     default: op

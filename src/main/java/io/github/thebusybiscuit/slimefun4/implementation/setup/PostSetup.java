@@ -7,6 +7,14 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Grind
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.OreCrusher;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.stream.Stream;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import net.guizhanss.slimefun4.utils.WikiUtils;
@@ -15,15 +23,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.stream.Stream;
-
 public final class PostSetup {
 
-    private PostSetup() {
-    }
+    private PostSetup() {}
 
     public static void setupWiki() {
         Slimefun.logger().log(Level.INFO, "加载 Wiki 页面...");
@@ -31,7 +33,6 @@ public final class PostSetup {
         WikiUtils.setupJson(Slimefun.instance(), (page) -> page.replace("#", "?id="));
     }
 
-    @SuppressWarnings("deprecation")
     public static void loadItems() {
         Iterator<SlimefunItem> iterator = Slimefun.getRegistry().getEnabledSlimefunItems().iterator();
 
@@ -49,9 +50,6 @@ public final class PostSetup {
                 }
             }
         }
-
-        loadOreGrinderRecipes();
-        loadSmelteryRecipes();
 
         CommandSender sender = Bukkit.getConsoleSender();
 
@@ -88,109 +86,6 @@ public final class PostSetup {
                         .filter(item -> item.getAddon() instanceof Slimefun)
                         .count();
         // @formatter:on
-    }
-
-    private static void loadOreGrinderRecipes() {
-        List<ItemStack[]> grinderRecipes = new ArrayList<>();
-
-        GrindStone grinder = (GrindStone) SlimefunItems.GRIND_STONE.getItem();
-        if (grinder != null) {
-            ItemStack[] input = null;
-
-            for (ItemStack[] recipe : grinder.getRecipes()) {
-                if (input == null) {
-                    input = recipe;
-                } else {
-                    if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
-                    }
-
-                    input = null;
-                }
-            }
-        }
-
-        OreCrusher crusher = (OreCrusher) SlimefunItems.ORE_CRUSHER.getItem();
-        if (crusher != null) {
-            ItemStack[] input = null;
-
-            for (ItemStack[] recipe : crusher.getRecipes()) {
-                if (input == null) {
-                    input = recipe;
-                } else {
-                    if (input[0] != null && recipe[0] != null) {
-                        grinderRecipes.add(new ItemStack[]{input[0], recipe[0]});
-                    }
-
-                    input = null;
-                }
-            }
-        }
-
-        // Favour 8 Cobblestone -> 1 Sand Recipe over 1 Cobblestone -> 1 Gravel Recipe
-        Stream<ItemStack[]> stream = grinderRecipes.stream();
-
-        if (!Slimefun.getCfg().getBoolean("options.legacy-ore-grinder")) {
-            stream = stream.sorted((a, b) -> Integer.compare(b[0].getAmount(), a[0].getAmount()));
-        }
-
-        stream.forEach(recipe -> registerMachineRecipe("ELECTRIC_ORE_GRINDER", 4, new ItemStack[]{recipe[0]}, new ItemStack[]{recipe[1]}));
-    }
-
-    private static void loadSmelteryRecipes() {
-        Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
-
-        if (smeltery != null) {
-            MakeshiftSmeltery makeshiftSmeltery = ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem());
-            ItemStack[] input = null;
-
-            for (ItemStack[] output : smeltery.getRecipes()) {
-                if (input == null) {
-                    input = output;
-                } else {
-                    if (input[0] != null && output[0] != null) {
-                        addSmelteryRecipe(input, output, makeshiftSmeltery);
-                    }
-
-                    input = null;
-                }
-            }
-
-            for (SlimefunItem item : Slimefun.getRegistry().getEnabledSlimefunItems()) {
-                if (item instanceof AContainer machine) {
-                    if (machine.getMachineIdentifier().equals("ELECTRIC_SMELTERY")) {
-                        List<MachineRecipe> recipes = machine.getMachineRecipes();
-                        recipes.sort(Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
-                    }
-                }
-            }
-        }
-    }
-
-    private static void addSmelteryRecipe(ItemStack[] input, ItemStack[] output, MakeshiftSmeltery makeshiftSmeltery) {
-        List<ItemStack> ingredients = new ArrayList<>();
-
-        // Filter out 'null' items
-        for (ItemStack item : input) {
-            if (item != null) {
-                ingredients.add(item);
-            }
-        }
-
-        // We want to redirect Dust to Ingot Recipes
-        if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
-            makeshiftSmeltery.addRecipe(new ItemStack[]{ingredients.get(0)}, output[0]);
-
-            registerMachineRecipe("ELECTRIC_INGOT_FACTORY", 8, new ItemStack[]{ingredients.get(0)}, new ItemStack[]{output[0]});
-            registerMachineRecipe("ELECTRIC_INGOT_PULVERIZER", 3, new ItemStack[]{output[0]}, new ItemStack[]{ingredients.get(0)});
-        } else {
-            registerMachineRecipe("ELECTRIC_SMELTERY", 12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
-        }
-    }
-
-    private static boolean isDust(@Nonnull ItemStack item) {
-        SlimefunItem sfItem = SlimefunItem.getByItem(item);
-        return sfItem != null && sfItem.getId().endsWith("_DUST");
     }
 
     private static void registerMachineRecipe(String machine, int seconds, ItemStack[] input, ItemStack[] output) {

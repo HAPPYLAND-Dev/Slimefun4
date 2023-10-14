@@ -6,18 +6,23 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.RecordKey;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.RecordSet;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.ScopeKey;
+import com.xzavier0722.mc.plugin.slimefun4.storage.task.DatabaseThreadFactory;
 import com.xzavier0722.mc.plugin.slimefun4.storage.task.QueuedWriteTask;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class ADataController {
+    private final DatabaseThreadFactory threadFactory = new DatabaseThreadFactory();
     private final DataType dataType;
     private final Map<ScopeKey, QueuedWriteTask> scheduledWriteTasks;
     private final ScopedLock lock;
@@ -26,20 +31,22 @@ public abstract class ADataController {
     private ExecutorService writeExecutor;
     private ExecutorService callbackExecutor;
     private volatile boolean destroyed = false;
+    protected final Logger logger;
 
     protected ADataController(DataType dataType) {
         this.dataType = dataType;
         scheduledWriteTasks = new ConcurrentHashMap<>();
         lock = new ScopedLock();
+        logger = Logger.getLogger("Slimefun-Data-Controller");
     }
 
     @OverridingMethodsMustInvokeSuper
     public void init(IDataSourceAdapter<?> dataAdapter, int maxReadThread, int maxWriteThread) {
         this.dataAdapter = dataAdapter;
         dataAdapter.initStorage(dataType);
-        readExecutor = Executors.newFixedThreadPool(maxReadThread);
-        writeExecutor = Executors.newFixedThreadPool(maxWriteThread);
-        callbackExecutor = Executors.newCachedThreadPool();
+        readExecutor = Executors.newFixedThreadPool(maxReadThread, threadFactory);
+        writeExecutor = Executors.newFixedThreadPool(maxWriteThread, threadFactory);
+        callbackExecutor = Executors.newCachedThreadPool(threadFactory);
     }
 
     @OverridingMethodsMustInvokeSuper
@@ -51,26 +58,40 @@ public abstract class ADataController {
         readExecutor.shutdownNow();
         callbackExecutor.shutdownNow();
         try {
+            float totalTask = scheduledWriteTasks.size();
             var pendingTask = scheduledWriteTasks.size();
             while (pendingTask > 0) {
-                System.out.println("数据保存中，请稍候... 剩余 " + pendingTask + " 个任务");
-                Thread.sleep(500);
+                var doneTaskPercent = String.format("%.1f", (totalTask - pendingTask) / totalTask * 100);
+                logger.log(Level.INFO, "数据保存中，请稍候... 剩余 {0} 个任务 ({1}%)", new Object[]{pendingTask, doneTaskPercent});
+                TimeUnit.SECONDS.sleep(1);
                 pendingTask = scheduledWriteTasks.size();
             }
+
+            logger.info("数据保存完成.");
         } catch (InterruptedException e) {
-            System.err.println("Exception thrown while saving data: ");
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Exception thrown while saving data: ", e);
         }
         writeExecutor.shutdownNow();
         dataAdapter = null;
     }
 
     protected void scheduleDeleteTask(ScopeKey scopeKey, RecordKey key, boolean forceScopeKey) {
-        scheduleWriteTask(scopeKey, key, () -> dataAdapter.deleteData(key), forceScopeKey);
+        Debug.log(TestCase.DATABASE, "Scheduled remove task for key = {}", key);
+
+        scheduleWriteTask(scopeKey, key, () -> {
+            dataAdapter.deleteData(key);
+            Debug.log(TestCase.DATABASE, "Data from key {} deleted.", key);
+        }, forceScopeKey);
     }
 
     protected void scheduleWriteTask(ScopeKey scopeKey, RecordKey key, RecordSet data, boolean forceScopeKey) {
-        scheduleWriteTask(scopeKey, key, () -> dataAdapter.setData(key, data), forceScopeKey);
+        Debug.log(TestCase.DATABASE, "Scheduled write task for key = {}, record set = {}", key, data.getAll());
+
+        scheduleWriteTask(scopeKey, key, () -> {
+            dataAdapter.setData(key, data);
+            Debug.log(TestCase.DATABASE, "Data from key {} set, with record set {}", key, data.getAll());
+        }, forceScopeKey);
+
     }
 
     protected void scheduleWriteTask(ScopeKey scopeKey, RecordKey key, Runnable task, boolean forceScopeKey) {
@@ -137,7 +158,11 @@ public abstract class ADataController {
     }
 
     protected List<RecordSet> getData(RecordKey key) {
-        return dataAdapter.getData(key);
+        return getData(key, false);
+    }
+
+    protected List<RecordSet> getData(RecordKey key, boolean distinct) {
+        return dataAdapter.getData(key, distinct);
     }
 
     protected void setData(RecordKey key, RecordSet data) {
