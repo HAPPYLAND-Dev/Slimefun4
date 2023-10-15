@@ -209,17 +209,14 @@ public class SlimefunDatabaseManager {
         }.runTaskAsynchronously(Slimefun.instance());
     }
 
-    public void unloadWorld(World world, Boolean save) {
+    public void unloadWorld(World world) {
         plugin.getLogger().info("为世界 " + world.getName() + " 保存数据中...");
 
         if (Bukkit.getServer().isStopping()) {
             shutdownWorld(world);
         } else {
             Bukkit.getScheduler().runTaskAsynchronously(
-                    Slimefun.instance(),
-                    () -> {
-                        shutdownWorld(world);
-                    }
+                Slimefun.instance(), () -> shutdownWorld(world)
             );
         }
 

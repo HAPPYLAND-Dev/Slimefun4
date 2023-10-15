@@ -12,7 +12,6 @@ import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,7 +49,7 @@ public class ChunkListener implements Listener {
             @Override
             public void run() {
                 if (Bukkit.getServer().isStopping()) return;
-                Slimefun.getDatabaseManager().unloadWorld(e.getWorld(), true);
+                Slimefun.getDatabaseManager().unloadWorld(e.getWorld());
                 delayLoad.remove(e.getWorld());
             }
         }.runTaskAsynchronously(Slimefun.instance());
