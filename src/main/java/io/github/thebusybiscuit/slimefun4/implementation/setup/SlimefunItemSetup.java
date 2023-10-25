@@ -228,6 +228,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 public final class SlimefunItemSetup {
 
     private static boolean registeredItems = false;
+    public static DefaultItemGroups defaultItemGroups = new DefaultItemGroups();
 
     private SlimefunItemSetup() {}
 
@@ -237,7 +238,7 @@ public final class SlimefunItemSetup {
         }
 
         registeredItems = true;
-        DefaultItemGroups itemGroups = new DefaultItemGroups();
+        DefaultItemGroups itemGroups = defaultItemGroups;
 
         // @formatter:off (We will need to refactor this one day)
         new SlimefunItem(itemGroups.weapons, SlimefunItems.GRANDMAS_WALKING_STICK, RecipeType.ENHANCED_CRAFTING_TABLE,
