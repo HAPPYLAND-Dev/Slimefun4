@@ -151,11 +151,7 @@ public class SlimefunDatabaseManager {
         if (getProfileDataController() != null) {
             getProfileDataController().shutdown();
         }
-
-        if (!blockDataControllers.isEmpty()) {
-            blockDataControllers.forEach((world, controller) -> controller.shutdown());
-        }
-        blockStorageAdapters.forEach( (world, iDataSourceAdapter) -> iDataSourceAdapter.shutdown());
+        Bukkit.getWorlds().forEach(this::unloadWorld);
 
         profileAdapter.shutdown();
         ControllerHolder.clearControllers();
@@ -173,20 +169,16 @@ public class SlimefunDatabaseManager {
         return ChunkDataLoadMode.valueOf(blockStorageConfig.getString("dataLoadMode"));
     }
 
-    public StorageType getBlockDataStorageType() {
-        return blockDataStorageType;
-    }
-
     public StorageType getProfileStorageType() {
         return profileStorageType;
     }
 
     public void loadWorld(World world) {
-        plugin.getLogger().info("为世界 " + world.getName() + " 加载数据中...");
         new BukkitRunnable() {
             @Override
             public void run() {
-                blockDataStorageType = StorageType.valueOf(blockStorageConfig.getString("storageType"));
+                plugin.getLogger().info("为世界 " + world.getName() + " 加载数据中...");
+
                 var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
                 var writeExecutorThread = blockStorageConfig.getInt("writeExecutorThread");
 
@@ -196,17 +188,17 @@ public class SlimefunDatabaseManager {
                 blockDataController.init(blockStorageAdapters.get(world), readExecutorThread, writeExecutorThread);
 
                 if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
-                    plugin.getLogger().log(Level.INFO, "已启用延时写入功能");
                     blockDataController.initDelayedSaving(
-                            plugin,
-                            blockStorageConfig.getInt("delayedWriting.delayedSecond"),
-                            blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
+                        plugin,
+                        blockStorageConfig.getInt("delayedWriting.delayedSecond"),
+                        blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
                     );
                 }
+
                 blockDataControllers.put(world, blockDataController);
                 plugin.getLogger().info("为世界 " + world.getName() + " 加载数据完成!");
             }
-        }.runTaskAsynchronously(Slimefun.instance());
+        }.runTaskLaterAsynchronously(Slimefun.instance(), 20L);
     }
 
     public void unloadWorld(World world) {
@@ -216,7 +208,8 @@ public class SlimefunDatabaseManager {
             shutdownWorld(world);
         } else {
             Bukkit.getScheduler().runTaskAsynchronously(
-                Slimefun.instance(), () -> shutdownWorld(world)
+                Slimefun.instance(),
+                () -> shutdownWorld(world)
             );
         }
 
