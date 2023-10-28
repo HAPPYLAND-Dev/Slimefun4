@@ -46,7 +46,12 @@ public class ChunkListener implements Listener {
     @EventHandler
     public void onWorldUnload(WorldUnloadEvent e) {
         if (Bukkit.getServer().isStopping()) return;
-        Slimefun.getDatabaseManager().unloadWorld(e.getWorld());
-        delayLoad.remove(e.getWorld());
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Slimefun.getDatabaseManager().unloadWorld(e.getWorld());
+                delayLoad.remove(e.getWorld());
+            }
+        }.runTaskAsynchronously(Slimefun.instance());
     }
 }
