@@ -6,16 +6,19 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.DataUtils;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerBackpack;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class ProfileDataController extends ADataController {
     private final BackpackCache backpackCache;
@@ -25,11 +28,9 @@ public class ProfileDataController extends ADataController {
         super(DataType.PLAYER_PROFILE);
         backpackCache = new BackpackCache();
         profileCache = new ConcurrentHashMap<>();
-
     }
 
-    @Nullable
-    public PlayerProfile getProfile(OfflinePlayer p) {
+    @Nullable public PlayerProfile getProfile(OfflinePlayer p) {
         checkDestroy();
         var uuid = p.getUniqueId().toString();
         var re = profileCache.get(uuid);
@@ -60,8 +61,7 @@ public class ProfileDataController extends ADataController {
         scheduleReadTask(() -> invokeCallback(callback, getProfile(p)));
     }
 
-    @Nullable
-    public PlayerBackpack getBackpack(OfflinePlayer owner, int num) {
+    @Nullable public PlayerBackpack getBackpack(OfflinePlayer owner, int num) {
         checkDestroy();
         var uuid = owner.getUniqueId().toString();
         var re = backpackCache.get(uuid, num);
@@ -91,14 +91,12 @@ public class ProfileDataController extends ADataController {
                 DataUtils.profileDataDebase64(result.getOrDef(FieldKey.BACKPACK_NAME, "")),
                 num,
                 size,
-                getBackpackInv(idStr, size)
-        );
+                getBackpackInv(idStr, size));
         backpackCache.put(re);
         return re;
     }
 
-    @Nullable
-    public PlayerBackpack getBackpack(String uuid) {
+    @Nullable public PlayerBackpack getBackpack(String uuid) {
         var re = backpackCache.get(uuid);
         if (re != null) {
             return re;
@@ -118,7 +116,7 @@ public class ProfileDataController extends ADataController {
         }
 
         var result = resultSet.get(0);
-        var idStr= result.get(FieldKey.BACKPACK_ID);
+        var idStr = result.get(FieldKey.BACKPACK_ID);
         var size = result.getInt(FieldKey.BACKPACK_SIZE);
 
         re = new PlayerBackpack(
@@ -127,11 +125,9 @@ public class ProfileDataController extends ADataController {
                 DataUtils.profileDataDebase64(result.getOrDef(FieldKey.BACKPACK_NAME, "")),
                 result.getInt(FieldKey.BACKPACK_NUMBER),
                 size,
-                getBackpackInv(idStr, size)
-        );
+                getBackpackInv(idStr, size));
         backpackCache.put(re);
         return re;
-
     }
 
     @Nonnull
@@ -143,7 +139,8 @@ public class ProfileDataController extends ADataController {
 
         var invResult = getData(key);
         var re = new ItemStack[size];
-        invResult.forEach(each -> re[each.getInt(FieldKey.INVENTORY_SLOT)] = each.getItemStack(FieldKey.INVENTORY_ITEM));
+        invResult.forEach(
+                each -> re[each.getInt(FieldKey.INVENTORY_SLOT)] = each.getItemStack(FieldKey.INVENTORY_ITEM));
 
         return re;
     }
@@ -159,9 +156,9 @@ public class ProfileDataController extends ADataController {
             return Collections.emptySet();
         }
 
-        return result.stream().map(
-                record -> NamespacedKey.fromString(record.get(FieldKey.RESEARCH_ID))
-        ).collect(Collectors.toSet());
+        return result.stream()
+                .map(record -> NamespacedKey.fromString(record.get(FieldKey.RESEARCH_ID)))
+                .collect(Collectors.toSet());
     }
 
     public void getBackpackAsync(OfflinePlayer owner, int num, IAsyncReadCallback<PlayerBackpack> callback) {

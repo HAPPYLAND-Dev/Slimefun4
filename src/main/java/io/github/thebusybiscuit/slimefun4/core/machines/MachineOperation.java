@@ -56,5 +56,4 @@ public interface MachineOperation {
     default boolean isFinished() {
         return getRemainingTicks() <= 0;
     }
-
 }

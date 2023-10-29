@@ -22,5 +22,4 @@ public interface ItemUseHandler extends ItemHandler {
     default Class<? extends ItemHandler> getIdentifier() {
         return ItemUseHandler.class;
     }
-
 }

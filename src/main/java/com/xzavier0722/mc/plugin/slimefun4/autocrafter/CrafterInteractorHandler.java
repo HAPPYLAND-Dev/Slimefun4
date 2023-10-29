@@ -12,5 +12,4 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public interface CrafterInteractorHandler {
 
     CrafterInteractable getInteractor(BlockMenu menu);
-
 }

@@ -8,14 +8,13 @@ import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 class GiveCommand extends SubCommand {
 
@@ -42,13 +41,28 @@ class GiveCommand extends SubCommand {
                     if (sfItem != null) {
                         giveItem(sender, p, sfItem, args);
                     } else {
-                        Slimefun.getLocalization().sendMessage(sender, "messages.invalid-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
+                        Slimefun.getLocalization()
+                                .sendMessage(
+                                        sender,
+                                        "messages.invalid-item",
+                                        true,
+                                        msg -> msg.replace(PLACEHOLDER_ITEM, args[2]));
                     }
                 } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.not-online", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
+                    Slimefun.getLocalization()
+                            .sendMessage(
+                                    sender,
+                                    "messages.not-online",
+                                    true,
+                                    msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]));
                 }
             } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
+                Slimefun.getLocalization()
+                        .sendMessage(
+                                sender,
+                                "messages.usage",
+                                true,
+                                msg -> msg.replace("%usage%", "/sf give <Player> <Slimefun Item> [Amount]"));
             }
         } else {
             Slimefun.getLocalization().sendMessage(sender, "messages.no-permission", true);
@@ -62,17 +76,28 @@ class GiveCommand extends SubCommand {
             int amount = parseAmount(args);
 
             if (amount > 0) {
-                Slimefun.getLocalization().sendMessage(p, "messages.given-item", true, msg -> msg.replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
-                Map<Integer, ItemStack> excess = p.getInventory().addItem(new CustomItemStack(sfItem.getItem(), amount));
+                Slimefun.getLocalization().sendMessage(p, "messages.given-item", true, msg -> msg.replace(
+                                PLACEHOLDER_ITEM, sfItem.getItemName())
+                        .replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+                Map<Integer, ItemStack> excess =
+                        p.getInventory().addItem(new CustomItemStack(sfItem.getItem(), amount));
                 if (Slimefun.getCfg().getBoolean("options.drop-excess-sf-give-items") && !excess.isEmpty()) {
                     for (ItemStack is : excess.values()) {
                         p.getWorld().dropItem(p.getLocation(), is);
                     }
                 }
 
-                Slimefun.getLocalization().sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1]).replace(PLACEHOLDER_ITEM, sfItem.getItemName()).replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
+                Slimefun.getLocalization()
+                        .sendMessage(sender, "messages.give-item", true, msg -> msg.replace(PLACEHOLDER_PLAYER, args[1])
+                                .replace(PLACEHOLDER_ITEM, sfItem.getItemName())
+                                .replace(PLACEHOLDER_AMOUNT, String.valueOf(amount)));
             } else {
-                Slimefun.getLocalization().sendMessage(sender, "messages.invalid-amount", true, msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
+                Slimefun.getLocalization()
+                        .sendMessage(
+                                sender,
+                                "messages.invalid-amount",
+                                true,
+                                msg -> msg.replace(PLACEHOLDER_AMOUNT, args[3]));
             }
         }
     }
@@ -90,5 +115,4 @@ class GiveCommand extends SubCommand {
 
         return amount;
     }
-
 }

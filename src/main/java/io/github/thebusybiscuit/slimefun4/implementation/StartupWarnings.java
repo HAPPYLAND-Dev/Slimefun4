@@ -1,16 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation;
 
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * This class stores some startup warnings we occasionally need to print.
  * If you setup your server the recommended way, you are never going to see
  * any of these messages.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -71,5 +70,4 @@ final class StartupWarnings {
         logger.log(Level.WARNING, PREFIX + "为了不影响您以后的正常使用，请尽快更新!");
         logger.log(Level.WARNING, BORDER);
     }
-
 }

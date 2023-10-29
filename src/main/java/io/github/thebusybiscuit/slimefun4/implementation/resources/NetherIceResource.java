@@ -33,5 +33,4 @@ class NetherIceResource extends AbstractResource {
             return biomes.getOrDefault(biome, DEFAULT_NETHER_VALUE);
         }
     }
-
 }

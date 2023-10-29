@@ -1,10 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.weapons;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
+import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import java.util.Collection;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.SoundCategory;
@@ -16,21 +20,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
-import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-
 /**
  * The {@link ExplosiveBow} is a {@link SlimefunBow} which creates a fake explosion when it hits
  * a {@link LivingEntity}. Any nearby {@link LivingEntity LivingEntities} get pushed away and
  * take a little bit of damage, similar to an "Area of Effect" damage.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Linox
- * 
+ *
  * @see SlimefunBow
  *
  */
@@ -53,17 +50,22 @@ public class ExplosiveBow extends SlimefunBow {
             SoundEffect.EXPLOSIVE_BOW_HIT_SOUND.playAt(target.getLocation(), SoundCategory.PLAYERS);
             int radius = range.getValue();
 
-            Collection<Entity> entities = target.getWorld().getNearbyEntities(target.getLocation(), radius, radius, radius, this::canDamage);
+            Collection<Entity> entities =
+                    target.getWorld().getNearbyEntities(target.getLocation(), radius, radius, radius, this::canDamage);
             for (Entity nearby : entities) {
                 LivingEntity entity = (LivingEntity) nearby;
 
-                Vector distanceVector = entity.getLocation().toVector().subtract(target.getLocation().toVector()).add(new Vector(0, 0.75, 0));
+                Vector distanceVector = entity.getLocation()
+                        .toVector()
+                        .subtract(target.getLocation().toVector())
+                        .add(new Vector(0, 0.75, 0));
 
                 double distanceSquared = distanceVector.lengthSquared();
                 double damage = e.getDamage() * (1 - (distanceSquared / (2 * range.getValue() * range.getValue())));
 
                 if (!entity.getUniqueId().equals(target.getUniqueId())) {
-                    EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(e.getDamager(), entity, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
+                    EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(
+                            e.getDamager(), entity, EntityDamageEvent.DamageCause.ENTITY_EXPLOSION, damage);
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {

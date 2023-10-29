@@ -19,5 +19,4 @@ public class AndroidInstance {
     public Block getBlock() {
         return b;
     }
-
 }

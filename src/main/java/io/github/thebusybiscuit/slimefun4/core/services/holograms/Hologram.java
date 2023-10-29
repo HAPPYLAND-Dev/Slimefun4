@@ -1,15 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.core.services.holograms;
 
-import org.bukkit.Bukkit;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 
 /**
  * This represents an {@link ArmorStand} that can expire and be renamed.
@@ -56,8 +54,7 @@ class Hologram {
      *
      * @return The {@link ArmorStand} or null.
      */
-    @Nullable
-    ArmorStand getArmorStand() {
+    @Nullable ArmorStand getArmorStand() {
         Entity n = Bukkit.getEntity(uniqueId);
 
         if (n instanceof ArmorStand armorStand && n.isValid()) {
@@ -128,5 +125,4 @@ class Hologram {
             armorstand.remove();
         }
     }
-
 }

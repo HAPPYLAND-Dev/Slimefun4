@@ -2,7 +2,6 @@ package com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlcommon;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -24,8 +23,7 @@ public abstract class SqlCommonConfig implements ISqlCommonConfig {
             String user,
             String passwd,
             boolean useSsl,
-            int maxConnection
-    ) {
+            int maxConnection) {
         this.host = host;
         this.port = port;
         this.database = database;

@@ -1,20 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items;
 
-import java.util.Collections;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -26,6 +11,18 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.magical.staves.StormStaff;
 import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 /**
  * This class represents an item with a limited number of uses.
@@ -88,7 +85,8 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
     @Override
     public void register(@Nonnull SlimefunAddon addon) {
         if (getMaxUseCount() < 1) {
-            warn("The use count has not been configured correctly. It needs to be at least 1. The Item was disabled.");
+            warn("The use count has not been configured correctly. It needs to be at least 1. The Item was"
+                    + " disabled.");
         } else {
             super.register(addon);
         }
@@ -148,5 +146,4 @@ public abstract class LimitedUseItem extends SimpleSlimefunItem<ItemUseHandler> 
             item.setItemMeta(meta);
         }
     }
-
 }

@@ -9,11 +9,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The Teleporter is a {@link SlimefunItem} that can be placed down and allows a {@link Player}
@@ -38,9 +37,11 @@ public class Teleporter extends SimpleSlimefunItem<BlockPlaceHandler> {
 
             @Override
             public void onPlayerPlace(BlockPlaceEvent e) {
-                StorageCacheUtils.setData(e.getBlock().getLocation(), "owner", e.getPlayer().getUniqueId().toString());
+                StorageCacheUtils.setData(
+                        e.getBlock().getLocation(),
+                        "owner",
+                        e.getPlayer().getUniqueId().toString());
             }
         };
     }
-
 }

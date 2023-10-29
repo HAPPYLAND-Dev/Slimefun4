@@ -9,6 +9,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.implementation.items.backpacks.Cooler;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.CoolerListener;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -17,17 +21,12 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This class represents a {@link SlimefunItem} that can be stored inside
  * of a {@link Cooler}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Cooler
  * @see CoolerListener
  *
@@ -42,7 +41,12 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
     }
 
     @ParametersAreNonnullByDefault
-    public Juice(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+    public Juice(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         ItemMeta meta = item.getItemMeta();
@@ -62,7 +66,8 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
              * Minecraft has been broken when it comes to Saturation potions for a long time
              */
             for (PotionEffect effect : effects) {
-                if (effect.getType() == PotionEffectType.SATURATION || effect.getType() == PotionEffectType.ABSORPTION) {
+                if (effect.getType() == PotionEffectType.SATURATION
+                        || effect.getType() == PotionEffectType.ABSORPTION) {
                     p.addPotionEffect(effect);
                     break;
                 }
@@ -74,7 +79,7 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
 
     /**
      * Determines from which hand the juice is being drunk, and its amount
-     * 
+     *
      * @param p
      *            The {@link Player} that triggered this
      * @param item
@@ -96,5 +101,4 @@ public class Juice extends SimpleSlimefunItem<ItemConsumptionHandler> {
             }
         }
     }
-
 }

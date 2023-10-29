@@ -1,22 +1,20 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * {@link JetBoots} allow you to fly up into the air.
  * You can find the actual behaviour in the {@link JetpackTask} class.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see JetBoots
  * @see JetpackTask
  *

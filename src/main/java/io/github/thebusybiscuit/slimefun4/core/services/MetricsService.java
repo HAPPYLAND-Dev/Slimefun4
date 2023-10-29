@@ -2,11 +2,6 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import kong.unirest.*;
-import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -17,6 +12,14 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import kong.unirest.GetRequest;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
+import org.bukkit.plugin.Plugin;
 
 /**
  * This Class represents a Metrics Service that sends data to https://bstats.org/
@@ -67,17 +70,17 @@ public class MetricsService {
     static {
         // @formatter:off (We want this to stay this nicely aligned :D )
         Unirest.config()
-            .concurrency(2, 1)
-            .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
-            .setDefaultHeader("Accept", "application/vnd.github.v3+json")
-            .enableCookieManagement(false)
-            .cookieSpec("ignoreCookies");
+                .concurrency(2, 1)
+                .setDefaultHeader("User-Agent", "MetricsModule Auto-Updater")
+                .setDefaultHeader("Accept", "application/vnd.github.v3+json")
+                .enableCookieManagement(false)
+                .cookieSpec("ignoreCookies");
         // @formatter:on
     }
 
     /**
      * This constructs a new instance of our {@link MetricsService}.
-     * 
+     *
      * @param plugin
      *            Our {@link Slimefun} instance
      */
@@ -110,7 +113,9 @@ public class MetricsService {
              * Load the jar file into a child class loader using the Slimefun
              * PluginClassLoader as a parent.
              */
-            moduleClassLoader = URLClassLoader.newInstance(new URL[] { metricsModuleFile.toURI().toURL() }, plugin.getClass().getClassLoader());
+            moduleClassLoader = URLClassLoader.newInstance(
+                    new URL[] {metricsModuleFile.toURI().toURL()},
+                    plugin.getClass().getClassLoader());
             Class<?> metricsClass = moduleClassLoader.loadClass("dev.walshy.sfmetrics.MetricsModule");
 
             metricVersion = metricsClass.getPackage().getImplementationVersion();
@@ -135,7 +140,11 @@ public class MetricsService {
                     start.invoke(null);
                     plugin.getLogger().info("Metrics build #" + version + " started.");
                 } catch (InvocationTargetException e) {
-                    plugin.getLogger().log(Level.WARNING, "An exception was thrown while starting the metrics module", e.getCause());
+                    plugin.getLogger()
+                            .log(
+                                    Level.WARNING,
+                                    "An exception was thrown while starting the metrics module",
+                                    e.getCause());
                 } catch (Exception | LinkageError e) {
                     plugin.getLogger().log(Level.WARNING, "Failed to start metrics.", e);
                 }
@@ -155,7 +164,8 @@ public class MetricsService {
                 moduleClassLoader.close();
             }
         } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Could not clean up module class loader. Some memory may have been leaked.");
+            plugin.getLogger()
+                    .log(Level.WARNING, "Could not clean up module class loader. Some memory may have been leaked.");
         }
     }
 
@@ -165,11 +175,12 @@ public class MetricsService {
      *
      * @param currentVersion
      *            The current version which is being used.
-     * 
+     *
      * @return if there is an update available.
      */
     public boolean checkForUpdate(@Nullable String currentVersion) {
-        if (currentVersion == null || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {
+        if (currentVersion == null
+                || !CommonPatterns.NUMERIC.matcher(currentVersion).matches()) {
             return false;
         }
 
@@ -232,16 +243,26 @@ public class MetricsService {
             GetRequest request = Unirest.get(DOWNLOAD_URL + "/" + version + "/" + JAR_NAME + ".jar");
 
             HttpResponse<File> response = request.downloadMonitor((b, fileName, bytesWritten, totalBytes) -> {
-                int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
+                        int percent = (int) (20 * (Math.round((((double) bytesWritten / totalBytes) * 100) / 20)));
 
-                if (percent != 0 && percent != lastPercentPosted.get()) {
-                    plugin.getLogger().info("# Downloading... " + percent + "% " + "(" + bytesWritten + "/" + totalBytes + " bytes)");
-                    lastPercentPosted.set(percent);
-                }
-            }).asFile(file.getPath());
+                        if (percent != 0 && percent != lastPercentPosted.get()) {
+                            plugin.getLogger()
+                                    .info("# Downloading... "
+                                            + percent
+                                            + "% "
+                                            + "("
+                                            + bytesWritten
+                                            + "/"
+                                            + totalBytes
+                                            + " bytes)");
+                            lastPercentPosted.set(percent);
+                        }
+                    })
+                    .asFile(file.getPath());
 
             if (response.isSuccess()) {
-                plugin.getLogger().log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] { JAR_NAME, version });
+                plugin.getLogger()
+                        .log(Level.INFO, "Successfully downloaded {0} build: #{1}", new Object[] {JAR_NAME, version});
 
                 // Replace the metric file with the new one
                 cleanUp();
@@ -252,9 +273,19 @@ public class MetricsService {
                 return true;
             }
         } catch (UnirestException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down? Response: {0}", e.getMessage());
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "Failed to fetch the latest jar file from the builds page. Perhaps GitHub is down?"
+                                    + " Response: {0}",
+                            e.getMessage());
         } catch (IOException e) {
-            plugin.getLogger().log(Level.WARNING, "Failed to replace the old metric file with the new one. Please do this manually! Error: {0}", e.getMessage());
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "Failed to replace the old metric file with the new one. Please do this manually!"
+                                    + " Error: {0}",
+                            e.getMessage());
         }
 
         return false;
@@ -267,8 +298,7 @@ public class MetricsService {
      *
      * @return The current version or null if not loaded.
      */
-    @Nullable
-    public String getVersion() {
+    @Nullable public String getVersion() {
         return metricVersion;
     }
 

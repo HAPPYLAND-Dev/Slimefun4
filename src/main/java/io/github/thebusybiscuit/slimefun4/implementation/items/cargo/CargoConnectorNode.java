@@ -7,19 +7,18 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.networks.cargo.CargoNet;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * The {@link CargoConnectorNode} connects a {@link CargoNode} with a {@link CargoNet}.
  * It has no further functionality.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see CargoNode
  * @see CargoNet
  *
@@ -27,7 +26,12 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class CargoConnectorNode extends SimpleSlimefunItem<BlockUseHandler> {
 
     @ParametersAreNonnullByDefault
-    public CargoConnectorNode(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public CargoConnectorNode(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 

@@ -20,12 +20,14 @@ public class LocationKey extends ScopeKey {
 
     @Override
     public boolean equals(Object obj) {
-        return  obj == this
+        return obj == this
                 || (obj instanceof LocationKey other
-                && scope == other.scope
-                && location.getWorld().getName().equals(other.location.getWorld().getName())
-                && location.getBlockX() == other.location.getBlockX()
-                && location.getBlockY() == other.location.getBlockY()
-                && location.getBlockZ() == other.location.getBlockZ());
+                        && scope == other.scope
+                        && location.getWorld()
+                                .getName()
+                                .equals(other.location.getWorld().getName())
+                        && location.getBlockX() == other.location.getBlockX()
+                        && location.getBlockY() == other.location.getBlockY()
+                        && location.getBlockZ() == other.location.getBlockZ());
     }
 }

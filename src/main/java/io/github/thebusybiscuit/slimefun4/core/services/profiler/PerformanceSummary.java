@@ -1,19 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
+import io.github.bakedlibs.dough.common.ChatColors;
+import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.function.Function;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import io.github.bakedlibs.dough.common.ChatColors;
-import io.github.thebusybiscuit.slimefun4.core.services.profiler.inspectors.PlayerPerformanceInspector;
-import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
-
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -54,15 +51,22 @@ class PerformanceSummary {
     public void send(@Nonnull PerformanceInspector sender) {
         sender.sendMessage("");
         sender.sendMessage(ChatColor.GREEN + "===== Slimefun Lag Profiler =====");
-        sender.sendMessage(ChatColor.GOLD + "Total time: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
-        sender.sendMessage(ChatColor.GOLD + "Running every: " + ChatColor.YELLOW + NumberUtils.roundDecimalNumber(tickRate / 20.0) + "s (" + tickRate + " ticks)");
+        sender.sendMessage(
+                ChatColor.GOLD + "Total time: " + ChatColor.YELLOW + NumberUtils.getAsMillis(totalElapsedTime));
+        sender.sendMessage(ChatColor.GOLD
+                + "Running every: "
+                + ChatColor.YELLOW
+                + NumberUtils.roundDecimalNumber(tickRate / 20.0)
+                + "s ("
+                + tickRate
+                + " ticks)");
         sender.sendMessage(ChatColor.GOLD + "Performance: " + getPerformanceRating());
         sender.sendMessage("");
 
         summarizeTimings(totalTickedBlocks, "block", sender, items, entry -> {
             int count = profiler.getBlocksOfId(entry.getKey());
             String time = NumberUtils.getAsMillis(entry.getValue());
-            String message = entry.getKey() +  " - " + count + "x (%s)";
+            String message = entry.getKey() + " - " + count + "x (%s)";
 
             if (count <= 1) {
                 return String.format(message, time);
@@ -93,7 +97,12 @@ class PerformanceSummary {
     }
 
     @ParametersAreNonnullByDefault
-    private void summarizeTimings(int count, String name, PerformanceInspector inspector, Map<String, Long> map, Function<Map.Entry<String, Long>, String> formatter) {
+    private void summarizeTimings(
+            int count,
+            String name,
+            PerformanceInspector inspector,
+            Map<String, Long> map,
+            Function<Map.Entry<String, Long>, String> formatter) {
         Set<Entry<String, Long>> entrySet = map.entrySet();
         List<Entry<String, Long>> results = inspector.getOrderType().sort(profiler, entrySet);
         String prefix = count + " " + name + (count != 1 ? 's' : "");
@@ -109,7 +118,11 @@ class PerformanceSummary {
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private TextComponent summarizeAsTextComponent(int count, String prefix, List<Map.Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
+    private TextComponent summarizeAsTextComponent(
+            int count,
+            String prefix,
+            List<Map.Entry<String, Long>> results,
+            Function<Entry<String, Long>, String> formatter) {
         TextComponent component = new TextComponent(prefix);
         component.setColor(ChatColor.YELLOW);
 
@@ -145,7 +158,12 @@ class PerformanceSummary {
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private String summarizeAsString(PerformanceInspector inspector, int count, String prefix, List<Entry<String, Long>> results, Function<Entry<String, Long>, String> formatter) {
+    private String summarizeAsString(
+            PerformanceInspector inspector,
+            int count,
+            String prefix,
+            List<Entry<String, Long>> results,
+            Function<Entry<String, Long>, String> formatter) {
         int shownEntries = 0;
         int hiddenEntries = 0;
 
@@ -156,7 +174,9 @@ class PerformanceSummary {
             builder.append(ChatColor.YELLOW);
 
             for (Map.Entry<String, Long> entry : results) {
-                if (inspector.isVerbose() || (shownEntries < MAX_ITEMS && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD))) {
+                if (inspector.isVerbose()
+                        || (shownEntries < MAX_ITEMS
+                                && (shownEntries < MIN_ITEMS || entry.getValue() > VISIBILITY_THRESHOLD))) {
                     builder.append("\n  ");
                     builder.append(ChatColor.stripColor(formatter.apply(entry)));
                     shownEntries++;
@@ -185,13 +205,14 @@ class PerformanceSummary {
         }
 
         builder.append(ChatColor.DARK_GRAY)
-            .append(":".repeat(Math.max(0, rest)))
-            .append(" - ")
-            .append(rating.getColor()).append(ChatUtils.humanize(rating.name()))
-            .append(ChatColor.GRAY)
-            .append(" (")
-            .append(NumberUtils.roundDecimalNumber(percentage))
-            .append("%)");
+                .append(":".repeat(Math.max(0, rest)))
+                .append(" - ")
+                .append(rating.getColor())
+                .append(ChatUtils.humanize(rating.name()))
+                .append(ChatColor.GRAY)
+                .append(" (")
+                .append(NumberUtils.roundDecimalNumber(percentage))
+                .append("%)");
 
         return builder.toString();
     }

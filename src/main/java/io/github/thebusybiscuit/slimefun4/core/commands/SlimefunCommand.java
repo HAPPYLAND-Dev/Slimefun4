@@ -3,6 +3,12 @@ package io.github.thebusybiscuit.slimefun4.core.commands;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.thebusybiscuit.slimefun4.core.commands.subcommands.SlimefunSubCommands;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,17 +17,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 /**
  * This {@link CommandExecutor} holds the functionality of our {@code /slimefun} command.
  *
  * @author TheBusyBiscuit
+ *
  */
 public class SlimefunCommand implements CommandExecutor, Listener {
 
@@ -114,10 +114,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
      */
     public @Nonnull List<String> getSubCommandNames() {
         // @formatter:off
-        return commands.stream()
-                .map(SubCommand::getName)
-                .collect(Collectors.toList());
+        return commands.stream().map(SubCommand::getName).collect(Collectors.toList());
         // @formatter:on
     }
-
 }

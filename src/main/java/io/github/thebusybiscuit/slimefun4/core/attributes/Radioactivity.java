@@ -1,19 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.core.attributes;
 
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.RadiationTask;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**
  * This enum holds all available levels of {@link Radioactivity}.
  * The higher the level the more severe the effect of radiation will be.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Radioactive
  *
  */
@@ -79,13 +77,12 @@ public enum Radioactivity {
     /**
      * This method returns the level for the radiation effect to use in conjunction
      * with this level of {@link Radioactive}.
-     * 
+     *
      * It is basically the index of this enum constant.
-     * 
+     *
      * @return The level of radiation associated with this constant.
      */
     public int getRadiationLevel() {
         return ordinal() + 1;
     }
-
 }

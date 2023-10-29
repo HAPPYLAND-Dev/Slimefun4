@@ -11,7 +11,7 @@ import io.github.thebusybiscuit.slimefun4.core.networks.NetworkManager;
  * @see NetworkManager
  */
 public enum NetworkComponent {
-
-    CONNECTOR, REGULATOR, TERMINUS
-
+    CONNECTOR,
+    REGULATOR,
+    TERMINUS
 }

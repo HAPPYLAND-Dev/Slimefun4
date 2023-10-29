@@ -22,7 +22,7 @@ import java.util.Collection;
 
 /**
  * This is our class for the /sf versions subcommand.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Walshy
  *
@@ -81,12 +81,10 @@ class VersionsCommand extends SubCommand {
             addJavaVersion(builder);
 
             // Add notice to warn those smart people
-            builder.append("\n由 StarWishsama 汉化").color(ChatColor.WHITE)
-                    .append(
-                            "\n请不要将此版本信息截图到 Discord/Github 反馈 Bug" +
-                                    "\n优先到汉化页面反馈" +
-                                    "\n"
-                    ).color(ChatColor.RED);
+            builder.append("\n由 StarWishsama 汉化")
+                    .color(ChatColor.WHITE)
+                    .append("\n请不要将此版本信息截图到 Discord/Github 反馈 Bug" + "\n优先到汉化页面反馈" + "\n")
+                    .color(ChatColor.RED);
 
             builder.append("\n").event((HoverEvent) null);
             addPluginVersions(builder);
@@ -102,17 +100,23 @@ class VersionsCommand extends SubCommand {
 
         if (version < RECOMMENDED_JAVA_VERSION) {
             // @formatter:off
-            builder.append("Java " + version).color(ChatColor.RED)
-                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent(
-                            "你使用的 Java 版本已过时!\n!" +
-                                    "推荐你使用 Java " + RECOMMENDED_JAVA_VERSION + " 或更高版本.\n" +
-                                    JAVA_VERSION_NOTICE
-                    )}))
+            builder.append("Java " + version)
+                    .color(ChatColor.RED)
+                    .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] {
+                        new TextComponent("你使用的 Java 版本已过时!\n!"
+                                + "推荐你使用 Java "
+                                + RECOMMENDED_JAVA_VERSION
+                                + " 或更高版本.\n"
+                                + JAVA_VERSION_NOTICE)
+                    }))
                     .append("\n")
                     .event((HoverEvent) null);
             // @formatter:on
         } else {
-            builder.append("Java ").color(ChatColor.GREEN).append(version + "\n").color(ChatColor.DARK_GREEN);
+            builder.append("Java ")
+                    .color(ChatColor.GREEN)
+                    .append(version + "\n")
+                    .color(ChatColor.DARK_GREEN);
         }
     }
 
@@ -124,7 +128,10 @@ class VersionsCommand extends SubCommand {
             return;
         }
 
-        builder.append("安装的附属插件: ").color(ChatColor.GRAY).append("(" + addons.size() + ")").color(ChatColor.DARK_GRAY);
+        builder.append("安装的附属插件: ")
+                .color(ChatColor.GRAY)
+                .append("(" + addons.size() + ")")
+                .color(ChatColor.DARK_GRAY);
 
         for (Plugin plugin : addons) {
             String version = plugin.getDescription().getVersion();
@@ -141,25 +148,27 @@ class VersionsCommand extends SubCommand {
 
                 if (plugin instanceof SlimefunAddon addon && addon.getBugTrackerURL() != null) {
                     // @formatter:off
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent(new ComponentBuilder()
-                            .append("作者: ")
-                            .append(authors)
-                            .color(ChatColor.YELLOW)
-                            .append("\n> 单击打开反馈页面")
-                            .color(ChatColor.GOLD)
-                            .create()
-                    )});
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] {
+                        new TextComponent(new ComponentBuilder()
+                                .append("作者: ")
+                                .append(authors)
+                                .color(ChatColor.YELLOW)
+                                .append("\n> 单击打开反馈页面")
+                                .color(ChatColor.GOLD)
+                                .create())
+                    });
                     // @formatter:on
 
                     clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, addon.getBugTrackerURL());
                 } else {
                     // @formatter:off
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent(new ComponentBuilder()
-                            .append("作者: ")
-                            .append(authors)
-                            .color(ChatColor.YELLOW)
-                            .create()
-                    )});
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] {
+                        new TextComponent(new ComponentBuilder()
+                                .append("作者: ")
+                                .append(authors)
+                                .color(ChatColor.YELLOW)
+                                .create())
+                    });
                     // @formatter:on
                 }
             } else {
@@ -168,20 +177,23 @@ class VersionsCommand extends SubCommand {
 
                 if (plugin instanceof SlimefunAddon addon && addon.getBugTrackerURL() != null) {
                     // @formatter:off
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent(new ComponentBuilder()
-                            .append("此插件已被禁用.\n检查后台是否有报错.")
-                            .color(ChatColor.RED)
-                            .append("\n> 单击打开反馈页面")
-                            .color(ChatColor.DARK_RED)
-                            .create()
-                    )});
+                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[] {
+                        new TextComponent(new ComponentBuilder()
+                                .append("此插件已被禁用.\n检查后台是否有报错.")
+                                .color(ChatColor.RED)
+                                .append("\n> 单击打开反馈页面")
+                                .color(ChatColor.DARK_RED)
+                                .create())
+                    });
                     // @formatter:on
 
                     if (addon.getBugTrackerURL() != null) {
                         clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, addon.getBugTrackerURL());
                     }
                 } else {
-                    hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent[]{new TextComponent("插件已被禁用. 可以看看后台是否有报错.")});
+                    hoverEvent = new HoverEvent(
+                            HoverEvent.Action.SHOW_TEXT,
+                            new TextComponent[] {new TextComponent("插件已被禁用. 可以看看后台是否有报错.")});
                 }
             }
 

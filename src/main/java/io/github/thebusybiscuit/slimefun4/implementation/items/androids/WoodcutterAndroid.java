@@ -25,7 +25,8 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
     private static final int MAX_REACH = 160;
 
     @ParametersAreNonnullByDefault
-    public WoodcutterAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public WoodcutterAndroid(
+            ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, tier, item, recipeType, recipe);
     }
 
@@ -49,7 +50,8 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                 Block log = list.get(list.size() - 1);
                 log.getWorld().playEffect(log.getLocation(), Effect.STEP_SOUND, log.getType());
 
-                OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(StorageCacheUtils.getData(b.getLocation(), "owner")));
+                OfflinePlayer owner =
+                        Bukkit.getOfflinePlayer(UUID.fromString(StorageCacheUtils.getData(b.getLocation(), "owner")));
                 if (Slimefun.getProtectionManager().hasPermission(owner, log.getLocation(), Interaction.BREAK_BLOCK)) {
                     breakLog(log, b, menu, face);
                 }
@@ -84,59 +86,35 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
         Predicate<Material> soilRequirement = null;
 
         switch (logType) {
-            case OAK_LOG,
-                OAK_WOOD,
-                STRIPPED_OAK_LOG,
-                STRIPPED_OAK_WOOD -> {
+            case OAK_LOG, OAK_WOOD, STRIPPED_OAK_LOG, STRIPPED_OAK_WOOD -> {
                 saplingType = Material.OAK_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
             }
-            case BIRCH_LOG,
-                BIRCH_WOOD,
-                STRIPPED_BIRCH_LOG,
-                STRIPPED_BIRCH_WOOD -> {
+            case BIRCH_LOG, BIRCH_WOOD, STRIPPED_BIRCH_LOG, STRIPPED_BIRCH_WOOD -> {
                 saplingType = Material.BIRCH_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
             }
-            case JUNGLE_LOG,
-                JUNGLE_WOOD,
-                STRIPPED_JUNGLE_LOG,
-                STRIPPED_JUNGLE_WOOD -> {
+            case JUNGLE_LOG, JUNGLE_WOOD, STRIPPED_JUNGLE_LOG, STRIPPED_JUNGLE_WOOD -> {
                 saplingType = Material.JUNGLE_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
             }
-            case SPRUCE_LOG,
-                SPRUCE_WOOD,
-                STRIPPED_SPRUCE_LOG,
-                STRIPPED_SPRUCE_WOOD -> {
+            case SPRUCE_LOG, SPRUCE_WOOD, STRIPPED_SPRUCE_LOG, STRIPPED_SPRUCE_WOOD -> {
                 saplingType = Material.SPRUCE_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
             }
-            case ACACIA_LOG,
-                ACACIA_WOOD,
-                STRIPPED_ACACIA_LOG,
-                STRIPPED_ACACIA_WOOD -> {
+            case ACACIA_LOG, ACACIA_WOOD, STRIPPED_ACACIA_LOG, STRIPPED_ACACIA_WOOD -> {
                 saplingType = Material.ACACIA_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
             }
-            case DARK_OAK_LOG,
-                DARK_OAK_WOOD,
-                STRIPPED_DARK_OAK_LOG,
-                STRIPPED_DARK_OAK_WOOD -> {
+            case DARK_OAK_LOG, DARK_OAK_WOOD, STRIPPED_DARK_OAK_LOG, STRIPPED_DARK_OAK_WOOD -> {
                 saplingType = Material.DARK_OAK_SAPLING;
                 soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
             }
-            case CRIMSON_STEM,
-                CRIMSON_HYPHAE,
-                STRIPPED_CRIMSON_STEM,
-                STRIPPED_CRIMSON_HYPHAE -> {
+            case CRIMSON_STEM, CRIMSON_HYPHAE, STRIPPED_CRIMSON_STEM, STRIPPED_CRIMSON_HYPHAE -> {
                 saplingType = Material.CRIMSON_FUNGUS;
                 soilRequirement = SlimefunTag.FUNGUS_SOIL::isTagged;
             }
-            case WARPED_STEM,
-                WARPED_HYPHAE,
-                STRIPPED_WARPED_STEM,
-                STRIPPED_WARPED_HYPHAE -> {
+            case WARPED_STEM, WARPED_HYPHAE, STRIPPED_WARPED_STEM, STRIPPED_WARPED_HYPHAE -> {
                 saplingType = Material.WARPED_FUNGUS;
                 soilRequirement = SlimefunTag.FUNGUS_SOIL::isTagged;
             }
@@ -145,13 +123,11 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_19)) {
             switch (logType) {
-                case MANGROVE_LOG,
-                        STRIPPED_MANGROVE_LOG -> {
+                case MANGROVE_LOG, STRIPPED_MANGROVE_LOG -> {
                     saplingType = Material.MANGROVE_PROPAGULE;
                     soilRequirement = SlimefunTag.MANGROVE_BASE_BLOCKS::isTagged;
                 }
-                default -> {
-                }
+                default -> {}
             }
         }
 
@@ -161,15 +137,13 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
                     saplingType = Material.CHERRY_SAPLING;
                     soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
                 }
-                default -> {
-                }
+                default -> {}
             }
         }
 
         if (Slimefun.getMinecraftVersion().isAtLeast(MinecraftVersion.MINECRAFT_1_20)) {
             switch (logType) {
-                case CHERRY_LOG,
-                    STRIPPED_CHERRY_LOG -> {
+                case CHERRY_LOG, STRIPPED_CHERRY_LOG -> {
                     saplingType = Material.CHERRY_SAPLING;
                     soilRequirement = SlimefunTag.DIRT_VARIANTS::isTagged;
                 }
@@ -188,5 +162,4 @@ public class WoodcutterAndroid extends ProgrammableAndroid {
             }
         }
     }
-
 }

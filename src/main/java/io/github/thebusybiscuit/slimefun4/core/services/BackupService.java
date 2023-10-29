@@ -2,9 +2,6 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.apache.commons.lang.Validate;
-
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -19,10 +16,12 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import javax.annotation.Nonnull;
+import org.apache.commons.lang.Validate;
 
 /**
  * This Service creates a Backup of your Slimefun world data on every server shutdown.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -75,7 +74,12 @@ public class BackupService implements Runnable {
                         Slimefun.logger().log(Level.WARNING, "无法创建备份文件: {0}", file.getName());
                     }
                 } catch (IOException x) {
-                    Slimefun.logger().log(Level.SEVERE, x, () -> "An Exception occurred while creating a backup for Slimefun " + Slimefun.getVersion());
+                    Slimefun.logger()
+                            .log(
+                                    Level.SEVERE,
+                                    x,
+                                    () -> "An Exception occurred while creating a backup for Slimefun "
+                                            + Slimefun.getVersion());
                 }
             }
         }
@@ -108,7 +112,8 @@ public class BackupService implements Runnable {
         output.closeEntry();
     }
 
-    private void addDirectory(@Nonnull ZipOutputStream output, @Nonnull File directory, @Nonnull String zipPath) throws IOException {
+    private void addDirectory(@Nonnull ZipOutputStream output, @Nonnull File directory, @Nonnull String zipPath)
+            throws IOException {
         for (File file : directory.listFiles()) {
             addFile(output, file, zipPath);
         }
@@ -116,17 +121,19 @@ public class BackupService implements Runnable {
 
     /**
      * This method will delete old backups.
-     * 
+     *
      * @param backups
      *            The {@link List} of all backups
-     * 
+     *
      * @throws IOException
      *             An {@link IOException} is thrown if a {@link File} could not be deleted
      */
     private void purgeBackups(@Nonnull List<File> backups) throws IOException {
         Collections.sort(backups, (a, b) -> {
-            LocalDateTime time1 = LocalDateTime.parse(a.getName().substring(0, a.getName().length() - 4), format);
-            LocalDateTime time2 = LocalDateTime.parse(b.getName().substring(0, b.getName().length() - 4), format);
+            LocalDateTime time1 =
+                    LocalDateTime.parse(a.getName().substring(0, a.getName().length() - 4), format);
+            LocalDateTime time2 =
+                    LocalDateTime.parse(b.getName().substring(0, b.getName().length() - 4), format);
 
             return time2.compareTo(time1);
         });
@@ -135,5 +142,4 @@ public class BackupService implements Runnable {
             Files.delete(backups.get(i).toPath());
         }
     }
-
 }

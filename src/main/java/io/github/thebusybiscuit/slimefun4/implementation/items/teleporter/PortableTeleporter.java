@@ -9,12 +9,11 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * This item allows a {@link Player} to access and teleport to his waypoints
@@ -29,7 +28,8 @@ public class PortableTeleporter extends SimpleSlimefunItem<ItemUseHandler> imple
     private static final int CAPACITY = 50;
     private static final int DEFAULT_COST = 10;
 
-    private final ItemSetting<Integer> cost = new IntRangeSetting(this, "teleportation-cost", 0, DEFAULT_COST, CAPACITY);
+    private final ItemSetting<Integer> cost =
+            new IntRangeSetting(this, "teleportation-cost", 0, DEFAULT_COST, CAPACITY);
 
     @ParametersAreNonnullByDefault
     public PortableTeleporter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -47,7 +47,10 @@ public class PortableTeleporter extends SimpleSlimefunItem<ItemUseHandler> imple
 
             if (removeItemCharge(item, cost.getValue())) {
                 Player p = e.getPlayer();
-                Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(p, p.getUniqueId(), p.getLocation().getBlock().getRelative(BlockFace.DOWN));
+                Slimefun.getGPSNetwork()
+                        .getTeleportationManager()
+                        .openTeleporterGUI(
+                                p, p.getUniqueId(), p.getLocation().getBlock().getRelative(BlockFace.DOWN));
             }
         };
     }

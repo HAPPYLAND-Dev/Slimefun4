@@ -8,6 +8,7 @@ import io.github.bakedlibs.dough.skins.PlayerHead;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.EnergyNetProvider;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
@@ -31,12 +32,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-
 /**
  * This {@link Listener} is responsible for handling our debugging tool, the debug fish.
  * This is where the functionality of this item is implemented.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -92,13 +91,15 @@ public class DebugFishListener implements Listener {
     private void onRightClick(Player p, Block b, BlockFace face) {
         if (p.isSneaking()) {
             // Fixes #2655 - Delaying the placement to prevent a new event from being fired
-            Slimefun.runSync(() -> {
-                Block block = b.getRelative(face);
-                block.setType(Material.PLAYER_HEAD);
+            Slimefun.runSync(
+                    () -> {
+                        Block block = b.getRelative(face);
+                        block.setType(Material.PLAYER_HEAD);
 
-                PlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getAsSkin(), true);
-                SoundEffect.DEBUG_FISH_CLICK_SOUND.playFor(p);
-            }, 2L);
+                        PlayerHead.setSkin(block, HeadTexture.MISSING_TEXTURE.getAsSkin(), true);
+                        SoundEffect.DEBUG_FISH_CLICK_SOUND.playFor(p);
+                    },
+                    2L);
             return;
         }
 
@@ -136,7 +137,8 @@ public class DebugFishListener implements Listener {
 
             if (!tags.isEmpty()) {
                 p.sendMessage(" ");
-                p.sendMessage(ChatColors.color("&dSlimefun tags for: &e") + b.getType().name());
+                p.sendMessage(ChatColors.color("&dSlimefun tags for: &e")
+                        + b.getType().name());
 
                 for (SlimefunTag tag : tags) {
                     p.sendMessage(ChatColors.color("&d* &e") + tag.name());
@@ -153,7 +155,8 @@ public class DebugFishListener implements Listener {
         SlimefunItem item = SlimefunItem.getById(blockData.getSfId());
 
         p.sendMessage(" ");
-        p.sendMessage(ChatColors.color("&d" + b.getType() + " &e@ X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ()));
+        p.sendMessage(
+                ChatColors.color("&d" + b.getType() + " &e@ X: " + b.getX() + " Y: " + b.getY() + " Z: " + b.getZ()));
         p.sendMessage(ChatColors.color("&dId: " + "&e" + item.getId()));
         p.sendMessage(ChatColors.color("&dPlugin: " + "&e" + item.getAddon().getName()));
 
@@ -162,9 +165,11 @@ public class DebugFishListener implements Listener {
 
             // Check if the skull is a wall skull, and if so use Directional instead of Rotatable.
             if (b.getType() == Material.PLAYER_WALL_HEAD) {
-                p.sendMessage(ChatColors.color("  &dFacing: &e" + ((Directional) b.getBlockData()).getFacing().toString()));
+                p.sendMessage(ChatColors.color("  &dFacing: &e"
+                        + ((Directional) b.getBlockData()).getFacing().toString()));
             } else {
-                p.sendMessage(ChatColors.color("  &dRotation: &e" + ((Rotatable) b.getBlockData()).getRotation().toString()));
+                p.sendMessage(ChatColors.color("  &dRotation: &e"
+                        + ((Rotatable) b.getBlockData()).getRotation().toString()));
             }
         }
 
@@ -176,14 +181,17 @@ public class DebugFishListener implements Listener {
 
         if (item.isTicking()) {
             p.sendMessage(ChatColors.color("&dTicker: " + greenCheckmark));
-            p.sendMessage(ChatColors.color("  &dAsync: &e" + (item.getBlockTicker().isSynchronized() ? redCross : greenCheckmark)));
+            p.sendMessage(ChatColors.color(
+                    "  &dAsync: &e" + (item.getBlockTicker().isSynchronized() ? redCross : greenCheckmark)));
         } else if (item instanceof EnergyNetProvider) {
             p.sendMessage(ChatColors.color("&dTicker: &3Indirect (Generator)"));
         } else {
             p.sendMessage(ChatColors.color("&dTicker: " + redCross));
         }
 
-        var ticker = Slimefun.getTickerTask().getLocations(b.getChunk()).stream().filter(l -> l.equals(b.getLocation())).findFirst();
+        var ticker = Slimefun.getTickerTask().getLocations(b.getChunk()).stream()
+                .filter(l -> l.equals(b.getLocation()))
+                .findFirst();
 
         if (ticker.isPresent()) {
             p.sendMessage(ChatColors.color("&dTicking: " + greenCheckmark));
@@ -192,9 +200,12 @@ public class DebugFishListener implements Listener {
         }
 
         if (Slimefun.getProfiler().hasTimings(b)) {
-            p.sendMessage(ChatColors.color("  &dTimings: &e" + Slimefun.getProfiler().getTime(b)));
-            p.sendMessage(ChatColors.color("  &dTotal Timings: &e" + Slimefun.getProfiler().getTime(item)));
-            p.sendMessage(ChatColors.color("  &dChunk Timings: &e" + Slimefun.getProfiler().getTime(b.getChunk())));
+            p.sendMessage(
+                    ChatColors.color("  &dTimings: &e" + Slimefun.getProfiler().getTime(b)));
+            p.sendMessage(ChatColors.color(
+                    "  &dTotal Timings: &e" + Slimefun.getProfiler().getTime(item)));
+            p.sendMessage(ChatColors.color(
+                    "  &dChunk Timings: &e" + Slimefun.getProfiler().getTime(b.getChunk())));
         }
 
         if (item instanceof EnergyNetComponent component) {
@@ -203,7 +214,8 @@ public class DebugFishListener implements Listener {
 
             if (component.isChargeable()) {
                 p.sendMessage(ChatColors.color("  &dChargeable: " + greenCheckmark));
-                p.sendMessage(ChatColors.color("  &dEnergy: &e" + component.getCharge(b.getLocation()) + " / " + component.getCapacity()));
+                p.sendMessage(ChatColors.color(
+                        "  &dEnergy: &e" + component.getCharge(b.getLocation()) + " / " + component.getCapacity()));
             } else {
                 p.sendMessage(ChatColors.color("&dChargeable: " + redCross));
             }

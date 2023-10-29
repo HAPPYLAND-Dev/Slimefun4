@@ -10,15 +10,14 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.RandomMobDrop;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.entity.IronGolem;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link BasicCircuitBoard} is a basic crafting component which can be
  * obtained by killing an {@link IronGolem}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author dniym
  *
@@ -49,5 +48,4 @@ public class BasicCircuitBoard extends SimpleSlimefunItem<ItemUseHandler> implem
     public ItemUseHandler getItemHandler() {
         return PlayerRightClickEvent::cancel;
     }
-
 }

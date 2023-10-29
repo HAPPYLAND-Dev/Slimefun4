@@ -5,6 +5,16 @@ import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.UUID;
+import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,15 +22,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.io.File;
-import java.util.*;
-import java.util.logging.Level;
-
 /**
  * A {@link Script} represents runnable code for a {@link ProgrammableAndroid}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -33,7 +37,7 @@ public final class Script {
 
     /**
      * This constructs a new {@link Script} from the given {@link Config}.
-     * 
+     *
      * @param config
      *            The {@link Config}
      */
@@ -57,7 +61,7 @@ public final class Script {
 
     /**
      * This returns the name of this {@link Script}.
-     * 
+     *
      * @return The name
      */
     @Nonnull
@@ -68,7 +72,7 @@ public final class Script {
     /**
      * This returns the author of this {@link Script}.
      * The author is the person who initially created and uploaded this {@link Script}.
-     * 
+     *
      * @return The author of this {@link Script}
      */
     @Nonnull
@@ -80,7 +84,7 @@ public final class Script {
      * This method returns the actual code of this {@link Script}.
      * It is basically a {@link String} describing the order of {@link Instruction Instructions} that
      * shall be executed.
-     * 
+     *
      * @return The code for this {@link Script}
      */
     @Nonnull
@@ -91,10 +95,10 @@ public final class Script {
     /**
      * This method determines whether the given {@link OfflinePlayer} is the author of
      * this {@link Script}.
-     * 
+     *
      * @param p
      *            The {@link OfflinePlayer} to check for
-     * 
+     *
      * @return Whether the given {@link OfflinePlayer} is the author of this {@link Script}.
      */
     public boolean isAuthor(@Nonnull OfflinePlayer p) {
@@ -104,10 +108,10 @@ public final class Script {
     /**
      * This method checks whether a given {@link Player} is able to leave a rating for this {@link Script}.
      * A {@link Player} is unable to rate his own {@link Script} or a {@link Script} he already rated before.
-     * 
+     *
      * @param p
      *            The {@link Player} to check for
-     * 
+     *
      * @return Whether the given {@link Player} is able to rate this {@link Script}
      */
     public boolean canRate(@Nonnull Player p) {
@@ -117,7 +121,8 @@ public final class Script {
 
         List<String> upvoters = config.getStringList("rating.positive");
         List<String> downvoters = config.getStringList("rating.negative");
-        return !upvoters.contains(p.getUniqueId().toString()) && !downvoters.contains(p.getUniqueId().toString());
+        return !upvoters.contains(p.getUniqueId().toString())
+                && !downvoters.contains(p.getUniqueId().toString());
     }
 
     @Nonnull
@@ -149,7 +154,7 @@ public final class Script {
 
     /**
      * This method returns the amount of upvotes this {@link Script} has received.
-     * 
+     *
      * @return The amount of upvotes
      */
     public int getUpvotes() {
@@ -158,7 +163,7 @@ public final class Script {
 
     /**
      * This method returns the amount of downvotes this {@link Script} has received.
-     * 
+     *
      * @return The amount of downvotes
      */
     public int getDownvotes() {
@@ -167,7 +172,7 @@ public final class Script {
 
     /**
      * This returns how often this {@link Script} has been downloaded.
-     * 
+     *
      * @return The amount of downloads for this {@link Script}.
      */
     public int getDownloads() {
@@ -177,7 +182,7 @@ public final class Script {
     /**
      * This returns the "rating" of this {@link Script}.
      * This value is calculated from the up- and downvotes this {@link Script} received.
-     * 
+     *
      * @return The rating for this {@link Script}
      */
     public float getRating() {
@@ -237,7 +242,13 @@ public final class Script {
                         scripts.add(new Script(config));
                     }
                 } catch (Exception x) {
-                    Slimefun.logger().log(Level.SEVERE, x, () -> "An Exception occurred while trying to load Android Script '" + file.getName() + "'");
+                    Slimefun.logger()
+                            .log(
+                                    Level.SEVERE,
+                                    x,
+                                    () -> "An Exception occurred while trying to load Android Script '"
+                                            + file.getName()
+                                            + "'");
                 }
             }
         }
@@ -245,7 +256,8 @@ public final class Script {
 
     @ParametersAreNonnullByDefault
     public static void upload(Player p, AndroidType androidType, int id, String name, String code) {
-        Config config = new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + id + ".sfs");
+        Config config =
+                new Config("plugins/Slimefun/scripts/" + androidType.name() + '/' + p.getName() + ' ' + id + ".sfs");
 
         config.setValue("author", p.getUniqueId().toString());
         config.setValue("author_name", p.getName());
@@ -257,5 +269,4 @@ public final class Script {
         config.setValue("rating.negative", new ArrayList<String>());
         config.save();
     }
-
 }

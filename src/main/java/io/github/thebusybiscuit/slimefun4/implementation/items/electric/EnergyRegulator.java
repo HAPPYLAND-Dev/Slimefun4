@@ -21,9 +21,9 @@ import org.bukkit.inventory.ItemStack;
 /**
  * The {@link EnergyRegulator} is a special type of {@link SlimefunItem} which serves as the heart of every
  * {@link EnergyNet}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see EnergyNet
  * @see EnergyNetComponent
  *
@@ -56,7 +56,6 @@ public class EnergyRegulator extends SlimefunItem implements HologramOwner {
             public void onPlayerPlace(BlockPlaceEvent e) {
                 updateHologram(e.getBlock(), "&7连接中...");
             }
-
         };
     }
 
@@ -82,5 +81,4 @@ public class EnergyRegulator extends SlimefunItem implements HologramOwner {
         EnergyNet network = EnergyNet.getNetworkFromLocationOrCreate(b.getLocation());
         network.tick(b);
     }
-
 }

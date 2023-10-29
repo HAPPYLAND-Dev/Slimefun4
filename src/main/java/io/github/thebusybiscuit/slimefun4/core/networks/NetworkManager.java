@@ -26,10 +26,10 @@ import org.bukkit.Server;
 /**
  * The {@link NetworkManager} is responsible for holding all instances of {@link Network}
  * and providing some utility methods that would have probably been static otherwise.
- * 
+ *
  * @author TheBusyBiscuit
  * @author meiamsome
- * 
+ *
  * @see Network
  * @see NetworkListener
  *
@@ -42,7 +42,7 @@ public class NetworkManager {
 
     /**
      * Fixes #3041
-     * 
+     *
      * We use a {@link CopyOnWriteArrayList} here to ensure thread-safety.
      * This {@link List} is also much more frequently read than being written to.
      * Therefore a {@link CopyOnWriteArrayList} should be perfect for this, even
@@ -52,7 +52,7 @@ public class NetworkManager {
 
     /**
      * This creates a new {@link NetworkManager} with the given capacity.
-     * 
+     *
      * @param maxStepSize
      *            The maximum amount of nodes a {@link Network} can have
      * @param enableVisualizer
@@ -70,7 +70,7 @@ public class NetworkManager {
 
     /**
      * This creates a new {@link NetworkManager} with the given capacity.
-     * 
+     *
      * @param maxStepSize
      *            The maximum amount of nodes a {@link Network} can have
      */
@@ -81,7 +81,7 @@ public class NetworkManager {
     /**
      * This method returns the limit of nodes a {@link Network} can have.
      * This value is read from the {@link Config} file.
-     * 
+     *
      * @return the maximum amount of nodes a {@link Network} can have
      */
     public int getMaxSize() {
@@ -90,7 +90,7 @@ public class NetworkManager {
 
     /**
      * This returns whether the {@link Network} visualizer is enabled.
-     * 
+     *
      * @return Whether the {@link Network} visualizer is enabled
      */
     public boolean isVisualizerEnabled() {
@@ -100,7 +100,7 @@ public class NetworkManager {
     /**
      * This returns whether excess items from a {@link CargoNet} should be voided
      * instead of being dropped to the ground.
-     * 
+     *
      * @return Whether to delete excess items
      */
     public boolean isItemDeletionEnabled() {
@@ -110,7 +110,7 @@ public class NetworkManager {
     /**
      * This returns a {@link List} of every {@link Network} on the {@link Server}.
      * The returned {@link List} is not modifiable.
-     * 
+     *
      * @return A {@link List} containing every {@link Network} on the {@link Server}
      */
     @Nonnull
@@ -156,28 +156,31 @@ public class NetworkManager {
 
     /**
      * This registers a given {@link Network}.
-     * 
+     *
      * @param network
      *            The {@link Network} to register
      */
     public void registerNetwork(@Nonnull Network network) {
         Validate.notNull(network, "Cannot register a null Network");
 
-        Debug.log(TestCase.ENERGYNET, "Registering network @ " + LocationUtils.locationToString(network.getRegulator()));
+        Debug.log(
+                TestCase.ENERGYNET, "Registering network @ " + LocationUtils.locationToString(network.getRegulator()));
 
         networks.add(network);
     }
 
     /**
      * This removes a {@link Network} from the network system.
-     * 
+     *
      * @param network
      *            The {@link Network} to remove
      */
     public void unregisterNetwork(@Nonnull Network network) {
         Validate.notNull(network, "Cannot unregister a null Network");
 
-        Debug.log(TestCase.ENERGYNET, "Unregistering network @ " + LocationUtils.locationToString(network.getRegulator()));
+        Debug.log(
+                TestCase.ENERGYNET,
+                "Unregistering network @ " + LocationUtils.locationToString(network.getRegulator()));
 
         networks.remove(network);
     }
@@ -185,7 +188,7 @@ public class NetworkManager {
     /**
      * This method updates every {@link Network} found at the given {@link Location}.
      * More precisely, {@link Network#markDirty(Location)} will be called.
-     * 
+     *
      * @param l
      *            The {@link Location} to update
      */
@@ -206,7 +209,7 @@ public class NetworkManager {
             /*
              * Only a Slimefun block can be part of a Network.
              * This check helps to speed up performance.
-             * 
+             *
              * (Skip for Unit Tests as they don't support block info yet)
              */
             if (!StorageCacheUtils.hasBlock(l) && Slimefun.getMinecraftVersion() != MinecraftVersion.UNIT_TEST) {
@@ -218,8 +221,11 @@ public class NetworkManager {
                 network.markDirty(l);
             }
         } catch (Exception x) {
-            Slimefun.logger().log(Level.SEVERE, x, () -> "An Exception was thrown while causing a networks update @ " + new BlockPosition(l));
+            Slimefun.logger()
+                    .log(
+                            Level.SEVERE,
+                            x,
+                            () -> "An Exception was thrown while causing a networks update @ " + new BlockPosition(l));
         }
     }
-
 }

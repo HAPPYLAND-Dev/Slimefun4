@@ -11,17 +11,20 @@ import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.InfiniteBlockGenerator;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.Collection;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Container;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collection;
-import java.util.UUID;
 
 /**
  * The {@link MinerAndroid} is a variant of the {@link ProgrammableAndroid} which
@@ -31,7 +34,7 @@ import java.util.UUID;
  * Otherwise the functionality is similar to a regular android.
  * <p>
  * The {@link MinerAndroid} will also fire an {@link AndroidMineEvent} when breaking a {@link Block}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author creator3
  * @author poma123
@@ -39,7 +42,7 @@ import java.util.UUID;
  * @author CyberPatriot
  * @author Redemption198
  * @author Poslovitch
- * 
+ *
  * @see AndroidMineEvent
  *
  */
@@ -52,7 +55,8 @@ public class MinerAndroid extends ProgrammableAndroid {
     private final ItemSetting<Boolean> applyOptimizations = new ItemSetting<>(this, "reduced-block-updates", true);
 
     @ParametersAreNonnullByDefault
-    public MinerAndroid(ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public MinerAndroid(
+            ItemGroup itemGroup, int tier, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, tier, item, recipeType, recipe);
 
         addItemSetting(firesEvent, applyOptimizations);
@@ -70,7 +74,8 @@ public class MinerAndroid extends ProgrammableAndroid {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(StorageCacheUtils.getData(b.getLocation(), "owner")));
+            OfflinePlayer owner =
+                    Bukkit.getOfflinePlayer(UUID.fromString(StorageCacheUtils.getData(b.getLocation(), "owner")));
 
             if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
                 AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
@@ -94,7 +99,8 @@ public class MinerAndroid extends ProgrammableAndroid {
         Collection<ItemStack> drops = block.getDrops(effectivePickaxe);
 
         if (!SlimefunTag.UNBREAKABLE_MATERIALS.isTagged(block.getType()) && !drops.isEmpty()) {
-            OfflinePlayer owner = Bukkit.getOfflinePlayer(UUID.fromString(StorageCacheUtils.getData(b.getLocation(), "owner")));
+            OfflinePlayer owner =
+                    Bukkit.getOfflinePlayer(UUID.fromString(StorageCacheUtils.getData(b.getLocation(), "owner")));
 
             if (Slimefun.getProtectionManager().hasPermission(owner, block.getLocation(), Interaction.BREAK_BLOCK)) {
                 AndroidMineEvent event = new AndroidMineEvent(block, new AndroidInstance(this, b));
@@ -149,7 +155,17 @@ public class MinerAndroid extends ProgrammableAndroid {
 
                 // "poof" a "new" block was generated
                 SoundEffect.MINER_ANDROID_BLOCK_GENERATION_SOUND.playAt(block);
-                block.getWorld().spawnParticle(Particle.SMOKE_NORMAL, block.getX() + 0.5, block.getY() + 1.25, block.getZ() + 0.5, 8, 0.5, 0.5, 0.5, 0.015);
+                block.getWorld()
+                        .spawnParticle(
+                                Particle.SMOKE_NORMAL,
+                                block.getX() + 0.5,
+                                block.getY() + 1.25,
+                                block.getZ() + 0.5,
+                                8,
+                                0.5,
+                                0.5,
+                                0.5,
+                                0.015);
             } else {
                 block.setType(Material.AIR);
             }
@@ -157,5 +173,4 @@ public class MinerAndroid extends ProgrammableAndroid {
             block.setType(Material.AIR);
         }
     }
-
 }

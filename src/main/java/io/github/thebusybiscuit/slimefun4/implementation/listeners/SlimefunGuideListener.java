@@ -7,6 +7,8 @@ import io.github.thebusybiscuit.slimefun4.core.guide.SlimefunGuideMode;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -15,9 +17,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 public class SlimefunGuideListener implements Listener {
 
@@ -54,7 +53,11 @@ public class SlimefunGuideListener implements Listener {
             }
         } else if (tryOpenGuide(p, e, SlimefunGuideMode.CHEAT_MODE) == Result.ALLOW) {
             if (p.isSneaking()) {
-                SlimefunGuideSettings.openSettings(p, p.hasPermission("slimefun.cheat.items") ? e.getItem() : SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE));
+                SlimefunGuideSettings.openSettings(
+                        p,
+                        p.hasPermission("slimefun.cheat.items")
+                                ? e.getItem()
+                                : SlimefunGuide.getItem(SlimefunGuideMode.SURVIVAL_MODE));
             } else {
                 /*
                  * We rather just run the command here, all
@@ -91,5 +94,4 @@ public class SlimefunGuideListener implements Listener {
 
         return Result.DEFAULT;
     }
-
 }

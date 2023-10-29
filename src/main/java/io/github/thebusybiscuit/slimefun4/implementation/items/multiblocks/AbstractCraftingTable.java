@@ -27,9 +27,9 @@ import java.util.Optional;
 /**
  * This abstract super class is responsible for some utility methods for machines which
  * are capable of upgrading backpacks.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see EnhancedCraftingTable
  * @see MagicWorkbench
  * @see ArmorForge
@@ -41,7 +41,6 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
     AbstractCraftingTable(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, BlockFace trigger) {
         super(itemGroup, item, recipe, trigger);
     }
-
 
     protected @Nonnull Inventory createVirtualInventory(@Nonnull Inventory inv) {
         Inventory fakeInv = Bukkit.createInventory(null, 9, "Fake Inventory");
@@ -66,13 +65,16 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
 
     // Return: true if upgrade from existing backpack, else false
     @ParametersAreNonnullByDefault
-    protected boolean upgradeBackpack(Player p, Inventory inv, SlimefunBackpack backpack, ItemStack output, Runnable onReadyCb) {
+    protected boolean upgradeBackpack(
+            Player p, Inventory inv, SlimefunBackpack backpack, ItemStack output, Runnable onReadyCb) {
         ItemStack input = null;
 
         var contents = inv.getContents();
         for (int j = 0; j < 9; j++) {
             var item = contents[j];
-            if (item != null && item.getType() != Material.AIR && SlimefunItem.getByItem(item) instanceof SlimefunBackpack) {
+            if (item != null
+                    && item.getType() != Material.AIR
+                    && SlimefunItem.getByItem(item) instanceof SlimefunBackpack) {
                 input = inv.getContents()[j];
                 break;
             }
@@ -87,9 +89,9 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
         Optional<String> id = retrieveUuid(input);
 
         if (id.isPresent()) {
-            Slimefun.getDatabaseManager().getProfileDataController().getBackpackAsync(
-                    id.get(),
-                    new IAsyncReadCallback<>() {
+            Slimefun.getDatabaseManager()
+                    .getProfileDataController()
+                    .getBackpackAsync(id.get(), new IAsyncReadCallback<>() {
                         @Override
                         public boolean runOnMainThread() {
                             return true;
@@ -101,16 +103,14 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
                             PlayerBackpack.bindItem(output, result);
                             onReadyCb.run();
                         }
-                    }
-            );
+                    });
             return true;
         } else {
             id = retrieveID(input);
             if (id.isPresent()) {
-                Slimefun.getDatabaseManager().getProfileDataController().getBackpackAsync(
-                        p,
-                        Integer.parseInt(id.get()),
-                        new IAsyncReadCallback<>() {
+                Slimefun.getDatabaseManager()
+                        .getProfileDataController()
+                        .getBackpackAsync(p, Integer.parseInt(id.get()), new IAsyncReadCallback<>() {
                             @Override
                             public boolean runOnMainThread() {
                                 return true;
@@ -122,14 +122,12 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
                                 PlayerBackpack.bindItem(output, result);
                                 onReadyCb.run();
                             }
-                        }
-                );
+                        });
                 return true;
             }
         }
         return false;
     }
-
 
     private @Nonnull Optional<String> retrieveID(@Nullable ItemStack backpack) {
         if (backpack != null) {
@@ -150,5 +148,4 @@ abstract class AbstractCraftingTable extends MultiBlockMachine {
 
         return PlayerBackpack.getBackpackUUID(backpack.getItemMeta());
     }
-
 }

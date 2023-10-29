@@ -13,6 +13,18 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.settings.ClimbableSurface;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
@@ -25,12 +37,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The {@link ClimbingPick} launches you 1 block upwards when you right click
@@ -87,7 +93,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     /**
      * This returns whether the {@link ClimbingPick} needs to be held in both
      * arms to work.
-     * 
+     *
      * @return Whether dual wielding is enabled
      */
     public boolean isDualWieldingEnabled() {
@@ -97,7 +103,7 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
     /**
      * This method returns a {@link Collection} of every {@link ClimbableSurface} the
      * {@link ClimbingPick} can climb.
-     * 
+     *
      * @return A {@link Collection} of every {@link ClimbableSurface}
      */
     @Nonnull
@@ -107,10 +113,10 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     /**
      * This returns the climbing speed for a given {@link Material}.
-     * 
+     *
      * @param type
      *            The {@link Material}
-     * 
+     *
      * @return The climbing speed for this {@link Material} or 0.
      */
     public double getClimbingSpeed(@Nonnull Material type) {
@@ -126,12 +132,12 @@ public class ClimbingPick extends SimpleSlimefunItem<ItemUseHandler> implements 
 
     /**
      * This returns the climbing speed for a given {@link Material} and the used {@link ItemStack}.
-     * 
+     *
      * @param item
      *            the {@link ClimbingPick}'s {@link ItemStack}
      * @param type
      *            The {@link Material}
-     * 
+     *
      * @return The climbing speed or 0.
      */
     public double getClimbingSpeed(@Nonnull ItemStack item, @Nonnull Material type) {

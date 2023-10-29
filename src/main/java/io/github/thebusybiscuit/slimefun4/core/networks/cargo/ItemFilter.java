@@ -10,23 +10,22 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.cargo.CargoNode;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.function.Predicate;
-
 /**
  * The {@link ItemFilter} is a performance-optimization for our {@link CargoNet}.
  * It is a snapshot of a cargo node's configuration.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see CargoNet
  * @see CargoNetworkTask
  *
@@ -64,7 +63,7 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This creates a new {@link ItemFilter} for the given {@link Block}.
      * This will copy all settings from that {@link Block} to this filter.
-     * 
+     *
      * @param b
      *            The {@link Block}
      */
@@ -75,7 +74,7 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This updates or refreshes the {@link ItemFilter} to copy the settings
      * from the given {@link Block}. It takes a new snapshot.
-     * 
+     *
      * @param b
      *            The {@link Block}
      */
@@ -89,16 +88,15 @@ class ItemFilter implements Predicate<ItemStack> {
             update(blockData);
         } else {
             isLoading = true;
-            Slimefun.getDatabaseManager().getBlockDataController(b.getWorld()).loadBlockDataAsync(
-                    blockData,
-                    new IAsyncReadCallback<>() {
+            Slimefun.getDatabaseManager()
+                    .getBlockDataController(b.getWorld())
+                    .loadBlockDataAsync(blockData, new IAsyncReadCallback<>() {
                         @Override
                         public void onResult(SlimefunBlockData result) {
                             update(blockData);
                             isLoading = false;
                         }
-                    }
-            );
+                    });
         }
     }
 
@@ -131,7 +129,10 @@ class ItemFilter implements Predicate<ItemStack> {
                          * However if that ever happens again, we will know the reason and be able
                          * to send a warning in response to it.
                          */
-                        item.warn("Cargo Node was marked as a 'filtering' node but has an insufficient inventory size (" + inventorySize + ")");
+                        item.warn("Cargo Node was marked as a 'filtering' node but has an insufficient inventory size"
+                                + " ("
+                                + inventorySize
+                                + ")");
                         return;
                     }
 
@@ -158,7 +159,7 @@ class ItemFilter implements Predicate<ItemStack> {
     /**
      * This will clear the {@link ItemFilter} and reject <strong>any</strong>
      * {@link ItemStack}.
-     * 
+     *
      * @param rejectOnMatch
      *            Whether the item should be rejected on matches
      */
@@ -170,7 +171,7 @@ class ItemFilter implements Predicate<ItemStack> {
 
     /**
      * Whether this {@link ItemFilter} is outdated and needs to be refreshed.
-     * 
+     *
      * @return Whether the filter is outdated.
      */
     public boolean isDirty() {
@@ -243,5 +244,4 @@ class ItemFilter implements Predicate<ItemStack> {
             return rejectOnMatch;
         }
     }
-
 }

@@ -15,6 +15,4 @@ import org.bukkit.event.Listener;
  * @see ItemDropHandler
  *
  */
-public interface GlobalItemHandler extends ItemHandler {
-
-}
+public interface GlobalItemHandler extends ItemHandler {}

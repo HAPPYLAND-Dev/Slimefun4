@@ -27,11 +27,25 @@ import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
@@ -40,18 +54,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.*;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.logging.Level;
-
 /**
  * This is the abstract super class for our auto crafters.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see VanillaAutoCrafter
  * @see EnhancedAutoCrafter
  *
@@ -84,16 +91,15 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     // @formatter:off
     protected final int[] background = {
-        0, 1, 2, 3, 4, 5, 6, 7, 8,
-        9, 10, 14, 15, 16, 17,
-        18, 19, 23, 25, 26,
-        27, 28, 32, 33, 34, 35,
-        36, 37, 38, 39, 40, 41, 42, 43, 44
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 14, 15, 16, 17, 18, 19, 23, 25, 26, 27, 28, 32, 33, 34, 35, 36, 37, 38, 39,
+        40, 41, 42, 43, 44
     };
+
     // @formatter:on
 
     @ParametersAreNonnullByDefault
-    protected AbstractAutoCrafter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AbstractAutoCrafter(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         recipeStorageKey = new NamespacedKey(Slimefun.instance(), "recipe_key");
@@ -138,7 +144,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * <p>
      * Do not call this method directly, see our {@link AutoCrafterListener} for the intended
      * use case.
-     * 
+     *
      * @param b
      *            The {@link Block} that was clicked
      * @param p
@@ -174,7 +180,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method performs one tick for the {@link AbstractAutoCrafter}.
-     * 
+     *
      * @param b
      *            The block for this {@link AbstractAutoCrafter}
      * @param data
@@ -196,9 +202,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             // Check if recipe change. If so, update the count...
             ItemStack cachedRecipeResult = recipeCache.get(b);
 
-            if (cachedRecipeResult == null || !SlimefunUtils.isItemSimilar(recipe.getResult(), cachedRecipeResult, true, false)) {
+            if (cachedRecipeResult == null
+                    || !SlimefunUtils.isItemSimilar(recipe.getResult(), cachedRecipeResult, true, false)) {
                 recipeCache.put(b, recipe.getResult());
-                CrafterInteractorManager.getInteractor(targetBlock).setIngredientCount(targetBlock, getIngredientCount(recipe));
+                CrafterInteractorManager.getInteractor(targetBlock)
+                        .setIngredientCount(targetBlock, getIngredientCount(recipe));
             }
         }
 
@@ -206,7 +214,6 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         if (!recipe.isEnabled() || getCharge(b.getLocation(), data) < getEnergyConsumption()) {
             return;
         }
-
 
         // Make sure this is interactable
         if (isValidInventory(targetBlock)) {
@@ -223,7 +230,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 }
             }
 
-            // While passing the #isValidInventory means that there should a valid interactor, double check it for sure.
+            // While passing the #isValidInventory means that there should a valid interactor, double
+            // check it for sure.
             if (interactor != null) {
                 if (craft(interactor, recipe)) {
                     // We are done crafting!
@@ -233,7 +241,6 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 }
             }
         } else recipeCache.remove(b);
-
     }
 
     /**
@@ -277,10 +284,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * where the Auto Crafter could be placed upon.
      * Right now this only supports chests and a few select tile entities but it can change or
      * be overridden in the future.
-     * 
+     *
      * @param block
      *            The {@link Block} to check
-     * 
+     *
      * @return Whether that {@link Block} has a valid {@link Inventory}
      */
     protected boolean isValidInventory(@Nonnull Block block) {
@@ -297,20 +304,19 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     /**
      * This method returns the currently selected {@link AbstractRecipe} for the given
      * {@link Block}.
-     * 
+     *
      * @param b
      *            The {@link Block}
-     * 
+     *
      * @return The currently selected {@link AbstractRecipe} or null
      */
-    @Nullable
-    public abstract AbstractRecipe getSelectedRecipe(@Nonnull Block b);
+    @Nullable public abstract AbstractRecipe getSelectedRecipe(@Nonnull Block b);
 
     /**
      * This method is called when a {@link Player} right clicks the {@link AbstractAutoCrafter}
      * while holding the shift button.
      * Use it to choose the {@link AbstractRecipe}.
-     * 
+     *
      * @param b
      *            The {@link Block} which was clicked
      * @param p
@@ -321,7 +327,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
     /**
      * This method sets the selected {@link AbstractRecipe} for the given {@link Block}.
      * The recipe will be stored using the {@link PersistentDataAPI}.
-     * 
+     *
      * @param b
      *            The {@link Block} to store the data on
      * @param recipe
@@ -354,7 +360,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This shows the given {@link AbstractRecipe} to the {@link Player} in a preview window.
-     * 
+     *
      * @param p
      *            The {@link Player}
      * @param b
@@ -376,7 +382,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         ChestMenuUtils.drawBackground(menu, 45, 46, 47, 48, 50, 51, 52, 53);
 
         if (recipe.isEnabled()) {
-            menu.addItem(49, new CustomItemStack(Material.BARRIER, Slimefun.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.enabled")));
+            menu.addItem(
+                    49,
+                    new CustomItemStack(
+                            Material.BARRIER,
+                            Slimefun.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.enabled")));
             menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
                 if (action.isRightClicked()) {
                     deleteRecipe(pl, b);
@@ -387,7 +397,11 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
                 return false;
             });
         } else {
-            menu.addItem(49, new CustomItemStack(HeadTexture.EXCLAMATION_MARK.getAsItemStack(), Slimefun.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.disabled")));
+            menu.addItem(
+                    49,
+                    new CustomItemStack(
+                            HeadTexture.EXCLAMATION_MARK.getAsItemStack(),
+                            Slimefun.getLocalization().getMessages(p, "messages.auto-crafting.tooltips.disabled")));
             menu.addMenuClickHandler(49, (pl, item, slot, action) -> {
                 if (action.isRightClicked()) {
                     deleteRecipe(pl, b);
@@ -437,8 +451,6 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         SoundEffect.AUTO_CRAFTER_GUI_CLICK_SOUND.playFor(p);
         Slimefun.getLocalization().sendMessage(p, "messages.auto-crafting.recipe-removed");
     }
-
-
 
     /**
      * This method performs a crafting operation.
@@ -514,30 +526,25 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * However we cannot use this method as it is only available in the latest 1.16 snapshots
      * of Spigot, not even on earlier 1.16 builds...
      * But this gives us more control over the leftovers anyway!
-     * 
+     *
      * @param item
      *            The {@link ItemStack} that is being consumed
-     * 
+     *
      * @return The leftover item or null if the item is fully consumed
      */
-    @Nullable
-    private ItemStack getLeftoverItem(@Nonnull ItemStack item) {
+    @Nullable private ItemStack getLeftoverItem(@Nonnull ItemStack item) {
         Material type = item.getType();
 
         return switch (type) {
-            case WATER_BUCKET,
-                LAVA_BUCKET,
-                MILK_BUCKET -> new ItemStack(Material.BUCKET);
-            case DRAGON_BREATH,
-                POTION,
-                HONEY_BOTTLE -> new ItemStack(Material.GLASS_BOTTLE);
+            case WATER_BUCKET, LAVA_BUCKET, MILK_BUCKET -> new ItemStack(Material.BUCKET);
+            case DRAGON_BREATH, POTION, HONEY_BOTTLE -> new ItemStack(Material.GLASS_BOTTLE);
             default -> null;
         };
     }
 
     /**
      * This method returns the max amount of electricity this machine can hold.
-     * 
+     *
      * @return The max amount of electricity this Block can store.
      */
     @Override
@@ -547,7 +554,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method returns the amount of energy that is consumed per operation.
-     * 
+     *
      * @return The rate of energy consumption
      */
     public int getEnergyConsumption() {
@@ -558,10 +565,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
      * This sets the energy capacity for this machine.
      * This method <strong>must</strong> be called before registering the item
      * and only before registering.
-     * 
+     *
      * @param capacity
      *            The amount of energy this machine can store
-     * 
+     *
      * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
@@ -578,17 +585,19 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
     /**
      * This method sets the energy consumed by this machine per tick.
-     * 
+     *
      * @param energyConsumption
      *            The energy consumed per tick
-     * 
+     *
      * @return This method will return the current instance of {@link AContainer}, so that it can be chained.
      */
     @Nonnull
     public final AbstractAutoCrafter setEnergyConsumption(int energyConsumption) {
         Validate.isTrue(energyConsumption > 0, "The energy consumption must be greater than zero!");
         Validate.isTrue(energyCapacity > 0, "You must specify the capacity before you can set the consumption amount.");
-        Validate.isTrue(energyConsumption <= energyCapacity, "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
+        Validate.isTrue(
+                energyConsumption <= energyCapacity,
+                "The energy consumption cannot be higher than the capacity (" + energyCapacity + ')');
 
         this.energyConsumed = energyConsumption;
         return this;
@@ -606,7 +615,9 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
 
         if (getEnergyConsumption() <= 0) {
             warn("The energy consumption has not been configured correctly. The Item was disabled.");
-            warn("Make sure to call '" + getClass().getSimpleName() + "#setEnergyConsumption(...)' before registering!");
+            warn("Make sure to call '"
+                    + getClass().getSimpleName()
+                    + "#setEnergyConsumption(...)' before registering!");
         }
 
         if (getCapacity() > 0 && getEnergyConsumption() > 0) {
@@ -627,7 +638,10 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             SlimefunItem recipeResult = SlimefunItem.getByItem(recipe.getResult());
 
             if (recipeResult == null) {
-                Slimefun.logger().log(Level.WARNING, "在处理合成配方 " + recipe + " 的结果 " + recipe.getResult() + " 时出现了问题, 合成结果非 Slimefun 物品");
+                Slimefun.logger()
+                        .log(
+                                Level.WARNING,
+                                "在处理合成配方 " + recipe + " 的结果 " + recipe.getResult() + " 时出现了问题, 合成结果非 Slimefun 物品");
                 return 0;
             }
 
@@ -649,8 +663,7 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
             return itemInRecipe.size();
         }
 
-
-        //Recipe is for vanilla item
+        // Recipe is for vanilla item
         Recipe vanillaRecipe = ((VanillaRecipe) recipe).getRecipe();
 
         if (vanillaRecipe instanceof ShapelessRecipe) {
@@ -663,7 +676,8 @@ public abstract class AbstractAutoCrafter extends SlimefunItem implements Energy
         for (String row : ((ShapedRecipe) vanillaRecipe).getShape()) {
             for (char each : row.toCharArray()) {
                 // Get MaterialChoice from char
-                RecipeChoice.MaterialChoice materialChoice = (RecipeChoice.MaterialChoice) ((ShapedRecipe) vanillaRecipe).getChoiceMap().get(each);
+                RecipeChoice.MaterialChoice materialChoice = (RecipeChoice.MaterialChoice)
+                        ((ShapedRecipe) vanillaRecipe).getChoiceMap().get(each);
                 if (materialChoice != null) {
                     ItemStack itemInChoice = materialChoice.getItemStack();
                     boolean found = false;

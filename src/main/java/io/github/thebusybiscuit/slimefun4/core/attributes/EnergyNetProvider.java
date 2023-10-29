@@ -6,11 +6,10 @@ import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNet;
 import io.github.thebusybiscuit.slimefun4.core.networks.energy.EnergyNetComponentType;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.AbstractEnergyProvider;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.reactors.Reactor;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import org.bukkit.Location;
-
-import javax.annotation.Nonnull;
 
 /**
  * An {@link EnergyNetProvider} is an extension of {@link EnergyNetComponent} which provides
@@ -64,5 +63,4 @@ public interface EnergyNetProvider extends EnergyNetComponent {
     default boolean willExplode(@Nonnull Location l, @Nonnull Config data) {
         return false;
     }
-
 }

@@ -27,8 +27,7 @@ public class StorageCacheUtils {
     }
 
     @ParametersAreNonnullByDefault
-    @Nullable
-    public static SlimefunBlockData getBlock(Location l) {
+    @Nullable public static SlimefunBlockData getBlock(Location l) {
         return Slimefun.getDatabaseManager().getBlockDataController(l.getWorld()).getBlockDataFromCache(l);
     }
 
@@ -39,15 +38,13 @@ public class StorageCacheUtils {
     }
 
     @ParametersAreNonnullByDefault
-    @Nullable
-    public static SlimefunItem getSfItem(Location l) {
+    @Nullable public static SlimefunItem getSfItem(Location l) {
         var blockData = getBlock(l);
         return blockData == null ? null : SlimefunItem.getById(blockData.getSfId());
     }
 
     @ParametersAreNonnullByDefault
-    @Nullable
-    public static String getData(Location loc, String key) {
+    @Nullable public static String getData(Location loc, String key) {
         var blockData = getBlock(loc);
         return blockData == null ? null : blockData.getData(key);
     }
@@ -57,7 +54,11 @@ public class StorageCacheUtils {
         var block = getBlock(loc);
 
         if (block == null) {
-            Slimefun.logger().log(Level.WARNING, "The specifiy location {0} doesn't have block data!", LocationUtils.locationToString(loc));
+            Slimefun.logger()
+                    .log(
+                            Level.WARNING,
+                            "The specifiy location {0} doesn't have block data!",
+                            LocationUtils.locationToString(loc));
         } else {
             block.setData(key, val);
         }
@@ -69,8 +70,7 @@ public class StorageCacheUtils {
     }
 
     @ParametersAreNonnullByDefault
-    @Nullable
-    public static BlockMenu getMenu(Location loc) {
+    @Nullable public static BlockMenu getMenu(Location loc) {
         var blockData = getBlock(loc);
         if (blockData == null) {
             return null;
@@ -100,15 +100,14 @@ public class StorageCacheUtils {
             loadingData.add(blockData);
         }
 
-        Slimefun.getDatabaseManager().getBlockDataController(blockData.getLocation().getWorld()).loadBlockDataAsync(
-                blockData,
-                new IAsyncReadCallback<>() {
+        Slimefun.getDatabaseManager()
+                .getBlockDataController(blockData.getLocation().getWorld())
+                .loadBlockDataAsync(blockData, new IAsyncReadCallback<>() {
                     @Override
                     public void onResult(SlimefunBlockData result) {
                         loadingData.remove(blockData);
                     }
-                }
-        );
+                });
     }
 
     public static void executeAfterLoad(SlimefunBlockData data, Runnable execute, boolean runOnMainThread) {
@@ -117,19 +116,16 @@ public class StorageCacheUtils {
             return;
         }
 
-        Slimefun.getDatabaseManager().getBlockDataController(data.getLocation().getWorld()).loadBlockDataAsync(
-                data,
-                new IAsyncReadCallback<>() {
-                    @Override
-                    public boolean runOnMainThread() {
-                        return runOnMainThread;
-                    }
+        Slimefun.getDatabaseManager().getBlockDataController(data.getLocation().getWorld()).loadBlockDataAsync(data, new IAsyncReadCallback<>() {
+            @Override
+            public boolean runOnMainThread() {
+                return runOnMainThread;
+            }
 
-                    @Override
-                    public void onResult(SlimefunBlockData result) {
-                        execute.run();
-                    }
-                }
-        );
+            @Override
+            public void onResult(SlimefunBlockData result) {
+                execute.run();
+            }
+        });
     }
 }

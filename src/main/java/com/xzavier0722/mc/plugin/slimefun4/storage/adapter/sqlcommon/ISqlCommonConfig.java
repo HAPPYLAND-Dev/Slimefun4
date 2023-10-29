@@ -4,7 +4,8 @@ import com.zaxxer.hikari.HikariDataSource;
 
 public interface ISqlCommonConfig {
     String driver();
-    String jdbcUrl();
-    HikariDataSource createDataSource();
 
+    String jdbcUrl();
+
+    HikariDataSource createDataSource();
 }

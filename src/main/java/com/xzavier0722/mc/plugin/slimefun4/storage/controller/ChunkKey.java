@@ -7,6 +7,7 @@ import org.bukkit.Chunk;
 
 public class ChunkKey extends ScopeKey {
     private final Chunk chunk;
+
     public ChunkKey(DataScope scope, Chunk chunk) {
         super(scope);
         this.chunk = chunk;
@@ -19,11 +20,13 @@ public class ChunkKey extends ScopeKey {
 
     @Override
     public boolean equals(Object obj) {
-        return  obj == this
+        return obj == this
                 || (obj instanceof ChunkKey other
-                && scope == other.scope
-                && chunk.getWorld().getName().equals(other.chunk.getWorld().getName())
-                && chunk.getX() == other.chunk.getX()
-                && chunk.getZ() == other.chunk.getZ());
+                        && scope == other.scope
+                        && chunk.getWorld()
+                                .getName()
+                                .equals(other.chunk.getWorld().getName())
+                        && chunk.getX() == other.chunk.getX()
+                        && chunk.getZ() == other.chunk.getZ());
     }
 }

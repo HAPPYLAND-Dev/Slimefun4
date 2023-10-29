@@ -27,7 +27,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 /**
  * This {@link Listener} handles the collection of drops from an {@link Entity} that was
  * killed by a {@link ButcherAndroid}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -42,25 +42,30 @@ public class ButcherAndroidListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onDeath(EntityDeathEvent e) {
         if (e.getEntity().hasMetadata(METADATA_KEY)) {
-            AndroidInstance obj = (AndroidInstance) e.getEntity().getMetadata(METADATA_KEY).get(0).value();
+            AndroidInstance obj = (AndroidInstance)
+                    e.getEntity().getMetadata(METADATA_KEY).get(0).value();
 
-            Slimefun.runSync(() -> {
-                List<ItemStack> items = new ArrayList<>();
+            Slimefun.runSync(
+                    () -> {
+                        List<ItemStack> items = new ArrayList<>();
 
-                // Collect any nearby dropped items
-                for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
-                    if (n instanceof Item item && n.isValid() && !SlimefunUtils.hasNoPickupFlag(item)) {
-                        items.add(item.getItemStack());
-                        n.remove();
-                    }
-                }
+                        // Collect any nearby dropped items
+                        for (Entity n : e.getEntity().getNearbyEntities(0.5D, 0.5D, 0.5D)) {
+                            if (n instanceof Item item && n.isValid() && !SlimefunUtils.hasNoPickupFlag(item)) {
+                                items.add(item.getItemStack());
+                                n.remove();
+                            }
+                        }
 
-                addExtraDrops(items, e.getEntityType());
+                        addExtraDrops(items, e.getEntityType());
 
-                obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[0]));
-                ExperienceOrb exp = (ExperienceOrb) e.getEntity().getWorld().spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
-                exp.setExperience(1 + ThreadLocalRandom.current().nextInt(6));
-            }, 1L);
+                        obj.getAndroid().addItems(obj.getBlock(), items.toArray(new ItemStack[0]));
+                        ExperienceOrb exp = (ExperienceOrb) e.getEntity()
+                                .getWorld()
+                                .spawnEntity(e.getEntity().getLocation(), EntityType.EXPERIENCE_ORB);
+                        exp.setExperience(1 + ThreadLocalRandom.current().nextInt(6));
+                    },
+                    1L);
 
             // Removing metadata to prevent memory leaks
             e.getEntity().removeMetadata(METADATA_KEY, Slimefun.instance());
@@ -71,7 +76,7 @@ public class ButcherAndroidListener implements Listener {
      * Some items are not dropped by default.
      * Wither Skeleton Skulls but for some weird reason
      * even Blaze rods...
-     * 
+     *
      * @param drops
      *            The {@link List} of item drops
      * @param entityType

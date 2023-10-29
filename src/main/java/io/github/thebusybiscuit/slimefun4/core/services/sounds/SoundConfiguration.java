@@ -4,9 +4,9 @@ import javax.annotation.Nonnull;
 
 /**
  * This structure class holds configured values for a {@link SoundEffect}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SoundService
  * @see SoundEffect
  *
@@ -34,5 +34,4 @@ public class SoundConfiguration {
     public float getPitch() {
         return pitch;
     }
-
 }

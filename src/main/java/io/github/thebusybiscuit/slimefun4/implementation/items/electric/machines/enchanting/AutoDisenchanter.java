@@ -7,6 +7,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
@@ -16,12 +21,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.Repairable;
-
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
 
 /**
  * The {@link AutoDisenchanter}, in contrast to the {@link AutoEnchanter}, removes
@@ -69,7 +68,8 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
                 return null;
             }
 
-            ItemStack secondItem = menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
+            ItemStack secondItem =
+                    menu.getItemInSlot(slot == getInputSlots()[0] ? getInputSlots()[1] : getInputSlots()[0]);
 
             if (secondItem != null && secondItem.getType() == Material.BOOK) {
                 return disenchant(menu, item, secondItem);
@@ -110,7 +110,10 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
             ItemStack enchantedBook = new ItemStack(Material.ENCHANTED_BOOK);
             transferEnchantments(disenchantedItem, enchantedBook, enchantments);
 
-            MachineRecipe recipe = new MachineRecipe(90 * enchantments.size() / this.getSpeed(), new ItemStack[] { book, item }, new ItemStack[] { disenchantedItem, enchantedBook });
+            MachineRecipe recipe = new MachineRecipe(
+                    90 * enchantments.size() / this.getSpeed(),
+                    new ItemStack[] {book, item},
+                    new ItemStack[] {disenchantedItem, enchantedBook});
 
             if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;
@@ -146,7 +149,11 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
                 meta.addStoredEnchant(enchantmentToTransfer, entry.getValue(), true);
             } else {
                 // Get Enchantment Name
-                Slimefun.logger().log(Level.SEVERE, "AutoDisenchanter has failed to remove enchantment \"{0}\"", enchantmentToTransfer.getKey().getKey());
+                Slimefun.logger()
+                        .log(
+                                Level.SEVERE,
+                                "AutoDisenchanter has failed to remove enchantment \"{0}\"",
+                                enchantmentToTransfer.getKey().getKey());
             }
         }
 
@@ -167,5 +174,4 @@ public class AutoDisenchanter extends AbstractEnchantmentMachine {
     public String getMachineIdentifier() {
         return "AUTO_DISENCHANTER";
     }
-
 }

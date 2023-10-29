@@ -4,13 +4,12 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.ParametersAreNonnullByDefault;
 import net.guizhanss.slimefun4.utils.ChatUtils;
 import org.bukkit.FluidCollisionMode;
 import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * 该指令可直接对 Slimefun 方块数据进行设置。
@@ -41,9 +40,12 @@ class BlockDataCommand extends SubCommand {
         }
 
         if (args.length < 3) {
-            Slimefun.getLocalization().sendMessage(sender, "messages.usage", true,
-                msg -> msg.replace("%usage%", "/sf blockdata get/set/remove <key> [value]")
-            );
+            Slimefun.getLocalization()
+                    .sendMessage(
+                            sender,
+                            "messages.usage",
+                            true,
+                            msg -> msg.replace("%usage%", "/sf blockdata get/set/remove <key> [value]"));
             return;
         }
 
@@ -60,15 +62,17 @@ class BlockDataCommand extends SubCommand {
         switch (args[1]) {
             case "get" -> {
                 String value = blockData.getData(key);
-                ChatUtils.sendMessage(player, "&a该方块 &b%key% &a的值为: &e%value%",
-                    msg -> msg.replace("%key%", key).replace("%value%", value)
-                );
+                ChatUtils.sendMessage(player, "&a该方块 &b%key% &a的值为: &e%value%", msg -> msg.replace("%key%", key)
+                        .replace("%value%", value));
             }
             case "set" -> {
                 if (args.length < 4) {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", true,
-                        msg -> msg.replace("%usage%", "/sf blockdata set <key> <value>")
-                    );
+                    Slimefun.getLocalization()
+                            .sendMessage(
+                                    sender,
+                                    "messages.usage",
+                                    true,
+                                    msg -> msg.replace("%usage%", "/sf blockdata set <key> <value>"));
                     return;
                 }
 
@@ -80,9 +84,8 @@ class BlockDataCommand extends SubCommand {
                 String value = args[2];
 
                 blockData.setData(key, value);
-                ChatUtils.sendMessage(player, "&a已设置该方块 &b%key% &a的值为: &e%value%",
-                    msg -> msg.replace("%key%", key).replace("%value%", value)
-                );
+                ChatUtils.sendMessage(player, "&a已设置该方块 &b%key% &a的值为: &e%value%", msg -> msg.replace("%key%", key)
+                        .replace("%value%", value));
             }
             case "remove" -> {
                 if (key.equalsIgnoreCase("id")) {
@@ -91,16 +94,16 @@ class BlockDataCommand extends SubCommand {
                 }
 
                 blockData.removeData(key);
-                ChatUtils.sendMessage(player, "&a已移除该方块 &b%key% &a的值",
-                    msg -> msg.replace("%key%", key)
-                );
+                ChatUtils.sendMessage(player, "&a已移除该方块 &b%key% &a的值", msg -> msg.replace("%key%", key));
             }
             default -> {
-                Slimefun.getLocalization().sendMessage(sender, "messages.usage", true,
-                    msg -> msg.replace("%usage%", "/sf blockdata get/set/remove <key> [value]")
-                );
+                Slimefun.getLocalization()
+                        .sendMessage(
+                                sender,
+                                "messages.usage",
+                                true,
+                                msg -> msg.replace("%usage%", "/sf blockdata get/set/remove <key> [value]"));
             }
         }
-
     }
 }

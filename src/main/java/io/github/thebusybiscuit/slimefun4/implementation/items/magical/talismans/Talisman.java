@@ -36,7 +36,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Talisman extends SlimefunItem {
 
-    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(new NamespacedKey(Slimefun.instance(), "talismans"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Talismans - &aTier I"), 2);
+    protected static final ItemGroup TALISMANS_ITEMGROUP = new ItemGroup(
+            new NamespacedKey(Slimefun.instance(), "talismans"),
+            new CustomItemStack(Material.STRUCTURE_VOID, "&7Talismans - &aTier I"),
+            2);
     private static final String WIKI_PAGE = "Talismans";
 
     private final SlimefunItemStack enderTalisman;
@@ -48,22 +51,48 @@ public class Talisman extends SlimefunItem {
     protected final int chance;
 
     @ParametersAreNonnullByDefault
-    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, PotionEffect... effects) {
+    public Talisman(
+            SlimefunItemStack item,
+            ItemStack[] recipe,
+            boolean consumable,
+            boolean cancelEvent,
+            @Nullable String messageSuffix,
+            PotionEffect... effects) {
         this(item, recipe, consumable, cancelEvent, messageSuffix, 100, effects);
     }
 
     @ParametersAreNonnullByDefault
-    public Talisman(SlimefunItemStack item, ItemStack[] recipe, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
+    public Talisman(
+            SlimefunItemStack item,
+            ItemStack[] recipe,
+            @Nullable String messageSuffix,
+            int chance,
+            PotionEffect... effects) {
         this(item, recipe, true, true, messageSuffix, chance, effects);
     }
 
     @ParametersAreNonnullByDefault
-    public Talisman(SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
+    public Talisman(
+            SlimefunItemStack item,
+            ItemStack[] recipe,
+            boolean consumable,
+            boolean cancelEvent,
+            @Nullable String messageSuffix,
+            int chance,
+            PotionEffect... effects) {
         this(TALISMANS_ITEMGROUP, item, recipe, consumable, cancelEvent, messageSuffix, chance, effects);
     }
 
     @ParametersAreNonnullByDefault
-    protected Talisman(ItemGroup itemGroup, SlimefunItemStack item, ItemStack[] recipe, boolean consumable, boolean cancelEvent, @Nullable String messageSuffix, int chance, PotionEffect... effects) {
+    protected Talisman(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            ItemStack[] recipe,
+            boolean consumable,
+            boolean cancelEvent,
+            @Nullable String messageSuffix,
+            int chance,
+            PotionEffect... effects) {
         super(itemGroup, item, RecipeType.MAGIC_WORKBENCH, recipe, new CustomItemStack(item, consumable ? 4 : 1));
 
         this.consumable = consumable;
@@ -85,7 +114,8 @@ public class Talisman extends SlimefunItem {
                 lore.add(line);
             }
 
-            enderTalisman = new SlimefunItemStack("ENDER_" + getId(), getItem().getType(), name, lore.toArray(new String[0]));
+            enderTalisman =
+                    new SlimefunItemStack("ENDER_" + getId(), getItem().getType(), name, lore.toArray(new String[0]));
         } else {
             enderTalisman = null;
         }
@@ -93,7 +123,7 @@ public class Talisman extends SlimefunItem {
 
     /**
      * This returns whether the {@link Talisman} will be consumed upon use.
-     * 
+     *
      * @return Whether this {@link Talisman} is consumed on use.
      */
     public boolean isConsumable() {
@@ -103,7 +133,7 @@ public class Talisman extends SlimefunItem {
     /**
      * This returns the chance of this {@link Talisman} activating.
      * The chance will be between 1 and 100.
-     * 
+     *
      * @return The chance of this {@link Talisman} activating.
      */
     public int getChance() {
@@ -119,8 +149,7 @@ public class Talisman extends SlimefunItem {
         return cancel;
     }
 
-    @Nullable
-    private SlimefunItemStack getEnderVariant() {
+    @Nullable private SlimefunItemStack getEnderVariant() {
         return enderTalisman;
     }
 
@@ -204,7 +233,8 @@ public class Talisman extends SlimefunItem {
     }
 
     @ParametersAreNonnullByDefault
-    private static void activateTalisman(Event e, Player p, Inventory inv, Talisman talisman, ItemStack talismanItem, boolean sendMessage) {
+    private static void activateTalisman(
+            Event e, Player p, Inventory inv, Talisman talisman, ItemStack talismanItem, boolean sendMessage) {
         consumeItem(inv, talisman, talismanItem);
         applyTalismanEffects(p, talisman);
         cancelEvent(e, talisman);
@@ -248,15 +278,14 @@ public class Talisman extends SlimefunItem {
      * This returns whether the {@link Talisman} is silent.
      * A silent {@link Talisman} will not send a message to a {@link Player}
      * when activated.
-     * 
+     *
      * @return Whether this {@link Talisman} is silent
      */
     public boolean isSilent() {
         return getMessageSuffix() == null;
     }
 
-    @Nullable
-    protected final String getMessageSuffix() {
+    @Nullable protected final String getMessageSuffix() {
         return suffix;
     }
 
@@ -264,7 +293,7 @@ public class Talisman extends SlimefunItem {
      * This method sends the given {@link Player} the message of this {@link Talisman}.
      * Dependent on the selected config setting, the message will be sent via the actionbar
      * or in the chat window.
-     * 
+     *
      * @param p
      *            The {@link Player} who shall receive the message
      */
@@ -299,8 +328,7 @@ public class Talisman extends SlimefunItem {
         return true;
     }
 
-    @Nullable
-    private static Player getPlayerByEventType(@Nonnull Event e) {
+    @Nullable private static Player getPlayerByEventType(@Nonnull Event e) {
         if (e instanceof EntityDeathEvent entityDeathEvent) {
             return entityDeathEvent.getEntity().getKiller();
         } else if (e instanceof BlockBreakEvent blockBreakEvent) {

@@ -1,12 +1,11 @@
 package com.xzavier0722.mc.plugin.slimefun4.storage.common;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.DataUtils;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.inventory.ItemStack;
 
 public class RecordSet {
     private final Map<FieldKey, String> data;
@@ -70,5 +69,4 @@ public class RecordSet {
             throw new IllegalStateException("RecordSet cannot be modified after readonly() called.");
         }
     }
-
 }

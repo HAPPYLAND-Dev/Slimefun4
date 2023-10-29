@@ -14,7 +14,6 @@ import javax.annotation.Nonnull;
  *
  */
 enum ContributorRole {
-
     DEVELOPER("developer"),
     RESOURCEPACK_ARTIST("resourcepack"),
     TRANSLATOR("translator"),
@@ -30,5 +29,4 @@ enum ContributorRole {
     String getId() {
         return id;
     }
-
 }

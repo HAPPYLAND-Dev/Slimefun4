@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 /**
  * This is our integration for {@link PlaceholderAPI}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -58,7 +58,8 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
         return true;
     }
 
-    private boolean isPlaceholder(@Nullable OfflinePlayer p, boolean requiresProfile, @Nonnull String params, @Nonnull String placeholder) {
+    private boolean isPlaceholder(
+            @Nullable OfflinePlayer p, boolean requiresProfile, @Nonnull String params, @Nonnull String placeholder) {
         if (requiresProfile) {
             if (p != null && placeholder.equals(params)) {
                 PlayerProfile.request(p);
@@ -104,7 +105,10 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
 
             if (profile.isPresent()) {
                 Set<Research> set = profile.get().getResearches();
-                return String.valueOf(Math.round(((set.size() * 100.0F) / Slimefun.getRegistry().getResearches().size()) * 100.0F) / 100.0F);
+                return String.valueOf(Math.round(((set.size() * 100.0F)
+                                        / Slimefun.getRegistry().getResearches().size())
+                                * 100.0F)
+                        / 100.0F);
             } else if (p instanceof Player player) {
                 return getProfilePlaceholder(player);
             }
@@ -139,5 +143,4 @@ class PlaceholderAPIIntegration extends PlaceholderExpansion {
     private String getProfilePlaceholder(@Nonnull Player p) {
         return Slimefun.getLocalization().getMessage(p, "placeholderapi.profile-loading");
     }
-
 }

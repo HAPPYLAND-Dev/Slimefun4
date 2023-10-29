@@ -18,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -78,7 +76,8 @@ public class BlockListener implements Listener {
                 Slimefun.getDatabaseManager().getBlockDataController(loc.getWorld()).removeBlock(loc);
 
                 if (SlimefunItem.getByItem(e.getItemInHand()) != null) {
-                    // Due to the delay of #clearBlockInfo, new sf block info will also be cleared. Set cancelled.
+                    // Due to the delay of #clearBlockInfo, new sf block info will also be cleared. Set
+                    // cancelled.
                     e.setCancelled(true);
                 }
             }
@@ -112,7 +111,9 @@ public class BlockListener implements Listener {
                 var placeEvent = new SlimefunBlockPlaceEvent(e.getPlayer(), item, e.getBlock(), sfItem);
                 Bukkit.getPluginManager().callEvent(placeEvent);
 
-                Slimefun.getDatabaseManager().getBlockDataController(e.getBlock().getWorld()).createBlock(e.getBlock().getLocation(), sfItem.getId());
+                Slimefun.getDatabaseManager()
+                        .getBlockDataController(e.getBlock().getWorld())
+                        .createBlock(e.getBlock().getLocation(), sfItem.getId());
                 sfItem.callItemHandler(BlockPlaceHandler.class, handler -> handler.onPlayerPlace(e));
             }
         }
@@ -134,10 +135,12 @@ public class BlockListener implements Listener {
         var block = e.getBlock();
         var blockData = StorageCacheUtils.getBlock(block.getLocation());
 
-        // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event and return
+        // If there is a Slimefun Block here, call our BreakEvent and, if cancelled, cancel this event
+        // and return
         if (blockData != null) {
             var sfItem = SlimefunItem.getById(blockData.getSfId());
-            SlimefunBlockBreakEvent breakEvent = new SlimefunBlockBreakEvent(e.getPlayer(), heldItem, e.getBlock(), sfItem);
+            SlimefunBlockBreakEvent breakEvent =
+                    new SlimefunBlockBreakEvent(e.getPlayer(), heldItem, e.getBlock(), sfItem);
             Bukkit.getPluginManager().callEvent(breakEvent);
 
             if (breakEvent.isCancelled()) {
@@ -166,16 +169,19 @@ public class BlockListener implements Listener {
             if (!blockData.isDataLoaded()) {
                 e.setDropItems(false);
                 var type = block.getType();
-                StorageCacheUtils.executeAfterLoad(blockData, () -> {
-                    callBlockHandler(e, heldItem, drops);
-                    if (e.isCancelled()) {
-                        block.setType(type);
-                        blockData.setPendingRemove(false);
-                        return;
-                    }
-                    e.setDropItems(true);
-                    dropItems(e, drops);
-                }, true);
+                StorageCacheUtils.executeAfterLoad(
+                        blockData,
+                        () -> {
+                            callBlockHandler(e, heldItem, drops);
+                            if (e.isCancelled()) {
+                                block.setType(type);
+                                blockData.setPendingRemove(false);
+                                return;
+                            }
+                            e.setDropItems(true);
+                            dropItems(e, drops);
+                        },
+                        true);
                 return;
             }
 
@@ -271,7 +277,8 @@ public class BlockListener implements Listener {
 
                 var controller = Slimefun.getDatabaseManager().getBlockDataController(blockAbove.getWorld());
                 if (blockData.isDataLoaded()) {
-                    sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
+                    sfItem.callItemHandler(
+                            BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
                     controller.removeBlock(loc);
                     dropItems(dummyEvent, drops);
                 } else {
@@ -284,7 +291,8 @@ public class BlockListener implements Listener {
 
                         @Override
                         public void onResult(SlimefunBlockData result) {
-                            sfItem.callItemHandler(BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
+                            sfItem.callItemHandler(
+                                    BlockBreakHandler.class, handler -> handler.onPlayerBreak(dummyEvent, item, drops));
                             controller.removeBlock(loc);
                             dropItems(dummyEvent, drops);
                         }

@@ -9,18 +9,17 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.Collection;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collection;
-import java.util.Optional;
-
 /**
  * The {@link SmeltersPickaxe} automatically smelts any ore you mine.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -36,7 +35,8 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implemen
         return (e, tool, fortune, drops) -> {
             Block b = e.getBlock();
 
-            if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType()) && !StorageCacheUtils.hasBlock(b.getLocation())) {
+            if (SlimefunTag.SMELTERS_PICKAXE_BLOCKS.isTagged(b.getType())
+                    && !StorageCacheUtils.hasBlock(b.getLocation())) {
                 Collection<ItemStack> blockDrops = b.getDrops(tool);
 
                 for (ItemStack drop : blockDrops) {
@@ -68,5 +68,4 @@ public class SmeltersPickaxe extends SimpleSlimefunItem<ToolUseHandler> implemen
     public boolean isDamageable() {
         return true;
     }
-
 }

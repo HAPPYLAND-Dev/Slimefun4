@@ -29,5 +29,4 @@ public class Refinery extends AContainer implements RecipeDisplayItem {
     public String getMachineIdentifier() {
         return "REFINERY";
     }
-
 }

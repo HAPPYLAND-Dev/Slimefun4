@@ -1,18 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.SolarHelmet;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 
 /**
  * The {@link SolarHelmetTask} is responsible for handling {@link SolarHelmet} for generating power
@@ -49,6 +45,7 @@ public class SolarHelmetTask extends AbstractArmorTask {
             return false;
         }
 
-        return (world.getTime() < 12300 || world.getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
+        return (world.getTime() < 12300 || world.getTime() > 23850)
+                && p.getEyeLocation().getBlock().getLightFromSky() == 15;
     }
 }

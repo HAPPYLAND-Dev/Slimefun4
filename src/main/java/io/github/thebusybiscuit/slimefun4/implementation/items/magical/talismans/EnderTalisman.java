@@ -5,27 +5,47 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.groups.LockedItemGroup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import org.bukkit.Material;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.EnderChest;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * An {@link EnderTalisman} is a special version of {@link Talisman}
  * that works while it is in your {@link EnderChest}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
 class EnderTalisman extends Talisman {
 
-    private static final LockedItemGroup ENDER_TALISMANS_ITEMGROUP = new LockedItemGroup(new NamespacedKey(Slimefun.instance(), "ender_talismans"), new CustomItemStack(Material.STRUCTURE_VOID, "&7Talismans - &aTier II"), 3, Talisman.TALISMANS_ITEMGROUP.getKey());
+    private static final LockedItemGroup ENDER_TALISMANS_ITEMGROUP = new LockedItemGroup(
+            new NamespacedKey(Slimefun.instance(), "ender_talismans"),
+            new CustomItemStack(Material.STRUCTURE_VOID, "&7Talismans - &aTier II"),
+            3,
+            Talisman.TALISMANS_ITEMGROUP.getKey());
 
     @ParametersAreNonnullByDefault
     public EnderTalisman(Talisman parent, SlimefunItemStack item) {
-        super(ENDER_TALISMANS_ITEMGROUP, item, new ItemStack[] { SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, null, parent.getItem(), null, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3 }, parent.isConsumable(), parent.isEventCancelled(), parent.getMessageSuffix(), parent.getChance(), parent.getEffects());
+        super(
+                ENDER_TALISMANS_ITEMGROUP,
+                item,
+                new ItemStack[] {
+                    SlimefunItems.ENDER_LUMP_3,
+                    null,
+                    SlimefunItems.ENDER_LUMP_3,
+                    null,
+                    parent.getItem(),
+                    null,
+                    SlimefunItems.ENDER_LUMP_3,
+                    null,
+                    SlimefunItems.ENDER_LUMP_3
+                },
+                parent.isConsumable(),
+                parent.isEventCancelled(),
+                parent.getMessageSuffix(),
+                parent.getChance(),
+                parent.getEffects());
     }
 
     @Override

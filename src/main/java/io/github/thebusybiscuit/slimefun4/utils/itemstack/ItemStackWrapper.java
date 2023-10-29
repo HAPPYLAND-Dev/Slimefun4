@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -57,7 +60,9 @@ public final class ItemStackWrapper extends ItemStack {
          * This will significantly speed up any loop comparisons if used correctly.
          */
         if (meta == null) {
-            throw new UnsupportedOperationException("This ItemStack has no ItemMeta! Make sure to check ItemStack#hasItemMeta() before accessing this method!");
+            throw new UnsupportedOperationException(
+                    "This ItemStack has no ItemMeta! Make sure to check ItemStack#hasItemMeta() before"
+                            + " accessing this method!");
         } else {
             return meta;
         }
@@ -182,5 +187,4 @@ public final class ItemStackWrapper extends ItemStack {
 
         return list;
     }
-
 }

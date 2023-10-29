@@ -1,19 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import java.util.List;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Dispenser;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -23,12 +9,36 @@ import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class ArmorForge extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public ArmorForge(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.ANVIL), null, null, new CustomItemStack(Material.DISPENSER, "发射器 (朝上)"), null }, BlockFace.SELF);
+        super(
+                itemGroup,
+                item,
+                new ItemStack[] {
+                    null,
+                    null,
+                    null,
+                    null,
+                    new ItemStack(Material.ANVIL),
+                    null,
+                    null,
+                    new CustomItemStack(Material.DISPENSER, "发射器 (朝上)"),
+                    null
+                },
+                BlockFace.SELF);
     }
 
     @Override
@@ -42,7 +52,8 @@ public class ArmorForge extends AbstractCraftingTable {
 
             for (ItemStack[] input : inputs) {
                 if (isCraftable(inv, input)) {
-                    ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
+                    ItemStack output =
+                            RecipeType.getRecipeOutputList(this, input).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         craft(p, output, inv, possibleDispenser);
@@ -87,14 +98,16 @@ public class ArmorForge extends AbstractCraftingTable {
             for (int j = 0; j < 4; j++) {
                 int current = j;
 
-                Slimefun.runSync(() -> {
-                    if (current < 3) {
-                        SoundEffect.ARMOR_FORGE_WORKING_SOUND.playAt(dispenser);
-                    } else {
-                        SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
-                        handleCraftedItem(output, dispenser, inv);
-                    }
-                }, j * 20L);
+                Slimefun.runSync(
+                        () -> {
+                            if (current < 3) {
+                                SoundEffect.ARMOR_FORGE_WORKING_SOUND.playAt(dispenser);
+                            } else {
+                                SoundEffect.ARMOR_FORGE_FINISH_SOUND.playAt(dispenser);
+                                handleCraftedItem(output, dispenser, inv);
+                            }
+                        },
+                        j * 20L);
             }
 
         } else {

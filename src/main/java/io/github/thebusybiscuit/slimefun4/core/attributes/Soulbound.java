@@ -11,6 +11,4 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.magical.Soulbound
  * @author TheBusyBiscuit
  * @see SoulboundItem
  */
-public interface Soulbound extends ItemAttribute {
-
-}
+public interface Soulbound extends ItemAttribute {}

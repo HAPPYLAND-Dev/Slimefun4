@@ -1,7 +1,6 @@
 package com.xzavier0722.mc.plugin.slimefun4.storage.task;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.ScopeKey;
-
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -16,10 +15,7 @@ public class DelayedSavingLooperTask implements Runnable {
      * @param forceSavePeriod: force save period in second
      */
     public DelayedSavingLooperTask(
-            int forceSavePeriod,
-            Supplier<Map<ScopeKey, DelayedTask>> taskGetter,
-            Consumer<ScopeKey> executeCallback
-    ) {
+            int forceSavePeriod, Supplier<Map<ScopeKey, DelayedTask>> taskGetter, Consumer<ScopeKey> executeCallback) {
         this.forceSavePeriod = forceSavePeriod;
         this.executeCallback = executeCallback;
         this.taskGetter = taskGetter;

@@ -12,8 +12,6 @@
 > 
 > 例如一个添加了新功能的提交应为 feat(item): add new item to Slimefun
 
-此外, 推荐你使用 [gitmoji](https://gitmoji.dev/) 规范，但并不强制你使用。
-
 如果你提交的代码中解决或处理了 Issue 中的问题，请你在主提交消息外显式声明。
 
 > 如 resolves #114514, fix #114514 等
@@ -24,13 +22,16 @@
 
 # 代码规范
 
-**!! 本项目使用空格缩进 !!**
+**!! 本项目使用 4 空格缩进 !!**
 
 请不要过度缩减代码长度, 空格少了 Slimefun 也不会因此跑得更快.
+
+我们使用了 Spotless 作为代码格式化工具，你可以直接使用 `mvn spotless:check spotless:apply` 来自动格式化你的代码。
 
 如果你希望你的代码被合并至官方, 请遵守 Slimefun 主仓库的 [提交规范](https://github.com/Slimefun/Slimefun4/blob/master/CONTRIBUTING.md)
 
 # 提交代码类型
+
 你提交的代码可以是修复、新增内容和 API。
 
-下游代码现在支持提交 API 相关代码，开发者们可以通过 jitpack 依赖汉化版的 Slimefun。
+下游代码现在支持提交 API 相关代码，开发者们可以通过 jitpack/GitHub Package 依赖汉化版的 Slimefun。

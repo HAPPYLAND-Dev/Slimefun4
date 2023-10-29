@@ -1,12 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * Holds the different types of ordering for summaries.
@@ -30,7 +30,7 @@ public enum SummaryOrderType {
 
     @ParametersAreNonnullByDefault
     List<Map.Entry<String, Long>> sort(SlimefunProfiler profiler, Set<Map.Entry<String, Long>> entrySet) {
-        switch(this) {
+        switch (this) {
             case HIGHEST:
                 return entrySet.stream()
                         .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))

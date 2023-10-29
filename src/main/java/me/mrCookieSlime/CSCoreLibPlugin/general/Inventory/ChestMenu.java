@@ -5,9 +5,10 @@ import dev.lone.itemsadder.api.FontImages.TexturedInventoryWrapper;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.sn.slimefun4.ChestMenuTexture;
 import city.norain.slimefun4.holder.SlimefunInventoryHolder;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -20,11 +21,6 @@ import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * An old remnant of CS-CoreLib.
@@ -63,10 +59,8 @@ public class ChestMenu extends SlimefunInventoryHolder {
         this.handlers = new HashMap<>();
         this.texture = texture;
 
-        this.open = p -> {
-        };
-        this.close = p -> {
-        };
+        this.open = p -> {};
+        this.close = p -> {};
         this.playerclick = (p, slot, item, action) -> isPlayerInventoryClickable();
     }
 
@@ -245,8 +239,7 @@ public class ChestMenu extends SlimefunInventoryHolder {
     }
 
     private void setup() {
-        if (this.inventory != null)
-            return;
+        if (this.inventory != null) return;
         initMenu();
         for (int i = 0; i < this.items.size(); i++) {
             this.inventory.setItem(i, this.items.get(i));
@@ -257,10 +250,8 @@ public class ChestMenu extends SlimefunInventoryHolder {
      * Resets this ChestMenu to a Point BEFORE the User interacted with it
      */
     public void reset(boolean update) {
-        if (update)
-            this.inventory.clear();
-        else
-            initMenu();
+        if (update) this.inventory.clear();
+        else initMenu();
         for (int i = 0; i < this.items.size(); i++) {
             this.inventory.setItem(i, this.items.get(i));
         }
@@ -292,8 +283,7 @@ public class ChestMenu extends SlimefunInventoryHolder {
         for (Player p : players) {
             this.wrapper.showInventory(p);
             addViewer(p.getUniqueId());
-            if (open != null)
-                open.onOpen(p);
+            if (open != null) open.onOpen(p);
         }
     }
 

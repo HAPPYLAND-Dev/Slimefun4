@@ -24,5 +24,4 @@ class GuideEntry<T> {
     public void setPage(int page) {
         this.page = page;
     }
-
 }

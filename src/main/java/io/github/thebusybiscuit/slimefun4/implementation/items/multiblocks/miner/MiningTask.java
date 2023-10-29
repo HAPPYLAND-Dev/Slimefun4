@@ -6,6 +6,7 @@ import io.github.bakedlibs.dough.inventory.InvUtils;
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.papermc.lib.PaperLib;
 import java.util.UUID;
@@ -24,22 +25,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.blocks.BlockPosition;
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.bakedlibs.dough.scheduling.TaskQueue;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.papermc.lib.PaperLib;
-
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
-
 /**
  * This represents a running instance of an {@link IndustrialMiner}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see IndustrialMiner
  * @see AdvancedIndustrialMiner
  *
@@ -81,7 +71,7 @@ class MiningTask implements Runnable {
 
     /**
      * This starts the {@link IndustrialMiner} at the given {@link Block}.
-     * 
+     *
      * @param b
      *            The {@link Block} which marks the center of this {@link IndustrialMiner}
      */
@@ -103,7 +93,7 @@ class MiningTask implements Runnable {
     /**
      * This method stops the {@link IndustrialMiner} with an error message.
      * The error message is a path to the location in Slimefun's localization files.
-     * 
+     *
      * @param reason
      *            The reason why we stop
      */
@@ -194,12 +184,15 @@ class MiningTask implements Runnable {
                 for (int y = height; y > world.getMinHeight(); y--) {
                     Block b = world.getBlockAt(x, y, z);
 
-                    if (!Slimefun.getProtectionManager().hasPermission(Bukkit.getOfflinePlayer(owner), b, Interaction.BREAK_BLOCK)) {
+                    if (!Slimefun.getProtectionManager()
+                            .hasPermission(Bukkit.getOfflinePlayer(owner), b, Interaction.BREAK_BLOCK)) {
                         stop(MinerStoppingReason.NO_PERMISSION);
                         return;
                     }
 
-                    if (!StorageCacheUtils.hasBlock(b.getLocation()) && miner.canMine(b) && push(miner.getOutcome(b.getType()))) {
+                    if (!StorageCacheUtils.hasBlock(b.getLocation())
+                            && miner.canMine(b)
+                            && push(miner.getOutcome(b.getType()))) {
                         furnace.getWorld().playEffect(furnace.getLocation(), Effect.STEP_SOUND, b.getType());
 
                         SoundEffect.MINING_TASK_SOUND.playAt(furnace);
@@ -216,7 +209,12 @@ class MiningTask implements Runnable {
 
                 nextColumn();
             } catch (Exception e) {
-                Slimefun.logger().log(Level.SEVERE, e, () -> "An Error occurred while running an Industrial Miner at " + new BlockPosition(chest));
+                Slimefun.logger()
+                        .log(
+                                Level.SEVERE,
+                                e,
+                                () -> "An Error occurred while running an Industrial Miner at "
+                                        + new BlockPosition(chest));
                 stop();
             }
         });
@@ -241,7 +239,11 @@ class MiningTask implements Runnable {
 
             if (p != null) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 0.4F, 1F);
-                Slimefun.getLocalization().sendMessage(p, "machines.INDUSTRIAL_MINER.finished", msg -> msg.replace("%ores%", String.valueOf(ores)));
+                Slimefun.getLocalization()
+                        .sendMessage(
+                                p,
+                                "machines.INDUSTRIAL_MINER.finished",
+                                msg -> msg.replace("%ores%", String.valueOf(ores)));
             }
 
             return;
@@ -253,10 +255,10 @@ class MiningTask implements Runnable {
     /**
      * This refuels the {@link IndustrialMiner} and pushes the given {@link ItemStack} to
      * its {@link Chest}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to push to the {@link Chest}.
-     * 
+     *
      * @return Whether the operation was successful
      */
     private boolean push(@Nonnull ItemStack item) {
@@ -369,7 +371,12 @@ class MiningTask implements Runnable {
                 stop(MinerStoppingReason.STRUCTURE_DESTROYED);
             }
         } catch (Exception e) {
-            Slimefun.logger().log(Level.SEVERE, e, () -> "An Error occurred while moving a Piston for an Industrial Miner at " + new BlockPosition(block));
+            Slimefun.logger()
+                    .log(
+                            Level.SEVERE,
+                            e,
+                            () -> "An Error occurred while moving a Piston for an Industrial Miner at "
+                                    + new BlockPosition(block));
             stop();
         }
     }
@@ -388,7 +395,11 @@ class MiningTask implements Runnable {
             block.getRelative(BlockFace.UP).setType(Material.AIR);
         }
 
-        block.getWorld().playSound(block.getLocation(), extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT, 0.1F, 1F);
+        block.getWorld()
+                .playSound(
+                        block.getLocation(),
+                        extended ? Sound.BLOCK_PISTON_EXTEND : Sound.BLOCK_PISTON_CONTRACT,
+                        0.1F,
+                        1F);
     }
-
 }

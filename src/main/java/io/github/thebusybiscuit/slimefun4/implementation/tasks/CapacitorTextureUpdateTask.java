@@ -5,18 +5,17 @@ import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.Capacitor;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.papermc.lib.PaperLib;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 
-import javax.annotation.Nonnull;
-
 /**
  * This task is run whenever a {@link Capacitor} needs to update their texture.
  * <strong>This must be executed on the main {@link Server} {@link Thread}!</strong>
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -35,7 +34,7 @@ public class CapacitorTextureUpdateTask implements Runnable {
 
     /**
      * This creates a new {@link CapacitorTextureUpdateTask} with the given parameters.
-     * 
+     *
      * @param l
      *            The {@link Location} of the {@link Capacitor}
      * @param charge
@@ -79,5 +78,4 @@ public class CapacitorTextureUpdateTask implements Runnable {
 
         PaperLib.getBlockState(b, false).getState().update(true, false);
     }
-
 }

@@ -1,10 +1,9 @@
 package com.xzavier0722.mc.plugin.slimefun4.autocrafter;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import org.bukkit.block.Block;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.bukkit.block.Block;
 
 /**
  *
@@ -28,7 +27,7 @@ public class CrafterInteractorManager {
      * @see CrafterInteractorHandler
      */
     public static void register(String id, CrafterInteractorHandler handler) {
-        handlers.put(id,handler);
+        handlers.put(id, handler);
     }
 
     public static CrafterInteractorHandler getHandler(String id) {
@@ -48,5 +47,4 @@ public class CrafterInteractorManager {
         var blockData = StorageCacheUtils.getBlock(b.getLocation());
         return blockData != null && handlers.containsKey(blockData.getSfId());
     }
-
 }

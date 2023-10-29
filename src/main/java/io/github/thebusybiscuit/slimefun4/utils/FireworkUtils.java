@@ -1,5 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.utils;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -10,10 +13,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
 
-import javax.annotation.Nonnull;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
 /**
  * This is a simple utility classs for spawning random and colorful {@link Firework} rockets.
  *
@@ -21,10 +20,27 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public final class FireworkUtils {
 
-    private static final Color[] COLORS = {Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW};
+    private static final Color[] COLORS = {
+        Color.AQUA,
+        Color.BLACK,
+        Color.BLUE,
+        Color.FUCHSIA,
+        Color.GRAY,
+        Color.GREEN,
+        Color.LIME,
+        Color.MAROON,
+        Color.NAVY,
+        Color.OLIVE,
+        Color.ORANGE,
+        Color.PURPLE,
+        Color.RED,
+        Color.SILVER,
+        Color.TEAL,
+        Color.WHITE,
+        Color.YELLOW
+    };
 
-    private FireworkUtils() {
-    }
+    private FireworkUtils() {}
 
     public static void launchFirework(@Nonnull Location l, @Nonnull Color color) {
         createFirework(l, color);
@@ -58,7 +74,12 @@ public final class FireworkUtils {
 
     @Nonnull
     public static FireworkEffect getRandomEffect(@Nonnull Random random, @Nonnull Color color) {
-        return FireworkEffect.builder().flicker(random.nextBoolean()).withColor(color).with(random.nextBoolean() ? Type.BALL : Type.BALL_LARGE).trail(random.nextBoolean()).build();
+        return FireworkEffect.builder()
+                .flicker(random.nextBoolean())
+                .withColor(color)
+                .with(random.nextBoolean() ? Type.BALL : Type.BALL_LARGE)
+                .trail(random.nextBoolean())
+                .build();
     }
 
     @Nonnull

@@ -2,18 +2,16 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.Bukkit;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-
-import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 /**
  * This Service is responsible for automatically saving {@link Player} and {@link Block}
  * data.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -23,7 +21,7 @@ public class AutoSavingService {
 
     /**
      * This method starts the {@link AutoSavingService} with the given interval.
-     * 
+     *
      * @param plugin
      *            The current instance of Slimefun
      * @param interval
@@ -33,16 +31,19 @@ public class AutoSavingService {
         this.interval = interval;
 
         plugin.getServer().getScheduler().runTaskTimer(plugin, this::saveAllPlayers, 2000L, interval * 60L * 20L);
-        plugin.getServer().getScheduler().runTaskTimerAsynchronously(
-                plugin,
-                () -> {
+        plugin.getServer()
+                .getScheduler()
+                .runTaskTimerAsynchronously(
+                        plugin,
+                        () -> {
                     Bukkit.getWorlds().forEach(world -> {
-                        Slimefun.getDatabaseManager().getBlockDataController(world).saveAllBlockInventories();
+                        Slimefun.getDatabaseManager()
+                                .getBlockDataController(world)
+                                .saveAllBlockInventories();
                     });
                 },
-                2000L,
-                interval * 60L * 20L
-        );
+                        2000L,
+                        interval * 60L * 20L);
     }
 
     /**

@@ -4,19 +4,19 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * This enum holds info about a {@link Language} that is embedded in our resources folder.
  * Every enum constant holds the key of that {@link Language} as well as a texture hash
  * for the {@link ItemStack} to display.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Language
  *
  */
 public enum LanguagePreset {
-
     ENGLISH("en", "a1701f21835a898b20759fb30a583a38b994abf60d3912ab4ce9f2311e74f72"),
     GERMAN("de", "5e7899b4806858697e283f084d9173fe487886453774626b24bd8cfecc77b3f"),
     FRENCH("fr", "51269a067ee37e63635ca1e723b676f139dc2dbddff96bbfef99d8b35c996bc"),
@@ -50,7 +50,11 @@ public enum LanguagePreset {
     HEBREW("he", TextDirection.RIGHT_TO_LEFT, "1ba086a2cc7272cf5ba49c80248546c22e5ef1bab54120e8a8e5d9e75b6a"),
     ARABIC("ar", TextDirection.RIGHT_TO_LEFT, "a4be759a9cf7f0a19a7e8e62f23789ad1d21cebae38af9d9541676a3db001572"),
     TURKISH("tr", "9852b9aba3482348514c1034d0affe73545c9de679ae4647f99562b5e5f47d09"),
-    PERSIAN("fa", false, TextDirection.RIGHT_TO_LEFT, "5cd9badf1972583b663b44b1e027255de8f275aa1e89defcf77782ba6fcc652"),
+    PERSIAN(
+            "fa",
+            false,
+            TextDirection.RIGHT_TO_LEFT,
+            "5cd9badf1972583b663b44b1e027255de8f275aa1e89defcf77782ba6fcc652"),
     SERBIAN("sr", false, "5b0483a4f0ddf4fbbc977b127b3d294d7a869f995366e3f50f6b05a70f522510"),
     AFRIKAANS("af", false, "961a1eacc10524d1f45f23b0e487bb2fc33948d9676b418b19a3da0b109d0e3c"),
     MALAY("ms", false, "754b9041dea6db6db44750f1385a743adf653767b4b8802cad4c585dd3f5be46"),
@@ -90,7 +94,7 @@ public enum LanguagePreset {
 
     /**
      * This returns the id of this {@link Language}.
-     * 
+     *
      * @return The language code
      */
     public @Nonnull String getLanguageCode() {
@@ -100,7 +104,7 @@ public enum LanguagePreset {
     /**
      * This returns whether this {@link LanguagePreset} is "release-ready".
      * A release-ready {@link Language} will be available in RC builds of Slimefun.
-     * 
+     *
      * @return Whether this {@link Language} is "release-ready"
      */
     boolean isReadyForRelease() {
@@ -112,7 +116,7 @@ public enum LanguagePreset {
      * This will be the flag of the corresponding country.
      * (Not accurate I know, but better than having all languages
      * look the same by using the same items)
-     * 
+     *
      * @return The texture hash of this language
      */
     public @Nonnull String getTexture() {
@@ -122,7 +126,7 @@ public enum LanguagePreset {
     /**
      * This returns the direction of text for
      * this language.
-     * 
+     *
      * @return The direction of text for this language
      */
     public @Nonnull TextDirection getTextDirection() {

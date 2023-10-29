@@ -1,8 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.armor;
 
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -16,14 +22,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 /**
  * The Boots of the Stomper are boots which damage nearby enemies whenever the {@link Player}
@@ -56,8 +54,12 @@ public class StomperBoots extends SlimefunItem {
                 entity.setVelocity(velocity);
 
                 // Check if it's not a Player or if PvP is enabled
-                if (!(entity instanceof Player) || (player.getWorld().getPVP() && Slimefun.getProtectionManager().hasPermission(player, entity.getLocation(), Interaction.ATTACK_PLAYER))) {
-                    EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(player, entity, DamageCause.ENTITY_ATTACK, fallDamageEvent.getDamage() / 2);
+                if (!(entity instanceof Player)
+                        || (player.getWorld().getPVP()
+                                && Slimefun.getProtectionManager()
+                                        .hasPermission(player, entity.getLocation(), Interaction.ATTACK_PLAYER))) {
+                    EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(
+                            player, entity, DamageCause.ENTITY_ATTACK, fallDamageEvent.getDamage() / 2);
                     Bukkit.getPluginManager().callEvent(event);
 
                     if (!event.isCancelled()) {
@@ -68,7 +70,8 @@ public class StomperBoots extends SlimefunItem {
         }
 
         for (BlockFace face : BlockFace.values()) {
-            Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN).getRelative(face);
+            Block block =
+                    player.getLocation().getBlock().getRelative(BlockFace.DOWN).getRelative(face);
             player.getWorld().playEffect(block.getLocation(), Effect.STEP_SOUND, block.getType());
         }
     }
@@ -108,6 +111,9 @@ public class StomperBoots extends SlimefunItem {
      * @return If the entity can move.
      */
     protected boolean canPush(@Nonnull Player player, @Nonnull LivingEntity entity) {
-        return entity.isValid() && !entity.getUniqueId().equals(player.getUniqueId()) && entity.isCollidable() && entity.hasGravity();
+        return entity.isValid()
+                && !entity.getUniqueId().equals(player.getUniqueId())
+                && entity.isCollidable()
+                && entity.hasGravity();
     }
 }

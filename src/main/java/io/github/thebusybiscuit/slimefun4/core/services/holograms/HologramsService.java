@@ -123,8 +123,7 @@ public class HologramsService {
      *
      * @return The existing (or newly created) hologram
      */
-    @Nullable
-    private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
+    @Nullable private Hologram getHologram(@Nonnull Location loc, boolean createIfNoneExists) {
         Validate.notNull(loc, "Location cannot be null");
 
         BlockPosition position = new BlockPosition(loc);
@@ -209,8 +208,8 @@ public class HologramsService {
      *
      * @return The {@link Hologram}
      */
-    @Nullable
-    private Hologram getAsHologram(@Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
+    @Nullable private Hologram getAsHologram(
+            @Nonnull BlockPosition position, @Nonnull Entity entity, @Nonnull PersistentDataContainer container) {
         if (entity instanceof ArmorStand armorStand) {
             armorStand.setVisible(false);
             armorStand.setInvulnerable(true);
@@ -317,5 +316,4 @@ public class HologramsService {
 
         updateHologram(loc, hologram -> hologram.setLabel(label));
     }
-
 }

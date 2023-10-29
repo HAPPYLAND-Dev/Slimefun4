@@ -2,17 +2,16 @@ package io.github.thebusybiscuit.slimefun4.api.items;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.apache.commons.lang.Validate;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.apache.commons.lang.Validate;
 
 /**
  * This class represents a Setting for a {@link SlimefunItem} that can be modified via
  * the {@code Items.yml} {@link Config} file.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @param <T>
@@ -29,7 +28,7 @@ public class ItemSetting<T> {
 
     /**
      * This creates a new {@link ItemSetting} with the given key and default value
-     * 
+     *
      * @param item
      *            The {@link SlimefunItem} this {@link ItemSetting} belongs to
      * @param key
@@ -51,10 +50,10 @@ public class ItemSetting<T> {
     /**
      * This method checks if a given input would be valid as a value for this
      * {@link ItemSetting}. You can override this method to implement your own checks.
-     * 
+     *
      * @param input
      *            The input value to validate
-     * 
+     *
      * @return Whether the given input was valid
      */
     public boolean validateInput(T input) {
@@ -65,7 +64,7 @@ public class ItemSetting<T> {
      * This method updates this {@link ItemSetting} with the given value.
      * Override this method to catch changes of a value.
      * A value may never be null.
-     * 
+     *
      * @param newValue
      *            The new value for this {@link ItemSetting}
      */
@@ -81,7 +80,7 @@ public class ItemSetting<T> {
 
     /**
      * This returns the key of this {@link ItemSetting}.
-     * 
+     *
      * @return The key under which this setting is stored (relative to the {@link SlimefunItem})
      */
     public @Nonnull String getKey() {
@@ -90,7 +89,7 @@ public class ItemSetting<T> {
 
     /**
      * This returns the associated {@link SlimefunItem} for this {@link ItemSetting}.
-     * 
+     *
      * @return The associated {@link SlimefunItem}
      */
     protected @Nonnull SlimefunItem getItem() {
@@ -99,7 +98,7 @@ public class ItemSetting<T> {
 
     /**
      * This returns the <strong>current</strong> value of this {@link ItemSetting}.
-     * 
+     *
      * @return The current value
      */
     public @Nonnull T getValue() {
@@ -126,7 +125,7 @@ public class ItemSetting<T> {
 
     /**
      * This returns the <strong>default</strong> value of this {@link ItemSetting}.
-     * 
+     *
      * @return The default value
      */
     public @Nonnull T getDefaultValue() {
@@ -135,10 +134,10 @@ public class ItemSetting<T> {
 
     /**
      * This method checks if this {@link ItemSetting} stores the given data type.
-     * 
+     *
      * @param c
      *            The class of data type you want to compare
-     * 
+     *
      * @return Whether this {@link ItemSetting} stores the given type
      */
     public boolean isType(@Nonnull Class<?> c) {
@@ -148,7 +147,7 @@ public class ItemSetting<T> {
     /**
      * This is an error message which should provide further context on what values
      * are allowed.
-     * 
+     *
      * @return An error message which is displayed when this {@link ItemSetting} is misconfigured.
      */
     protected @Nonnull String getErrorMessage() {
@@ -158,7 +157,7 @@ public class ItemSetting<T> {
     /**
      * This method is called by a {@link SlimefunItem} which wants to load its {@link ItemSetting}
      * from the {@link Config} file.
-     * 
+     *
      */
     @SuppressWarnings("unchecked")
     public void reload() {
@@ -167,7 +166,8 @@ public class ItemSetting<T> {
         Slimefun.getItemCfg().setDefaultValue(item.getId() + '.' + getKey(), getDefaultValue());
         Object configuredValue = Slimefun.getItemCfg().getValue(item.getId() + '.' + getKey());
 
-        if (defaultValue.getClass().isInstance(configuredValue) || (configuredValue instanceof List && defaultValue instanceof List)) {
+        if (defaultValue.getClass().isInstance(configuredValue)
+                || (configuredValue instanceof List && defaultValue instanceof List)) {
             // We can do an unsafe cast here, we did an isInstance(...) check before!
             T newValue = (T) configuredValue;
 
@@ -175,25 +175,38 @@ public class ItemSetting<T> {
                 this.value = newValue;
             } else {
                 // @formatter:off
-                item.warn(
-                        "发现在 Items.yml 中有无效的物品设置!" +
-                                "\n  在 \"" + item.getId() + "." + getKey() + "\"" +
-                                "\n  " + configuredValue + " 不是一个有效值!" +
-                                "\n" + getErrorMessage()
-                );
+                item.warn("发现在 Items.yml 中有无效的物品设置!"
+                        + "\n  在 \""
+                        + item.getId()
+                        + "."
+                        + getKey()
+                        + "\""
+                        + "\n  "
+                        + configuredValue
+                        + " 不是一个有效值!"
+                        + "\n"
+                        + getErrorMessage());
                 // @formatter:on
             }
         } else {
             this.value = defaultValue;
-            String found = configuredValue == null ? "null" : configuredValue.getClass().getSimpleName();
+            String found = configuredValue == null
+                    ? "null"
+                    : configuredValue.getClass().getSimpleName();
 
             // @formatter:off
-            item.warn(
-                    "发现在 Items.yml 中有无效的物品设置!" +
-                            "\n请只设置有效的值." +
-                            "\n  在 \"" + item.getId() + "." + getKey() + "\"" +
-                            "\n  期望值为 \"" + defaultValue.getClass().getSimpleName() + "\" 但填写了: \"" + found + "\""
-            );
+            item.warn("发现在 Items.yml 中有无效的物品设置!"
+                    + "\n请只设置有效的值."
+                    + "\n  在 \""
+                    + item.getId()
+                    + "."
+                    + getKey()
+                    + "\""
+                    + "\n  期望值为 \""
+                    + defaultValue.getClass().getSimpleName()
+                    + "\" 但填写了: \""
+                    + found
+                    + "\"");
             // @formatter:on
         }
     }
@@ -201,7 +214,14 @@ public class ItemSetting<T> {
     @Override
     public String toString() {
         T currentValue = this.value != null ? this.value : defaultValue;
-        return getClass().getSimpleName() + " {" + getKey() + " = " + currentValue + " (default: " + getDefaultValue() + ")";
+        return getClass().getSimpleName()
+                + " {"
+                + getKey()
+                + " = "
+                + currentValue
+                + " (default: "
+                + getDefaultValue()
+                + ")";
     }
 
     @Override
@@ -218,5 +238,4 @@ public class ItemSetting<T> {
             return false;
         }
     }
-
 }

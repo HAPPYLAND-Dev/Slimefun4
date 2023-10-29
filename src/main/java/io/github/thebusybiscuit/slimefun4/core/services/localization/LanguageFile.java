@@ -1,5 +1,6 @@
 package io.github.thebusybiscuit.slimefun4.core.services.localization;
 
+import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 
 import javax.annotation.Nonnull;
@@ -14,7 +15,6 @@ import javax.annotation.Nonnull;
  *
  */
 public enum LanguageFile {
-
     MESSAGES("messages.yml"),
     CATEGORIES("categories.yml"),
     RECIPES("recipes.yml"),
@@ -39,5 +39,4 @@ public enum LanguageFile {
         Validate.notNull(languageId, "Language id must not be null!");
         return "/languages/" + languageId + '/' + fileName;
     }
-
 }

@@ -20,8 +20,7 @@ public class PlayerProfileMigrator implements IMigrator {
     private static final File playerFolder = new File("data-storage/Slimefun/Players/");
     private static volatile boolean migrateLock = false;
 
-    private PlayerProfileMigrator() {
-    }
+    private PlayerProfileMigrator() {}
 
     public static PlayerProfileMigrator getInstance() {
         return instance;
@@ -34,7 +33,8 @@ public class PlayerProfileMigrator implements IMigrator {
 
     @Override
     public boolean hasOldData() {
-        return !MigratorUtil.checkMigrateMark() && (playerFolder.exists() && playerFolder.listFiles() != null && playerFolder.listFiles().length > 0);
+        return !MigratorUtil.checkMigrateMark()
+                && (playerFolder.exists() && playerFolder.listFiles() != null && playerFolder.listFiles().length > 0);
     }
 
     /**
@@ -87,7 +87,8 @@ public class PlayerProfileMigrator implements IMigrator {
         }
 
         if (MigratorUtil.createDirBackup(playerFolder)) {
-            Slimefun.logger().log(Level.INFO, "成功迁移 {0} 个玩家数据! 迁移前的数据已储存在 ./data-storage/Slimefun/old_data 下", migratedCount);
+            Slimefun.logger()
+                    .log(Level.INFO, "成功迁移 {0} 个玩家数据! 迁移前的数据已储存在 ./data-storage/Slimefun/old_data 下", migratedCount);
             try {
                 Files.deleteIfExists(playerFolder.toPath());
             } catch (IOException e) {
@@ -150,5 +151,4 @@ public class PlayerProfileMigrator implements IMigrator {
         }
         profile.setBackpackCount(max);
     }
-
 }

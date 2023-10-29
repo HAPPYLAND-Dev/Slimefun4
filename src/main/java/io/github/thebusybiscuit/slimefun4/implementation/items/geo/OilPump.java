@@ -10,6 +10,10 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.Arrays;
+import java.util.List;
+import java.util.OptionalInt;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -21,11 +25,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Arrays;
-import java.util.List;
-import java.util.OptionalInt;
-
 public class OilPump extends AContainer implements RecipeDisplayItem {
 
     private final GEOResource oil;
@@ -36,7 +35,10 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
     public OilPump(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
-        oil = Slimefun.getRegistry().getGEOResources().get(new NamespacedKey(Slimefun.instance(), "oil")).orElse(null);
+        oil = Slimefun.getRegistry()
+                .getGEOResources()
+                .get(new NamespacedKey(Slimefun.instance(), "oil"))
+                .orElse(null);
 
         new BlockMenuPreset(getId(), getInventoryTitle(), ChestMenuUtils.getBlankTexture()) {
 
@@ -47,11 +49,16 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                if (!(p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK))) {
+                if (!(p.hasPermission("slimefun.inventory.bypass")
+                        || Slimefun.getProtectionManager()
+                                .hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK))) {
                     return false;
                 }
 
-                if (!Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4).isPresent()) {
+                if (!Slimefun.getGPSNetwork()
+                        .getResourceManager()
+                        .getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4)
+                        .isPresent()) {
                     Slimefun.getLocalization().sendMessage(p, "gps.geo.scan-required", true);
                     return false;
                 }
@@ -92,13 +99,18 @@ public class OilPump extends AContainer implements RecipeDisplayItem {
 
             for (int slot : getInputSlots()) {
                 if (SlimefunUtils.isItemSimilar(inv.getItemInSlot(slot), emptyBucket, true, false)) {
-                    OptionalInt supplies = Slimefun.getGPSNetwork().getResourceManager().getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
+                    OptionalInt supplies = Slimefun.getGPSNetwork()
+                            .getResourceManager()
+                            .getSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4);
 
                     if (supplies.isPresent() && supplies.getAsInt() > 0) {
-                        MachineRecipe recipe = new MachineRecipe(26, new ItemStack[] { emptyBucket }, new ItemStack[] { SlimefunItems.OIL_BUCKET });
+                        MachineRecipe recipe = new MachineRecipe(
+                                26, new ItemStack[] {emptyBucket}, new ItemStack[] {SlimefunItems.OIL_BUCKET});
 
                         inv.consumeItem(slot);
-                        Slimefun.getGPSNetwork().getResourceManager().setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
+                        Slimefun.getGPSNetwork()
+                                .getResourceManager()
+                                .setSupplies(oil, b.getWorld(), b.getX() >> 4, b.getZ() >> 4, supplies.getAsInt() - 1);
                         return recipe;
                     } else {
                         /*

@@ -4,20 +4,19 @@ import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.apache.commons.lang.Validate;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.apache.commons.lang.Validate;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  * This Service is responsible for applying custom model data to any {@link SlimefunItemStack}
@@ -53,7 +52,14 @@ public class CustomTextureService {
      */
     public CustomTextureService(@Nonnull Config config) {
         this.config = config;
-        config.getConfiguration().options().header("This file is used to assign items from Slimefun or any of its addons\n" + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom resource pack\n" + "to give items custom textures.\n0 means there is no data assigned to that item.\n\n" + "There is no official Slimefun resource pack at the moment.");
+        config.getConfiguration()
+                .options()
+                .header("This file is used to assign items from Slimefun or any of its addons\n"
+                        + "the 'CustomModelData' NBT tag. This can be used in conjunction with a custom"
+                        + " resource pack\n"
+                        + "to give items custom textures.\n"
+                        + "0 means there is no data assigned to that item.\n\n"
+                        + "There is no official Slimefun resource pack at the moment.");
         config.getConfiguration().options().copyHeader(true);
     }
 
@@ -100,8 +106,7 @@ public class CustomTextureService {
         }
     }
 
-    @Nullable
-    public String getVersion() {
+    @Nullable public String getVersion() {
         return version;
     }
 
@@ -157,5 +162,4 @@ public class CustomTextureService {
         int data = getModelData(id);
         im.setCustomModelData(data == 0 ? null : data);
     }
-
 }

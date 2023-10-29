@@ -2,22 +2,14 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 
 import io.github.bakedlibs.dough.config.Config;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.Location;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.logging.Level;
-
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.config.Config;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public class BlockMenu extends DirtyChestMenu {
@@ -49,7 +41,9 @@ public class BlockMenu extends DirtyChestMenu {
 
         preset.clone(this);
 
-        if (preset.getSize() > -1 && !preset.getPresetSlots().contains(preset.getSize() - 1) && cfg.contains(String.valueOf(preset.getSize() - 1))) {
+        if (preset.getSize() > -1
+                && !preset.getPresetSlots().contains(preset.getSize() - 1)
+                && cfg.contains(String.valueOf(preset.getSize() - 1))) {
             addItem(preset.getSize() - 1, cfg.getItem(String.valueOf(preset.getSize() - 1)));
         }
 
@@ -117,7 +111,7 @@ public class BlockMenu extends DirtyChestMenu {
     /**
      * This method drops the contents of this {@link BlockMenu} on the ground at the given
      * {@link Location}.
-     * 
+     *
      * @param l
      *            Where to drop these items
      * @param slots

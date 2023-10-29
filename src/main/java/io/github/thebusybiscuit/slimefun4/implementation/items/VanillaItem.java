@@ -4,9 +4,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * Represents a vanilla item that is overridden by Slimefun (like {@code ELYTRA}).
@@ -15,11 +14,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
  * When a {@link VanillaItem} gets disabled, its {@link ItemState} goes on {@code State.VANILLA} which
  * automatically
  * replace it in the recipes by its vanilla equivalent.
- * 
+ *
  * A {@link VanillaItem} is also automatically useable in workbenches.
  *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunItem
  *
  */

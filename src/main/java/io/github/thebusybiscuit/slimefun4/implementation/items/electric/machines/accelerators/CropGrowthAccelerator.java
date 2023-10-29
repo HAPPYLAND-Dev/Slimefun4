@@ -19,7 +19,8 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
     // We wanna strip the Slimefun Item id here
     private static final ItemStack organicFertilizer = ItemStackWrapper.wrap(SlimefunItems.FERTILIZER);
 
-    protected CropGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected CropGrowthAccelerator(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -63,7 +64,14 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
                     ageable.setAge(ageable.getAge() + 1);
                     crop.setBlockData(ageable);
 
-                    crop.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, crop.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+                    crop.getWorld()
+                            .spawnParticle(
+                                    Particle.VILLAGER_HAPPY,
+                                    crop.getLocation().add(0.5D, 0.5D, 0.5D),
+                                    4,
+                                    0.1F,
+                                    0.1F,
+                                    0.1F);
                     return true;
                 }
             }
@@ -71,5 +79,4 @@ public abstract class CropGrowthAccelerator extends AbstractGrowthAccelerator {
 
         return false;
     }
-
 }

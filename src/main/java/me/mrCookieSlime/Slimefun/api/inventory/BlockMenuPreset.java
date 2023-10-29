@@ -3,7 +3,10 @@ package me.mrCookieSlime.Slimefun.api.inventory;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
-import io.sn.slimefun4.ChestMenuTexture;
+import java.util.HashSet;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import org.apache.commons.lang.Validate;
@@ -13,12 +16,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 @SuppressWarnings({"deprecation", "unused"})
@@ -54,7 +51,8 @@ public abstract class BlockMenuPreset extends ChestMenu {
 
     private void checkIfLocked() {
         if (locked) {
-            throw new UnsupportedOperationException("You cannot modify the BlockMenuPreset anymore, modify the individual instances instead.");
+            throw new UnsupportedOperationException(
+                    "You cannot modify the BlockMenuPreset anymore, modify the individual instances" + " instead.");
         }
     }
 
@@ -83,8 +81,8 @@ public abstract class BlockMenuPreset extends ChestMenu {
      * @param next     The {@link ItemStack} that it changes to
      * @return The new outcome of this operation
      */
-    @Nullable
-    protected ItemStack onItemStackChange(@Nonnull DirtyChestMenu menu, int slot, @Nullable ItemStack previous, @Nullable ItemStack next) {
+    @Nullable protected ItemStack onItemStackChange(
+            @Nonnull DirtyChestMenu menu, int slot, @Nullable ItemStack previous, @Nullable ItemStack next) {
         // Override this as necessary
         return next;
     }
@@ -149,7 +147,10 @@ public abstract class BlockMenuPreset extends ChestMenu {
             this.size = size;
             return this;
         } else {
-            throw new IllegalArgumentException("The size of a BlockMenuPreset must be a multiple of 9 and within the bounds 0-54, received: " + size);
+            throw new IllegalArgumentException(
+                    "The size of a BlockMenuPreset must be a multiple of 9 and within the bounds 0-54,"
+                            + " received: "
+                            + size);
         }
     }
 
@@ -248,7 +249,6 @@ public abstract class BlockMenuPreset extends ChestMenu {
      *
      * @return Our identifier
      */
-
     @Nonnull
     public String getID() {
         return id;
@@ -259,19 +259,16 @@ public abstract class BlockMenuPreset extends ChestMenu {
      *
      * @return The associated {@link SlimefunItem}
      */
-
     @Nonnull
     public SlimefunItem getSlimefunItem() {
         return Objects.requireNonNull(SlimefunItem.getById(id));
     }
 
-    @Nullable
-    public static BlockMenuPreset getPreset(@Nullable String id) {
+    @Nullable public static BlockMenuPreset getPreset(@Nullable String id) {
         return id == null ? null : Slimefun.getRegistry().getMenuPresets().get(id);
     }
 
     public static boolean isInventory(String id) {
         return Slimefun.getRegistry().getMenuPresets().containsKey(id);
     }
-
 }

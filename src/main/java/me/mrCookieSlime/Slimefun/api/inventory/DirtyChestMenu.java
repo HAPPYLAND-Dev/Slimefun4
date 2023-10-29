@@ -1,33 +1,26 @@
 package me.mrCookieSlime.Slimefun.api.inventory;
 
 import city.norain.slimefun4.utils.StringUtil;
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.DataUtils;
+import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import java.util.ArrayList;
-
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.core.attributes.DistinctiveItem;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.bakedlibs.dough.inventory.InvUtils;
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 
 // This class will be deprecated, relocated and rewritten in a future version.
 public class DirtyChestMenu extends ChestMenu {
@@ -87,7 +80,11 @@ public class DirtyChestMenu extends ChestMenu {
     }
 
     public boolean fits(@Nonnull ItemStack item, int... slots) {
-        Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - start check fits | item {} | slots {}", StringUtil.itemStackToString(item), Arrays.stream(slots).mapToObj(String::valueOf).collect(Collectors.joining(",")));
+        Debug.log(
+                TestCase.UTILS,
+                "DirtyChestMenu#fits - start check fits | item {} | slots {}",
+                StringUtil.itemStackToString(item),
+                Arrays.stream(slots).mapToObj(String::valueOf).collect(Collectors.joining(",")));
 
         var isSfItem = SlimefunItem.getByItem(item) != null;
         var wrapper = ItemStackWrapper.wrap(item);
@@ -100,12 +97,18 @@ public class DirtyChestMenu extends ChestMenu {
                 return true;
             }
 
-            Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - Now checking item | Slot {} | Item {}", slot, StringUtil.itemStackToString(slotItem));
+            Debug.log(
+                    TestCase.UTILS,
+                    "DirtyChestMenu#fits - Now checking item | Slot {} | Item {}",
+                    slot,
+                    StringUtil.itemStackToString(slotItem));
 
             if (isSfItem) {
                 Debug.log(TestCase.UTILS, "DirtyChestMenu#fits - Check slimefun item fits");
 
-                if (!slotItem.hasItemMeta() || item.getType() != slotItem.getType() || !SlimefunUtils.isItemSimilar(slotItem, wrapper, true, false)) {
+                if (!slotItem.hasItemMeta()
+                        || item.getType() != slotItem.getType()
+                        || !SlimefunUtils.isItemSimilar(slotItem, wrapper, true, false)) {
                     continue;
                 }
 
@@ -146,8 +149,7 @@ public class DirtyChestMenu extends ChestMenu {
      * @return {@link ItemStack} with any items that did not fit into the inventory
      * or null when everything had fit
      */
-    @Nullable
-    public ItemStack pushItem(ItemStack item, int... slots) {
+    @Nullable public ItemStack pushItem(ItemStack item, int... slots) {
         if (item == null || item.getType() == Material.AIR) {
             throw new IllegalArgumentException("Cannot push null or AIR");
         }
@@ -166,7 +168,8 @@ public class DirtyChestMenu extends ChestMenu {
                 replaceExistingItem(slot, item);
                 return null;
             } else {
-                int maxStackSize = Math.min(stack.getMaxStackSize(), toInventory().getMaxStackSize());
+                int maxStackSize =
+                        Math.min(stack.getMaxStackSize(), toInventory().getMaxStackSize());
                 if (stack.getAmount() < maxStackSize) {
                     if (wrapper == null) {
                         wrapper = ItemStackWrapper.wrap(item);
@@ -225,5 +228,4 @@ public class DirtyChestMenu extends ChestMenu {
         super.replaceExistingItem(slot, item);
         markDirty();
     }
-
 }

@@ -1,13 +1,12 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import javax.annotation.Nonnull;
-import java.util.UUID;
 
 /**
  * This {@link Event} is called when the {@link PlayerProfile} of a {@link Player}

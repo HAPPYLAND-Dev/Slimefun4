@@ -7,21 +7,26 @@ import io.github.thebusybiscuit.slimefun4.api.network.Network;
 import io.github.thebusybiscuit.slimefun4.api.network.NetworkComponent;
 import io.github.thebusybiscuit.slimefun4.core.attributes.HologramOwner;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.logging.Level;
-
 /**
  * The {@link CargoNet} is a type of {@link Network} which deals with {@link ItemStack} transportation.
  * It is also an extension of {@link AbstractItemNetwork} which provides methods to deal
  * with the addon ChestTerminal.
- * 
+ *
  * @author meiamsome
  * @author Poslovitch
  * @author John000708
@@ -43,7 +48,9 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
     private int tickDelayThreshold = 0;
 
     public static @Nullable CargoNet getNetworkFromLocation(@Nonnull Location l) {
-        return Slimefun.getNetworkManager().getNetworkFromLocation(l, CargoNet.class).orElse(null);
+        return Slimefun.getNetworkManager()
+                .getNetworkFromLocation(l, CargoNet.class)
+                .orElse(null);
     }
 
     public static @Nonnull CargoNet getNetworkFromLocationOrCreate(@Nonnull Location l) {
@@ -60,7 +67,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
 
     /**
      * This constructs a new {@link CargoNet} at the given {@link Location}.
-     * 
+     *
      * @param l
      *            The {@link Location} marking the manager of this {@link Network}.
      */
@@ -89,9 +96,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         return switch (data.getSfId()) {
             case "CARGO_MANAGER" -> NetworkComponent.REGULATOR;
             case "CARGO_NODE" -> NetworkComponent.CONNECTOR;
-            case "CARGO_NODE_INPUT",
-                "CARGO_NODE_OUTPUT",
-                "CARGO_NODE_OUTPUT_ADVANCED" -> NetworkComponent.TERMINUS;
+            case "CARGO_NODE_INPUT", "CARGO_NODE_OUTPUT", "CARGO_NODE_OUTPUT_ADVANCED" -> NetworkComponent.TERMINUS;
             default -> null;
         };
     }
@@ -109,8 +114,7 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
             var data = StorageCacheUtils.getBlock(l);
             switch (data.getSfId()) {
                 case "CARGO_NODE_INPUT" -> inputNodes.add(l);
-                case "CARGO_NODE_OUTPUT",
-                    "CARGO_NODE_OUTPUT_ADVANCED" -> outputNodes.add(l);
+                case "CARGO_NODE_OUTPUT", "CARGO_NODE_OUTPUT_ADVANCED" -> outputNodes.add(l);
                 default -> {}
             }
         }
@@ -210,10 +214,10 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
      * This method returns the frequency a given node is set to.
      * Should there be invalid data this method it will fall back to zero in
      * order to preserve the integrity of the {@link CargoNet}.
-     * 
+     *
      * @param node
      *            The {@link Location} of our cargo node
-     * 
+     *
      * @return The frequency of the given node
      */
     private static int getFrequency(@Nonnull Location node) {
@@ -232,7 +236,19 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
         if (frequency == null) {
             return 0;
         } else if (!CommonPatterns.NUMERIC.matcher(frequency).matches()) {
-            Slimefun.logger().log(Level.SEVERE, () -> "Failed to parse a Cargo Node Frequency (" + node.getWorld().getName() + " - " + node.getBlockX() + ',' + node.getBlockY() + ',' + node.getBlockZ() + "): " + frequency);
+            Slimefun.logger()
+                    .log(
+                            Level.SEVERE,
+                            () -> "Failed to parse a Cargo Node Frequency ("
+                                    + node.getWorld().getName()
+                                    + " - "
+                                    + node.getBlockX()
+                                    + ','
+                                    + node.getBlockY()
+                                    + ','
+                                    + node.getBlockZ()
+                                    + "): "
+                                    + frequency);
             return 0;
         } else {
             return Integer.parseInt(frequency);

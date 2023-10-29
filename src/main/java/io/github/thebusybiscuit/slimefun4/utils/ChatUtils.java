@@ -4,18 +4,17 @@ import io.github.bakedlibs.dough.chat.ChatInput;
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.Locale;
+import java.util.function.Consumer;
+import javax.annotation.Nonnull;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
-import java.util.Locale;
-import java.util.function.Consumer;
-
 /**
  * This utility class contains a few static methods that are all about {@link String} manipulation
  * or sending a {@link String} to a {@link Player}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -24,7 +23,8 @@ public final class ChatUtils {
     private ChatUtils() {}
 
     public static void sendURL(@Nonnull CommandSender sender, @Nonnull String url) {
-        // If we get access to the URL prompt one day, we can just prompt the link to the Player that way.
+        // If we get access to the URL prompt one day, we can just prompt the link to the Player that
+        // way.
         sender.sendMessage("");
         Slimefun.getLocalization().sendMessage(sender, "messages.link-prompt", false);
         sender.sendMessage(ChatColors.color("&7&o" + url));
@@ -55,13 +55,13 @@ public final class ChatUtils {
      * This converts a given {@link String} to a human-friendly version.
      * This can be used to convert enum constants to easier to read words with
      * spaces and upper case word starts.
-     * 
+     *
      * For example:
      * {@code ENUM_CONSTANT: Enum Constant}
-     * 
+     *
      * @param string
      *            The {@link String} to convert
-     * 
+     *
      * @return A human-friendly version of the given {@link String}
      */
     public static @Nonnull String humanize(@Nonnull String string) {
@@ -99,5 +99,4 @@ public final class ChatUtils {
         }
         return string + "s";
     }
-
 }

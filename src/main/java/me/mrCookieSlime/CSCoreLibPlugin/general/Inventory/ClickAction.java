@@ -23,5 +23,4 @@ public class ClickAction {
     public boolean isShiftClicked() {
         return shift;
     }
-
 }

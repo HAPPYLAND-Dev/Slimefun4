@@ -1,14 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -17,10 +8,15 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.RecipeDisplayItem;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.GoldPan;
 import io.github.thebusybiscuit.slimefun4.implementation.items.tools.NetherGoldPan;
-
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link ElectricGoldPan} is an electric machine based on the {@link GoldPan}.
@@ -62,7 +58,7 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
      * even if both output slots are occupied. Note this option will allow players
      * to force specific outputs from the {@link ElectricGoldPan} but can be
      * necessary when a server has disabled cargo networks.
-     * 
+     *
      * @return If output limits are overridden
      */
     public boolean isOutputLimitOverridden() {
@@ -97,10 +93,10 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
 
             if (goldPan.isValidInput(item)) {
                 output = goldPan.getRandomOutput();
-                recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
+                recipe = new MachineRecipe(3 / getSpeed(), new ItemStack[] {item}, new ItemStack[] {output});
             } else if (netherGoldPan.isValidInput(item)) {
                 output = netherGoldPan.getRandomOutput();
-                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] { item }, new ItemStack[] { output });
+                recipe = new MachineRecipe(4 / getSpeed(), new ItemStack[] {item}, new ItemStack[] {output});
             }
 
             if (output != null && output.getType() != Material.AIR && menu.fits(output, getOutputSlots())) {
@@ -126,5 +122,4 @@ public class ElectricGoldPan extends AContainer implements RecipeDisplayItem {
     public @Nonnull String getMachineIdentifier() {
         return "ELECTRIC_GOLD_PAN";
     }
-
 }

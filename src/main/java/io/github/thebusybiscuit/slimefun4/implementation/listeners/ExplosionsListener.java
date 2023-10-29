@@ -7,6 +7,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
@@ -15,12 +20,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * The {@link ExplosionsListener} is a {@link Listener} which listens to any explosion events.
@@ -60,23 +59,24 @@ public class ExplosionsListener implements Listener {
                 blocks.remove();
 
                 var controller = Slimefun.getDatabaseManager().getBlockDataController(block.getWorld());
-                if (!(item instanceof WitherProof) && !item.callItemHandler(BlockBreakHandler.class, handler -> {
-                    if (blockData.isDataLoaded()) {
-                        handleExplosion(handler, block);
-                    } else {
-                        controller.loadBlockDataAsync(blockData, new IAsyncReadCallback<>() {
-                            @Override
-                            public boolean runOnMainThread() {
-                                return true;
-                            }
-
-                            @Override
-                            public void onResult(SlimefunBlockData result) {
+                if (!(item instanceof WitherProof)
+                        && !item.callItemHandler(BlockBreakHandler.class, handler -> {
+                            if (blockData.isDataLoaded()) {
                                 handleExplosion(handler, block);
+                            } else {
+                                controller.loadBlockDataAsync(blockData, new IAsyncReadCallback<>() {
+                                    @Override
+                                    public boolean runOnMainThread() {
+                                        return true;
+                                    }
+
+                                    @Override
+                                    public void onResult(SlimefunBlockData result) {
+                                        handleExplosion(handler, block);
+                                    }
+                                });
                             }
-                        });
-                    }
-                })) {
+                        })) {
                     controller.removeBlock(loc);
                     block.setType(Material.AIR);
                 }

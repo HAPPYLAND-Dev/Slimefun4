@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.elevator;
 
+import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-
-import javax.annotation.Nonnull;
 
 /**
  * This represents an {@link ElevatorFloor} to which a {@link Player}
@@ -84,5 +83,4 @@ class ElevatorFloor {
     public int getNumber() {
         return number;
     }
-
 }

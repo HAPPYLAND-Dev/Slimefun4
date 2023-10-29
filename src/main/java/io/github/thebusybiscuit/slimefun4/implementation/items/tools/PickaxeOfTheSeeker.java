@@ -10,19 +10,18 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * The {@link PickaxeOfTheSeeker} will make you face the nearest ore upon right clicking.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -56,11 +55,20 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
                 float alpha2 = (float) (Math.acos(w / c) / Math.PI * 180);
 
                 float yaw = alpha2 > 90 ? (180 - alpha1) : alpha1;
-                float pitch = (float) ((-Math.atan((closest.getY() - 0.5 - p.getLocation().getY()) / Math.sqrt(l * l + w * w))) * 180 / Math.PI);
+                float pitch = (float)
+                        ((-Math.atan((closest.getY() - 0.5 - p.getLocation().getY()) / Math.sqrt(l * l + w * w)))
+                                * 180
+                                / Math.PI);
 
                 // We could teleport them asynchronously here...
                 // But we're only changing the pitch and yaw anyway.
-                Location loc = new Location(p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), yaw, pitch);
+                Location loc = new Location(
+                        p.getWorld(),
+                        p.getLocation().getX(),
+                        p.getLocation().getY(),
+                        p.getLocation().getZ(),
+                        yaw,
+                        pitch);
                 p.teleport(loc);
             }
 
@@ -98,5 +106,4 @@ public class PickaxeOfTheSeeker extends SimpleSlimefunItem<ItemUseHandler> imple
     public boolean isDamageable() {
         return true;
     }
-
 }

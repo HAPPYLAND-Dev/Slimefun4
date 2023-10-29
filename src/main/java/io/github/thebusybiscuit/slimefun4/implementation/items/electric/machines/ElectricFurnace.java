@@ -5,6 +5,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotHopperable;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import org.bukkit.Material;
 import org.bukkit.block.Furnace;
@@ -13,12 +14,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.RecipeChoice.MaterialChoice;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * The {@link ElectricFurnace} is an electric version of the {@link Furnace}.
  * As the name would probably suggest.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -37,7 +36,7 @@ public class ElectricFurnace extends AContainer implements NotHopperable {
 
                 if (choice instanceof MaterialChoice materialChoice) {
                     for (Material input : materialChoice.getChoices()) {
-                        registerRecipe(4, new ItemStack[] { new ItemStack(input) }, new ItemStack[] { recipe.getResult() });
+                        registerRecipe(4, new ItemStack[] {new ItemStack(input)}, new ItemStack[] {recipe.getResult()});
                     }
                 }
             }
@@ -53,5 +52,4 @@ public class ElectricFurnace extends AContainer implements NotHopperable {
     public ItemStack getProgressBar() {
         return new ItemStack(Material.FLINT_AND_STEEL);
     }
-
 }

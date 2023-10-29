@@ -59,13 +59,11 @@ public class SlimefunBlockData extends ASlimefunDataContainer {
         menu = blockMenu;
     }
 
-    @Nullable
-    public BlockMenu getBlockMenu() {
+    @Nullable public BlockMenu getBlockMenu() {
         return menu;
     }
 
-    @Nullable
-    public ItemStack[] getMenuContents() {
+    @Nullable public ItemStack[] getMenuContents() {
         if (menu == null) {
             return null;
         }
@@ -92,6 +90,12 @@ public class SlimefunBlockData extends ASlimefunDataContainer {
 
     @Override
     public String toString() {
-        return "SlimefunBlockData [sfId=" + sfId + ", location=" + location + ", isPendingRemove=" + pendingRemove + "]";
+        return "SlimefunBlockData [sfId="
+                + sfId
+                + ", location="
+                + location
+                + ", isPendingRemove="
+                + pendingRemove
+                + "]";
     }
 }

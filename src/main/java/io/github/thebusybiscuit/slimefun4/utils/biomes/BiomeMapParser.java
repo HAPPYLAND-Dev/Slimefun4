@@ -8,22 +8,25 @@ import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.BiomeMapException;
 import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
 import io.github.thebusybiscuit.slimefun4.utils.PatternUtils;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Biome;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-
 /**
  * The {@link BiomeMapParser} allows you to parse json data into a {@link BiomeMap}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @param <T>
  *            The data type of the resulting {@link BiomeMap}
- * 
+ *
  * @see BiomeMap
  */
 public class BiomeMapParser<T> {
@@ -47,7 +50,7 @@ public class BiomeMapParser<T> {
      * This constructs a new {@link BiomeMapParser}.
      * <p>
      * To parse data, use the {@link #read(JsonArray)} or {@link #read(String)} method.
-     * 
+     *
      * @param key
      *            The {@link NamespacedKey} for the resulting {@link BiomeMap}
      * @param valueConverter
@@ -56,7 +59,8 @@ public class BiomeMapParser<T> {
     @ParametersAreNonnullByDefault
     public BiomeMapParser(NamespacedKey key, BiomeDataConverter<T> valueConverter) {
         Validate.notNull(key, "The key shall not be null.");
-        Validate.notNull(valueConverter, "You must provide a Function to convert raw json values to your desired data type.");
+        Validate.notNull(
+                valueConverter, "You must provide a Function to convert raw json values to your desired data type.");
 
         this.key = key;
         this.valueConverter = valueConverter;
@@ -68,7 +72,7 @@ public class BiomeMapParser<T> {
      * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
      * could not be found.
      * The default value is false.
-     * 
+     *
      * @param isLenient
      *            Whether this parser should be lenient or not.
      */
@@ -82,7 +86,7 @@ public class BiomeMapParser<T> {
      * A lenient parser will not throw a {@link BiomeMapException} if the {@link Biome}
      * could not be found.
      * The default value is false.
-     * 
+     *
      * @return Whether this parser is lenient or not.
      */
     public boolean isLenient() {
@@ -113,7 +117,9 @@ public class BiomeMapParser<T> {
             if (element instanceof JsonObject) {
                 readEntry(element.getAsJsonObject());
             } else {
-                throw new BiomeMapException(key, "Unexpected array element: " + element.getClass().getSimpleName() + " - " + element.toString());
+                throw new BiomeMapException(
+                        key,
+                        "Unexpected array element: " + element.getClass().getSimpleName() + " - " + element.toString());
             }
         }
     }
@@ -177,7 +183,9 @@ public class BiomeMapParser<T> {
                     throw new BiomeMapException(key, "Could not recognize value '" + value + "'");
                 }
             } else {
-                throw new BiomeMapException(key, "Unexpected array element: " + element.getClass().getSimpleName() + " - " + element.toString());
+                throw new BiomeMapException(
+                        key,
+                        "Unexpected array element: " + element.getClass().getSimpleName() + " - " + element.toString());
             }
         }
 
@@ -189,7 +197,7 @@ public class BiomeMapParser<T> {
      * <p>
      * Make sure to parse data via {@link #read(JsonArray)} or {@link #read(String)}
      * before calling this method! Otherwise the resulting {@link BiomeMap} will be empty.
-     * 
+     *
      * @return The resulting {@link BiomeMap}
      */
     @Nonnull
@@ -198,5 +206,4 @@ public class BiomeMapParser<T> {
         biomeMap.putAll(map);
         return biomeMap;
     }
-
 }

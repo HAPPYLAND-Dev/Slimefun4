@@ -3,7 +3,6 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import javax.annotation.Nonnull;
 
 public enum MachineTier {
-
     BASIC("&e基础"),
     AVERAGE("&6普通"),
     MEDIUM("&a中型"),
@@ -21,5 +20,4 @@ public enum MachineTier {
     public String toString() {
         return prefix;
     }
-
 }

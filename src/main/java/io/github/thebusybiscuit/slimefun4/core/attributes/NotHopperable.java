@@ -8,6 +8,4 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
  *
  * @author CURVX
  */
-public interface NotHopperable extends ItemAttribute {
-
-}
+public interface NotHopperable extends ItemAttribute {}

@@ -26,8 +26,7 @@ public enum TestCase {
 
     ENERGYNET;
 
-    TestCase() {
-    }
+    TestCase() {}
 
     @Override
     public @Nonnull String toString() {

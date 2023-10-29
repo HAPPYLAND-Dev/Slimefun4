@@ -4,7 +4,6 @@ import io.github.bakedlibs.dough.skins.PlayerSkin;
 import io.github.bakedlibs.dough.skins.UUIDLookup;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,9 +20,9 @@ import org.bukkit.Bukkit;
 /**
  * This {@link GitHubTask} represents a {@link Runnable} that is run every X minutes.
  * It retrieves every {@link Contributor} of this project from GitHub.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see GitHubService
  * @see Contributor
  *
@@ -75,13 +74,16 @@ class GitHubTask implements Runnable {
             }
         }
 
-        if (requests >= MAX_REQUESTS_PER_MINUTE && Slimefun.instance() != null && Slimefun.instance().isEnabled()) {
+        if (requests >= MAX_REQUESTS_PER_MINUTE
+                && Slimefun.instance() != null
+                && Slimefun.instance().isEnabled()) {
             // Slow down API requests and wait a minute after more than x requests were made
             Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 2 * 60 * 20L);
         }
 
         for (GitHubConnector connector : gitHubService.getConnectors()) {
-            if (connector instanceof ContributionsConnector contributionsConnector && !contributionsConnector.hasFinished()) {
+            if (connector instanceof ContributionsConnector contributionsConnector
+                    && !contributionsConnector.hasFinished()) {
                 return;
             }
         }
@@ -111,14 +113,23 @@ class GitHubTask implements Runnable {
                 Thread.currentThread().interrupt();
             } catch (Exception x) {
                 // Too many requests
-                Slimefun.logger().log(Level.WARNING, "Attempted to refresh skin cache, got this response: {0}: {1}", new Object[]{x.getClass().getSimpleName(), x.getMessage()});
-                Slimefun.logger().log(Level.WARNING, "This usually means mojang.com is temporarily down or started to rate-limit this connection, nothing to worry about!");
+                Slimefun.logger()
+                        .log(
+                                Level.WARNING,
+                                "Attempted to refresh skin cache, got this response: {0}: {1}",
+                                new Object[] {x.getClass().getSimpleName(), x.getMessage()});
+                Slimefun.logger()
+                        .log(
+                                Level.WARNING,
+                                "This usually means mojang.com is temporarily down or started to rate-limit this"
+                                        + " connection, nothing to worry about!");
 
                 String msg = x.getMessage();
 
                 // Retry after 5 minutes if it was just rate-limiting
                 if (msg != null && msg.contains("429")) {
-                    Bukkit.getScheduler().runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 5 * 60 * 20L);
+                    Bukkit.getScheduler()
+                            .runTaskLaterAsynchronously(Slimefun.instance(), this::grabTextures, 5 * 60 * 20L);
                 }
 
                 return -1;
@@ -131,5 +142,4 @@ class GitHubTask implements Runnable {
     private @Nullable String pullTexture(@Nonnull Contributor contributor, @Nonnull Map<String, String> skins) throws InterruptedException, ExecutionException, TimeoutException {
         return null;
     }
-
 }

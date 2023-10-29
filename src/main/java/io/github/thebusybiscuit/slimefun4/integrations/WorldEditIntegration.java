@@ -40,7 +40,8 @@ class WorldEditIntegration {
         event.setExtent(new AbstractDelegateExtent(event.getExtent()) {
 
             @Override
-            public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 pos, T block) throws WorldEditException {
+            public <T extends BlockStateHolder<T>> boolean setBlock(BlockVector3 pos, T block)
+                    throws WorldEditException {
                 if (block.getBlockType().getMaterial().isAir()) {
                     World world = Bukkit.getWorld(event.getWorld().getName());
 
@@ -48,15 +49,15 @@ class WorldEditIntegration {
                         Location l = new Location(world, pos.getBlockX(), pos.getBlockY(), pos.getBlockZ());
 
                         if (StorageCacheUtils.hasBlock(l)) {
-                            Slimefun.getDatabaseManager().getBlockDataController(world).removeBlock(l);
+                            Slimefun.getDatabaseManager()
+                                    .getBlockDataController(world)
+                                    .removeBlock(l);
                         }
                     }
                 }
 
                 return getExtent().setBlock(pos, block);
             }
-
         });
     }
-
 }

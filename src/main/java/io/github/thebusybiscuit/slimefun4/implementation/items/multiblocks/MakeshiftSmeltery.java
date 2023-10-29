@@ -3,6 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -11,16 +14,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The {@link MakeshiftSmeltery} is a simpler version of the {@link Smeltery}.
  * Its functionality is very limited and it cannot be used to smelt alloys.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Smeltery
  *
  */
@@ -28,7 +27,21 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
 
     @ParametersAreNonnullByDefault
     public MakeshiftSmeltery(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, new ItemStack(Material.OAK_FENCE), null, new ItemStack(Material.BRICKS), new CustomItemStack(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.BRICKS), null, new ItemStack(Material.FLINT_AND_STEEL), null }, BlockFace.DOWN);
+        super(
+                itemGroup,
+                item,
+                new ItemStack[] {
+                    null,
+                    new ItemStack(Material.OAK_FENCE),
+                    null,
+                    new ItemStack(Material.BRICKS),
+                    new CustomItemStack(Material.DISPENSER, "发射器 (朝上)"),
+                    new ItemStack(Material.BRICKS),
+                    null,
+                    new ItemStack(Material.FLINT_AND_STEEL),
+                    null
+                },
+                BlockFace.DOWN);
     }
 
     @Override
@@ -51,5 +64,4 @@ public class MakeshiftSmeltery extends AbstractSmeltery {
         fire.getWorld().playEffect(fire.getLocation(), Effect.STEP_SOUND, fire.getType());
         fire.setType(Material.AIR);
     }
-
 }

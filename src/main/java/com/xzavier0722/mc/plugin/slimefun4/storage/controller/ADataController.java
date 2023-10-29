@@ -62,7 +62,7 @@ public abstract class ADataController {
             var pendingTask = scheduledWriteTasks.size();
             while (pendingTask > 0) {
                 var doneTaskPercent = String.format("%.1f", (totalTask - pendingTask) / totalTask * 100);
-                logger.log(Level.INFO, "数据保存中，请稍候... 剩余 {0} 个任务 ({1}%)", new Object[]{pendingTask, doneTaskPercent});
+                logger.log(Level.INFO, "数据保存中，请稍候... 剩余 {0} 个任务 ({1}%)", new Object[] {pendingTask, doneTaskPercent});
                 TimeUnit.SECONDS.sleep(1);
                 pendingTask = scheduledWriteTasks.size();
             }
@@ -78,20 +78,27 @@ public abstract class ADataController {
     protected void scheduleDeleteTask(ScopeKey scopeKey, RecordKey key, boolean forceScopeKey) {
         Debug.log(TestCase.DATABASE, "Scheduled remove task for key = {}", key);
 
-        scheduleWriteTask(scopeKey, key, () -> {
-            dataAdapter.deleteData(key);
-            Debug.log(TestCase.DATABASE, "Data from key {} deleted.", key);
-        }, forceScopeKey);
+        scheduleWriteTask(
+                scopeKey,
+                key,
+                () -> {
+                    dataAdapter.deleteData(key);
+                    Debug.log(TestCase.DATABASE, "Data from key {} deleted.", key);
+                },
+                forceScopeKey);
     }
 
     protected void scheduleWriteTask(ScopeKey scopeKey, RecordKey key, RecordSet data, boolean forceScopeKey) {
         Debug.log(TestCase.DATABASE, "Scheduled write task for key = {}, record set = {}", key, data.getAll());
 
-        scheduleWriteTask(scopeKey, key, () -> {
-            dataAdapter.setData(key, data);
-            Debug.log(TestCase.DATABASE, "Data from key {} set, with record set {}", key, data.getAll());
-        }, forceScopeKey);
-
+        scheduleWriteTask(
+                scopeKey,
+                key,
+                () -> {
+                    dataAdapter.setData(key, data);
+                    Debug.log(TestCase.DATABASE, "Data from key {} set, with record set {}", key, data.getAll());
+                },
+                forceScopeKey);
     }
 
     protected void scheduleWriteTask(ScopeKey scopeKey, RecordKey key, Runnable task, boolean forceScopeKey) {

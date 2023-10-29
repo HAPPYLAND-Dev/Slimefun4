@@ -3,6 +3,14 @@ package io.github.thebusybiscuit.slimefun4.core.services;
 import io.github.bakedlibs.dough.recipes.MinecraftRecipe;
 import io.github.bakedlibs.dough.recipes.RecipeSnapshot;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
@@ -10,11 +18,6 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.Server;
 import org.bukkit.inventory.*;
 import org.bukkit.plugin.Plugin;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * This Service is responsible for accessing a {@link RecipeSnapshot}.
@@ -184,5 +187,4 @@ public class MinecraftRecipeService {
             return Bukkit.getRecipe(key);
         }
     }
-
 }

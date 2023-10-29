@@ -7,6 +7,11 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.Abst
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.VanillaAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.EnhancedAutoCrafter;
+import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.VanillaAutoCrafter;import io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets.Multimeter;
 import org.bukkit.GameRule;
 import org.bukkit.Keyed;
 import org.bukkit.block.Block;
@@ -18,9 +23,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
-
 /**
  * This {@link Listener} is responsible for providing interactions to the auto crafters.
  * See Issue #2896 with the {@link EnhancedAutoCrafter}, any {@link SlimefunItem} which
@@ -29,7 +31,7 @@ import java.util.Optional;
  *
  * @author TheBusyBiscuit
  * @author LilBC
- * 
+ *
  * @see VanillaAutoCrafter
  * @see EnhancedAutoCrafter
  */
@@ -44,7 +46,8 @@ public class AutoCrafterListener implements Listener {
     public void onInteract(PlayerRightClickEvent e) {
         Optional<Block> clickedBlock = e.getClickedBlock();
 
-        // We want to make sure we used the main hand, the interaction was not cancelled and a Block was clicked.
+        // We want to make sure we used the main hand, the interaction was not cancelled and a Block was
+        // clicked.
         if (e.getHand() == EquipmentSlot.HAND && e.useBlock() != Result.DENY && clickedBlock.isPresent()) {
             Optional<SlimefunItem> slimefunBlock = e.getSlimefunBlock();
 
@@ -59,7 +62,9 @@ public class AutoCrafterListener implements Listener {
             if (block instanceof AbstractAutoCrafter crafter && crafter.canUse(e.getPlayer(), true)) {
                 Optional<SlimefunItem> slimefunItem = e.getSlimefunItem();
 
-                if (!e.getPlayer().isSneaking() && slimefunItem.isPresent() && slimefunItem.get() instanceof Multimeter) {
+                if (!e.getPlayer().isSneaking()
+                        && slimefunItem.isPresent()
+                        && slimefunItem.get() instanceof Multimeter) {
                     // Allow Multimeters to pass through and do their job
                     return;
                 }
@@ -73,7 +78,8 @@ public class AutoCrafterListener implements Listener {
 
                     // Check if the recipe of the item is disabled.
                     if (doLimitedCrafting && !hasUnlockedRecipe(e.getPlayer(), e.getItem())) {
-                        Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-unavailable");
+                        Slimefun.getLocalization()
+                                .sendMessage(e.getPlayer(), "messages.auto-crafting.recipe-unavailable");
                         return;
                     }
                 }

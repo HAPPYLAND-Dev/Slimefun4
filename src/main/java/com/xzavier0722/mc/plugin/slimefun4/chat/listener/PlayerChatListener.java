@@ -21,5 +21,4 @@ public class PlayerChatListener implements Listener {
     public void onLeave(PlayerQuitEvent e) {
         Slimefun.getChatCatcher().pollCatcher(e.getPlayer().getUniqueId());
     }
-
 }

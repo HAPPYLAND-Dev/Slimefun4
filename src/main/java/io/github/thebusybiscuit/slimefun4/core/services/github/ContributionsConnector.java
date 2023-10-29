@@ -1,17 +1,16 @@
 package io.github.thebusybiscuit.slimefun4.core.services.github;
 
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import kong.unirest.JsonNode;
-import kong.unirest.json.JSONArray;
-import kong.unirest.json.JSONObject;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import kong.unirest.JsonNode;
+import kong.unirest.json.JSONArray;
+import kong.unirest.json.JSONObject;
 
 class ContributionsConnector extends GitHubConnector {
 
@@ -80,7 +79,7 @@ class ContributionsConnector extends GitHubConnector {
 
     /**
      * This returns whether this {@link ContributionsConnector} has finished its task.
-     * 
+     *
      * @return Whether it is finished
      */
     public boolean hasFinished() {
@@ -94,7 +93,8 @@ class ContributionsConnector extends GitHubConnector {
         if (response.isArray()) {
             computeContributors(response.getArray());
         } else {
-            Slimefun.logger().log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
+            Slimefun.logger()
+                    .log(Level.WARNING, "Received an unusual answer from GitHub, possibly a timeout? ({0})", response);
         }
     }
 

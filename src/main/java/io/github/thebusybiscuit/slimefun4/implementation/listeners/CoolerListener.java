@@ -25,10 +25,10 @@ import org.bukkit.potion.PotionEffect;
  * damage
  * and consumes a {@link Juice} from any {@link Cooler} that can be found in the {@link Inventory} of the given
  * {@link Player}.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Linox
- * 
+ *
  * @see Cooler
  * @see Juice
  *
@@ -80,7 +80,7 @@ public class CoolerListener implements Listener {
     /**
      * This takes a {@link Juice} from the given {@link Cooler} and consumes it in order
      * to restore hunger for the given {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player}
      * @param cooler
@@ -99,7 +99,10 @@ public class CoolerListener implements Listener {
         for (int i = 0; i < inv.getSize(); i++) {
             ItemStack stack = inv.getItem(i);
 
-            if (stack != null && stack.getType() == Material.POTION && stack.hasItemMeta() && stack.getItemMeta().hasDisplayName()) {
+            if (stack != null
+                    && stack.getType() == Material.POTION
+                    && stack.hasItemMeta()
+                    && stack.getItemMeta().hasDisplayName()) {
                 slot = i;
                 break;
             }
@@ -130,5 +133,4 @@ public class CoolerListener implements Listener {
 
         return false;
     }
-
 }

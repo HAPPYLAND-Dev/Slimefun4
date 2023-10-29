@@ -1,15 +1,13 @@
 package com.xzavier0722.mc.plugin.slimefun4.storage.controller;
 
-
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import org.apache.commons.lang.NotImplementedException;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import org.apache.commons.lang.NotImplementedException;
+import org.bukkit.configuration.file.FileConfiguration;
 
 @Deprecated
 public class BlockDataConfigWrapper extends Config {
@@ -21,15 +19,10 @@ public class BlockDataConfigWrapper extends Config {
     }
 
     @Override
-    public void save() {
-
-    }
-
+    public void save() {}
 
     @Override
-    public void createFile() {
-
-    }
+    public void createFile() {}
 
     @Override
     public String getString(@Nonnull String path) {
@@ -48,7 +41,6 @@ public class BlockDataConfigWrapper extends Config {
         return getKeys();
     }
 
-
     @Override
     public File getFile() {
         return null;
@@ -59,8 +51,7 @@ public class BlockDataConfigWrapper extends Config {
         return getString(path) != null;
     }
 
-    @Nullable
-    @Override
+    @Nullable @Override
     public Object getValue(@Nonnull String path) {
         return getString(path);
     }
@@ -89,12 +80,8 @@ public class BlockDataConfigWrapper extends Config {
     }
 
     @Override
-    public void save(@Nonnull File file) {
-
-    }
+    public void save(@Nonnull File file) {}
 
     @Override
-    public void reload() {
-
-    }
+    public void reload() {}
 }

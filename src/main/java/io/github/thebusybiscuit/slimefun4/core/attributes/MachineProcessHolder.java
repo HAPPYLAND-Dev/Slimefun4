@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 
@@ -25,5 +26,4 @@ public interface MachineProcessHolder<T extends MachineOperation> extends ItemAt
      */
     @Nonnull
     MachineProcessor<T> getMachineProcessor();
-
 }

@@ -10,6 +10,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
+import java.util.ArrayList;
+import java.util.Objects;
+import javax.annotation.Nonnull;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -26,10 +29,6 @@ import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * This {@link Listener} is responsible for listening to any physics-based events, such
@@ -61,7 +60,10 @@ public class BlockPhysicsListener implements Listener {
                 var block = (FallingBlock) e.getEntity();
 
                 if (block.getDropItem()) {
-                    block.getWorld().dropItemNaturally(block.getLocation(), new ItemStack(block.getBlockData().getMaterial(), 1));
+                    block.getWorld()
+                            .dropItemNaturally(
+                                    block.getLocation(),
+                                    new ItemStack(block.getBlockData().getMaterial(), 1));
                 }
             }
 
@@ -70,25 +72,27 @@ public class BlockPhysicsListener implements Listener {
                 var item = SlimefunItem.getById(blockData.getSfId());
 
                 var controller = Slimefun.getDatabaseManager().getBlockDataController(block.getWorld());
-                if (item != null && !(item instanceof WitherProof) && !item.callItemHandler(BlockBreakHandler.class, handler -> {
-                    if (blockData.isDataLoaded()) {
-                        callHandler(handler, block);
-                    } else {
-                        blockData.setPendingRemove(true);
-                        controller.loadBlockDataAsync(blockData, new IAsyncReadCallback<>() {
-                            @Override
-                            public boolean runOnMainThread() {
-                                return true;
-                            }
-
-                            @Override
-                            public void onResult(SlimefunBlockData result) {
+                if (item != null
+                        && !(item instanceof WitherProof)
+                        && !item.callItemHandler(BlockBreakHandler.class, handler -> {
+                            if (blockData.isDataLoaded()) {
                                 callHandler(handler, block);
-                                blockData.setPendingRemove(false);
+                            } else {
+                                blockData.setPendingRemove(true);
+                                controller.loadBlockDataAsync(blockData, new IAsyncReadCallback<>() {
+                                    @Override
+                                    public boolean runOnMainThread() {
+                                        return true;
+                                    }
+
+                                    @Override
+                                    public void onResult(SlimefunBlockData result) {
+                                        callHandler(handler, block);
+                                        blockData.setPendingRemove(false);
+                                    }
+                                });
                             }
-                        });
-                    }
-                })) {
+                        })) {
                     controller.removeBlock(block.getLocation());
                     block.setType(Material.AIR);
                 }
@@ -119,7 +123,9 @@ public class BlockPhysicsListener implements Listener {
         } else {
             for (Block b : e.getBlocks()) {
                 if (StorageCacheUtils.hasBlock(b.getLocation())
-                        || (b.getRelative(e.getDirection()).getType() == Material.AIR && StorageCacheUtils.hasBlock(b.getRelative(e.getDirection()).getLocation()))) {
+                        || (b.getRelative(e.getDirection()).getType() == Material.AIR
+                                && StorageCacheUtils.hasBlock(
+                                        b.getRelative(e.getDirection()).getLocation()))) {
                     e.setCancelled(true);
                     break;
                 }
@@ -134,7 +140,9 @@ public class BlockPhysicsListener implements Listener {
         } else if (e.isSticky()) {
             for (Block b : e.getBlocks()) {
                 if (StorageCacheUtils.hasBlock(b.getLocation())
-                        || (b.getRelative(e.getDirection()).getType() == Material.AIR && StorageCacheUtils.hasBlock(b.getRelative(e.getDirection()).getLocation()))) {
+                        || (b.getRelative(e.getDirection()).getType() == Material.AIR
+                                && StorageCacheUtils.hasBlock(
+                                        b.getRelative(e.getDirection()).getLocation()))) {
                     e.setCancelled(true);
                     break;
                 }

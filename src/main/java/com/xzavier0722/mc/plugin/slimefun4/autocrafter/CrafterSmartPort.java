@@ -11,6 +11,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
+import java.util.List;
+import javax.annotation.Nonnull;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -25,12 +27,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import java.util.List;
-
 public class CrafterSmartPort extends SlimefunItem {
 
-    public static final int[] INPUT_SLOTS = {0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 18, 19, 20, 21, 22, 23, 27, 28, 29, 30, 31, 32, 36, 37, 38, 39, 40, 41, 45, 46, 47, 48, 49, 50};
+    public static final int[] INPUT_SLOTS = {
+        0, 1, 2, 3, 4, 5, 9, 10, 11, 12, 13, 14, 18, 19, 20, 21, 22, 23, 27, 28, 29, 30, 31, 32, 36, 37, 38, 39, 40, 41,
+        45, 46, 47, 48, 49, 50
+    };
     public static final int[] OUTPUT_SLOTS = {7, 8, 16, 17, 25, 26, 34, 35, 43, 44, 52, 53};
 
     public CrafterSmartPort(ItemGroup category, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -53,7 +55,8 @@ public class CrafterSmartPort extends SlimefunItem {
                         }
 
                         @Override
-                        public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+                        public boolean onClick(
+                                InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
                             return cursor == null || cursor.getType().isAir();
                         }
                     });
@@ -63,7 +66,8 @@ public class CrafterSmartPort extends SlimefunItem {
             @Override
             public boolean canOpen(@Nonnull Block b, @Nonnull Player p) {
                 return p.hasPermission("slimefun.inventory.bypass")
-                        || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+                        || Slimefun.getProtectionManager()
+                                .hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
             }
 
             @Override
@@ -91,7 +95,8 @@ public class CrafterSmartPort extends SlimefunItem {
                 int itemAmount = wrapper.getAmount();
                 for (int slot : INPUT_SLOTS) {
                     ItemStack itemInSlot = menu.getItemInSlot(slot);
-                    if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false) && (itemAmount += itemInSlot.getAmount()) > amountLimit) {
+                    if (SlimefunUtils.isItemSimilar(itemInSlot, wrapper, true, false)
+                            && (itemAmount += itemInSlot.getAmount()) > amountLimit) {
                         // Amount has reached the limited, just return.
                         return new int[0];
                     }
@@ -108,7 +113,8 @@ public class CrafterSmartPort extends SlimefunItem {
     public void preRegister() {
         addItemHandler(new BlockBreakHandler(false, true) {
             @Override
-            public void onPlayerBreak(@Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
+            public void onPlayerBreak(
+                    @Nonnull BlockBreakEvent e, @Nonnull ItemStack item, @Nonnull List<ItemStack> drops) {
                 BlockMenu inv = StorageCacheUtils.getMenu(e.getBlock().getLocation());
                 if (inv != null) {
                     for (int slot : INPUT_SLOTS) {

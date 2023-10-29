@@ -10,8 +10,7 @@ import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
  */
 public final class GEOResourcesSetup {
 
-    private GEOResourcesSetup() {
-    }
+    private GEOResourcesSetup() {}
 
     public static void setup() {
         new OilResource().register();
@@ -19,5 +18,4 @@ public final class GEOResourcesSetup {
         new UraniumResource().register();
         new SaltResource().register();
     }
-
 }

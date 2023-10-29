@@ -9,12 +9,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.AncientAltarListener;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
-import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link AncientAltar} is a multiblock structure.
@@ -40,7 +39,8 @@ public class AncientAltar extends SlimefunItem {
 
     private final List<AltarRecipe> recipes = new ArrayList<>();
 
-    private final ItemSetting<Integer> stepDelay = new IntRangeSetting(this, "step-delay", 0, DEFAULT_STEP_DELAY, Integer.MAX_VALUE);
+    private final ItemSetting<Integer> stepDelay =
+            new IntRangeSetting(this, "step-delay", 0, DEFAULT_STEP_DELAY, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public AncientAltar(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -64,5 +64,4 @@ public class AncientAltar extends SlimefunItem {
     public List<AltarRecipe> getRecipes() {
         return recipes;
     }
-
 }

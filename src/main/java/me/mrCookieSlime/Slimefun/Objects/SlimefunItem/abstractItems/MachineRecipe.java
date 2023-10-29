@@ -2,7 +2,7 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems;
 
 import org.bukkit.inventory.ItemStack;
 
-//This class will be rewritten in the "Recipe Rewrite"
+// This class will be rewritten in the "Recipe Rewrite"
 public class MachineRecipe {
 
     private int ticks;
@@ -30,5 +30,4 @@ public class MachineRecipe {
     public int getTicks() {
         return ticks;
     }
-
 }

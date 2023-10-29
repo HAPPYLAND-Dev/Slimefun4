@@ -1,9 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
-import org.bukkit.NamespacedKey;
-
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.NamespacedKey;
 
 /**
  * An {@link TagMisconfigurationException} is thrown whenever a {@link SlimefunTag}
@@ -38,5 +37,4 @@ public class TagMisconfigurationException extends Exception {
     public TagMisconfigurationException(NamespacedKey key, Throwable cause) {
         super("Tag '" + key + "' has been misconfigured (" + cause.getMessage() + ')', cause);
     }
-
 }

@@ -9,31 +9,38 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.EntityInteractHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ToolUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
+import org.bukkit.ChatColor;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 /**
  * The {@link MultiTool} is an electric device which can mimic
  * the behaviour of any other {@link SlimefunItem}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
 public class MultiTool extends SlimefunItem implements Rechargeable {
 
     private static final float COST = 0.3F;
-
-    private final Map<UUID, Integer> selectedMode = new HashMap<>();
+    private final NamespacedKey multiToolMode = new NamespacedKey(Slimefun.instance(), "MULTI_TOOL_MODE");
     private final List<MultiToolMode> modes = new ArrayList<>();
     private final float capacity;
 
     @ParametersAreNonnullByDefault
-    public MultiTool(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, float capacity, String... items) {
+    public MultiTool(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            float capacity,
+            String... items) {
         super(itemGroup, item, recipeType, recipe);
 
         for (int i = 0; i < items.length; i++) {
@@ -69,7 +76,9 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
             ItemStack item = e.getItem();
             e.cancel();
 
-            int index = selectedMode.getOrDefault(p.getUniqueId(), 0);
+            var im = item.getItemMeta();
+            var pdc = im.getPersistentDataContainer();
+            int index = pdc.getOrDefault(multiToolMode, PersistentDataType.INTEGER, 0);
 
             if (!p.isSneaking()) {
                 if (removeItemCharge(item, COST)) {
@@ -84,8 +93,12 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
 
                 SlimefunItem selectedItem = modes.get(index).getItem();
                 String itemName = selectedItem != null ? selectedItem.getItemName() : "Unknown";
-                Slimefun.getLocalization().sendMessage(p, "messages.multi-tool.mode-change", true, msg -> msg.replace("%device%", "Multi Tool").replace("%mode%", ChatColor.stripColor(itemName)));
-                selectedMode.put(p.getUniqueId(), index);
+                Slimefun.getLocalization()
+                        .sendMessage(p, "messages.multi-tool.mode-change", true, msg -> msg.replace("%device%", "多功能工具")
+                                .replace("%mode%", ChatColor.stripColor(itemName)));
+
+                pdc.set(multiToolMode, PersistentDataType.INTEGER, index);
+                item.setItemMeta(im);
             }
         };
     }
@@ -124,5 +137,4 @@ public class MultiTool extends SlimefunItem implements Rechargeable {
         addItemHandler(getToolUseHandler());
         addItemHandler(getEntityInteractionHandler());
     }
-
 }

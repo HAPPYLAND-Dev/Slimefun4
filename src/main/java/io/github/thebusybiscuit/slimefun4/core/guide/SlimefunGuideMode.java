@@ -1,15 +1,14 @@
 package io.github.thebusybiscuit.slimefun4.core.guide;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-
 import javax.annotation.Nonnull;
 
 /**
  * This enum holds the different designs a {@link SlimefunGuide} can have.
  * Each constant corresponds to a {@link SlimefunGuideImplementation}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunGuide
  * @see SlimefunGuideImplementation
  *
@@ -41,5 +40,4 @@ public enum SlimefunGuideMode {
     public @Nonnull String getDisplayName() {
         return displayName;
     }
-
 }

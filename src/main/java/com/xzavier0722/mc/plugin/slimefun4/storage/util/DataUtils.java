@@ -55,7 +55,9 @@ public class DataUtils {
     }
 
     public static String blockDataDebase64(String base64Str) {
-        return Slimefun.getDatabaseManager().isBlockDataBase64Enabled() ? Base64Coder.decodeString(base64Str) : base64Str;
+        return Slimefun.getDatabaseManager().isBlockDataBase64Enabled()
+                ? Base64Coder.decodeString(base64Str)
+                : base64Str;
     }
 
     public static String profileDataBase64(String text) {
@@ -63,6 +65,8 @@ public class DataUtils {
     }
 
     public static String profileDataDebase64(String base64Str) {
-        return Slimefun.getDatabaseManager().isProfileDataBase64Enabled() ? Base64Coder.decodeString(base64Str) : base64Str;
+        return Slimefun.getDatabaseManager().isProfileDataBase64Enabled()
+                ? Base64Coder.decodeString(base64Str)
+                : base64Str;
     }
 }

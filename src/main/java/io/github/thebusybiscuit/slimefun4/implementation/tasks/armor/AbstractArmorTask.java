@@ -1,17 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks.armor;
 
-import java.util.logging.Level;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import com.google.common.base.Preconditions;
-
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 /**
  * This is a base class for any ArmorTask, it checks every online player
@@ -51,7 +47,11 @@ public abstract class AbstractArmorTask implements Runnable {
 
         if (tickInterval < 1) {
             tickInterval = 1;
-            plugin.getLogger().log(Level.WARNING, "The interval for {0} is misconfigured! Received {1}, expected at least 1.", new Object[] { getClass().getSimpleName(), tickInterval });
+            plugin.getLogger()
+                    .log(
+                            Level.WARNING,
+                            "The interval for {0} is misconfigured! Received {1}, expected at least 1.",
+                            new Object[] {getClass().getSimpleName(), tickInterval});
         }
 
         plugin.getServer().getScheduler().runTaskTimerAsynchronously(plugin, this, 0L, tickInterval);

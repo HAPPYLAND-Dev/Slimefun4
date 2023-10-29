@@ -1,20 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.machines;
 
-import java.util.*;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.MakeshiftSmeltery;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.bakedlibs.dough.protection.Interaction;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
@@ -25,27 +10,35 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Smeltery;
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.AdvancedMenuClickHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ClickAction;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-
-import static io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils.isDust;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * The {@link ElectricSmeltery} is an electric version of the standard {@link Smeltery}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
 public class ElectricSmeltery extends AContainer implements NotHopperable {
 
-    private static final int[] border = { 4, 5, 6, 7, 8, 13, 31, 40, 41, 42, 43, 44 };
-    private static final int[] inputBorder = { 0, 1, 2, 3, 9, 12, 18, 21, 27, 30, 36, 37, 38, 39 };
-    private static final int[] outputBorder = { 14, 15, 16, 17, 23, 26, 32, 33, 34, 35 };
+    private static final int[] border = {4, 5, 6, 7, 8, 13, 31, 40, 41, 42, 43, 44};
+    private static final int[] inputBorder = {0, 1, 2, 3, 9, 12, 18, 21, 27, 30, 36, 37, 38, 39};
+    private static final int[] outputBorder = {14, 15, 16, 17, 23, 26, 32, 33, 34, 35};
 
     @ParametersAreNonnullByDefault
     public ElectricSmeltery(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -60,7 +53,9 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
 
             @Override
             public boolean canOpen(Block b, Player p) {
-                return p.hasPermission("slimefun.inventory.bypass") || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+                return p.hasPermission("slimefun.inventory.bypass")
+                        || Slimefun.getProtectionManager()
+                                .hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
             }
 
             @Override
@@ -126,7 +121,8 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
             preset.addItem(i, ChestMenuUtils.getOutputSlotTexture(), ChestMenuUtils.getEmptyClickHandler());
         }
 
-        preset.addItem(22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(
+                22, new CustomItemStack(Material.BLACK_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 
         for (int i : getOutputSlots()) {
             preset.addMenuClickHandler(i, new AdvancedMenuClickHandler() {
@@ -137,7 +133,8 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
                 }
 
                 @Override
-                public boolean onClick(InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
+                public boolean onClick(
+                        InventoryClickEvent e, Player p, int slot, ItemStack cursor, ClickAction action) {
                     return cursor == null || cursor.getType() == null || cursor.getType() == Material.AIR;
                 }
             });
@@ -151,59 +148,16 @@ public class ElectricSmeltery extends AContainer implements NotHopperable {
 
     @Override
     public int[] getInputSlots() {
-        return new int[] { 10, 11, 19, 20, 28, 29 };
+        return new int[] {10, 11, 19, 20, 28, 29};
     }
 
     @Override
     public int[] getOutputSlots() {
-        return new int[] { 24, 25 };
+        return new int[] {24, 25};
     }
 
     @Override
     public String getMachineIdentifier() {
         return "ELECTRIC_SMELTERY";
-    }
-
-    @Override
-    protected void registerDefaultRecipes() {
-        Smeltery smeltery = (Smeltery) SlimefunItems.SMELTERY.getItem();
-
-        if (smeltery != null && !smeltery.isDisabled()) {
-            MakeshiftSmeltery makeshiftSmeltery = ((MakeshiftSmeltery) SlimefunItems.MAKESHIFT_SMELTERY.getItem());
-            ItemStack[] input = null;
-
-            for (ItemStack[] output : smeltery.getRecipes()) {
-                if (input == null) {
-                    input = output;
-                } else {
-                    if (input[0] != null && output[0] != null) {
-                        addSmelteryRecipe(input, output, makeshiftSmeltery);
-                    }
-
-                    input = null;
-                }
-            }
-
-            List<MachineRecipe> recipes = this.getMachineRecipes();
-            Collections.sort(recipes, Comparator.comparingInt(recipe -> recipe == null ? 0 : -recipe.getInput().length));
-        }
-    }
-
-    private void addSmelteryRecipe(ItemStack[] input, ItemStack[] output, MakeshiftSmeltery makeshiftSmeltery) {
-        List<ItemStack> ingredients = new ArrayList<>();
-
-        // Filter out 'null' items
-        for (ItemStack item : input) {
-            if (item != null) {
-                ingredients.add(item);
-            }
-        }
-
-        // We want to redirect Dust to Ingot Recipes
-        if (ingredients.size() == 1 && isDust(ingredients.get(0))) {
-            makeshiftSmeltery.addRecipe(new ItemStack[]{ingredients.get(0)}, output[0]);
-        } else {
-            super.registerRecipe(12, ingredients.toArray(new ItemStack[0]), new ItemStack[]{output[0]});
-        }
     }
 }

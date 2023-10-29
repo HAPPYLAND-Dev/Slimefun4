@@ -3,13 +3,12 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 class TeleporterCommand extends SubCommand {
 
@@ -23,19 +22,35 @@ class TeleporterCommand extends SubCommand {
         if (sender instanceof Player player) {
             if (sender.hasPermission("slimefun.command.teleporter")) {
                 if (args.length == 1) {
-                    Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, player.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+                    Slimefun.getGPSNetwork()
+                            .getTeleportationManager()
+                            .openTeleporterGUI(
+                                    player,
+                                    player.getUniqueId(),
+                                    player.getLocation().getBlock().getRelative(BlockFace.DOWN),
+                                    999999999);
                 } else if (args.length == 2) {
 
                     @SuppressWarnings("deprecation")
                     OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(args[1]);
 
                     if (targetPlayer.getName() != null) {
-                        Slimefun.getGPSNetwork().getTeleportationManager().openTeleporterGUI(player, targetPlayer.getUniqueId(), player.getLocation().getBlock().getRelative(BlockFace.DOWN), 999999999);
+                        Slimefun.getGPSNetwork()
+                                .getTeleportationManager()
+                                .openTeleporterGUI(
+                                        player,
+                                        targetPlayer.getUniqueId(),
+                                        player.getLocation().getBlock().getRelative(BlockFace.DOWN),
+                                        999999999);
                     } else {
-                        Slimefun.getLocalization().sendMessage(sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
+                        Slimefun.getLocalization()
+                                .sendMessage(
+                                        sender, "messages.unknown-player", msg -> msg.replace("%player%", args[1]));
                     }
                 } else {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter [Player]"));
+                    Slimefun.getLocalization()
+                            .sendMessage(
+                                    sender, "messages.usage", msg -> msg.replace("%usage%", "/sf teleporter [Player]"));
                 }
             } else {
                 Slimefun.getLocalization().sendMessage(sender, "messages.no-permission");
@@ -44,5 +59,4 @@ class TeleporterCommand extends SubCommand {
             Slimefun.getLocalization().sendMessage(sender, "messages.only-players");
         }
     }
-
 }

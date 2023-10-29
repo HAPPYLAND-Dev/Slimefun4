@@ -1,20 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Dispenser;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import io.github.bakedlibs.dough.items.CustomItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -25,12 +10,38 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Dispenser;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class Compressor extends MultiBlockMachine {
 
     @ParametersAreNonnullByDefault
     public Compressor(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.NETHER_BRICK_FENCE), null, new ItemStack(Material.PISTON), new CustomItemStack(Material.DISPENSER, "发射器 (朝上)"), new ItemStack(Material.PISTON) }, BlockFace.SELF);
+        super(
+                itemGroup,
+                item,
+                new ItemStack[] {
+                    null,
+                    null,
+                    null,
+                    null,
+                    new ItemStack(Material.NETHER_BRICK_FENCE),
+                    null,
+                    new ItemStack(Material.PISTON),
+                    new CustomItemStack(Material.DISPENSER, "发射器 (朝上)"),
+                    new ItemStack(Material.PISTON)
+                },
+                BlockFace.SELF);
     }
 
     @Override
@@ -91,17 +102,19 @@ public class Compressor extends MultiBlockMachine {
         for (int i = 0; i < 4; i++) {
             int j = i;
 
-            Slimefun.runSync(() -> {
-                if (j < 3) {
-                    if (j == 1) {
-                        SoundEffect.COMPRESSOR_CRAFT_CONTRACT_SOUND.playFor(p);
-                    } else {
-                        SoundEffect.COMPRESSOR_CRAFT_EXTEND_SOUND.playFor(p);
-                    }
-                 } else {
-                    handleCraftedItem(output, dispenser, dispInv);
-                }
-            }, i * 20L);
+            Slimefun.runSync(
+                    () -> {
+                        if (j < 3) {
+                            if (j == 1) {
+                                SoundEffect.COMPRESSOR_CRAFT_CONTRACT_SOUND.playFor(p);
+                            } else {
+                                SoundEffect.COMPRESSOR_CRAFT_EXTEND_SOUND.playFor(p);
+                            }
+                        } else {
+                            handleCraftedItem(output, dispenser, dispInv);
+                        }
+                    },
+                    i * 20L);
         }
     }
 }

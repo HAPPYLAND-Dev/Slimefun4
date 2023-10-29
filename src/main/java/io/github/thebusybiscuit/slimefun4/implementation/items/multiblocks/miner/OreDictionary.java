@@ -1,16 +1,15 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.miner;
 
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
+import java.util.Random;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Random;
-
 /**
  * Simple interface to map ore blocks to their respective item(s).
- * 
+ *
  * @author TheBusyBiscuit
  *
  */

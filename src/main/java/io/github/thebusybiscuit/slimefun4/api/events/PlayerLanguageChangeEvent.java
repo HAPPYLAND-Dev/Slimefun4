@@ -2,11 +2,10 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.core.services.localization.Language;
+import javax.annotation.Nonnull;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import javax.annotation.Nonnull;
 
 /**
  * This {@link Event} gets called when a {@link Player} has switched their {@link Language}.
@@ -68,5 +67,4 @@ public class PlayerLanguageChangeEvent extends Event {
     public HandlerList getHandlers() {
         return getHandlerList();
     }
-
 }

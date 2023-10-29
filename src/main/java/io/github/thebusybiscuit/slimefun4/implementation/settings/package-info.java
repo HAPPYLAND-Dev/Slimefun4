@@ -3,4 +3,4 @@
  * very specific {@link io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem SlimefunItems} and generally not
  * very useful out of their context.
  */
-package io.github.thebusybiscuit.slimefun4.implementation.settings; 
+package io.github.thebusybiscuit.slimefun4.implementation.settings;

@@ -3,13 +3,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.handlers;
 import io.github.thebusybiscuit.slimefun4.api.events.AndroidMineEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockBreakHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
+import java.util.List;
+import javax.annotation.Nonnull;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 /**
  * This simple implementation of {@link BlockBreakHandler} will execute the same code
@@ -53,5 +52,4 @@ public abstract class SimpleBlockBreakHandler extends BlockBreakHandler {
     public void onExplode(Block b, List<ItemStack> drops) {
         onBlockBreak(b);
     }
-
 }

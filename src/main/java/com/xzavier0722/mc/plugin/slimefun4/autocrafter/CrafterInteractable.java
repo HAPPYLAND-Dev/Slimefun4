@@ -1,12 +1,11 @@
 package com.xzavier0722.mc.plugin.slimefun4.autocrafter;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
-import org.bukkit.block.Block;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Predicate;
+import org.bukkit.block.Block;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -32,7 +31,8 @@ public interface CrafterInteractable {
      * @param itemQuantities: the item's slot and amount after consume.
      * @return true if all matched, else false.
      */
-    boolean matchRecipe(AbstractAutoCrafter crafter, Collection<Predicate<ItemStack>> recipe, Map<Integer, Integer> itemQuantities);
+    boolean matchRecipe(
+            AbstractAutoCrafter crafter, Collection<Predicate<ItemStack>> recipe, Map<Integer, Integer> itemQuantities);
 
     ItemStack getItem(int slot);
 
@@ -46,6 +46,4 @@ public interface CrafterInteractable {
      * @param count: amount of different item.
      */
     default void setIngredientCount(Block b, int count) {}
-
-
 }

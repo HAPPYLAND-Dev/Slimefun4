@@ -3,10 +3,9 @@ package io.github.thebusybiscuit.slimefun4.implementation.operations;
 import io.github.thebusybiscuit.slimefun4.api.geo.GEOResource;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.implementation.items.geo.GEOMiner;
+import javax.annotation.Nonnull;
 import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
 
 /**
  * This {@link MachineOperation} represents a {@link GEOMiner}
@@ -26,7 +25,9 @@ public class MiningOperation implements MachineOperation {
 
     public MiningOperation(@Nonnull ItemStack result, int totalTicks) {
         Validate.notNull(result, "The result cannot be null");
-        Validate.isTrue(totalTicks >= 0, "The amount of total ticks must be a positive integer or zero, received: " + totalTicks);
+        Validate.isTrue(
+                totalTicks >= 0,
+                "The amount of total ticks must be a positive integer or zero, received: " + totalTicks);
 
         this.result = result;
         this.totalTicks = totalTicks;
@@ -52,5 +53,4 @@ public class MiningOperation implements MachineOperation {
     public int getTotalTicks() {
         return totalTicks;
     }
-
 }

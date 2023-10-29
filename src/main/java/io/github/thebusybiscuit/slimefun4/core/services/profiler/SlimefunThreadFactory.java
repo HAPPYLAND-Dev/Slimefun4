@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import javax.annotation.Nonnull;
 import java.util.concurrent.ThreadFactory;
+import javax.annotation.Nonnull;
 
 /**
  * This is our {@link ThreadFactory} for the {@link SlimefunProfiler}.
@@ -43,5 +43,4 @@ final class SlimefunThreadFactory implements ThreadFactory {
     public Thread newThread(@Nonnull Runnable runnable) {
         return new Thread(runnable, "Slimefun Profiler");
     }
-
 }

@@ -1,7 +1,6 @@
 package com.xzavier0722.mc.plugin.slimefun4.storage.task;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.RecordKey;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -11,6 +10,7 @@ public class QueuedWriteTask implements Runnable {
     private final Queue<RecordKey> queue = new LinkedList<>();
     private final Map<RecordKey, Runnable> tasks = new HashMap<>();
     private volatile boolean done = false;
+
     @Override
     public final void run() {
         var task = next();
@@ -29,8 +29,10 @@ public class QueuedWriteTask implements Runnable {
             e.printStackTrace();
         }
     }
-    protected void onSuccess() { }
-    protected void onError(Throwable e) { }
+
+    protected void onSuccess() {}
+
+    protected void onError(Throwable e) {}
 
     public synchronized boolean queue(RecordKey key, Runnable next) {
         if (done) {

@@ -3,12 +3,11 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineOperation;
 import io.github.thebusybiscuit.slimefun4.core.machines.MachineProcessor;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * This {@link Event} is fired whenever an {@link MachineProcessor} has completed a {@link MachineOperation}.
@@ -25,7 +24,8 @@ public class AsyncMachineOperationFinishEvent extends Event {
     private final MachineProcessor<?> machineProcessor;
     private final MachineOperation machineOperation;
 
-    public <T extends MachineOperation> AsyncMachineOperationFinishEvent(BlockPosition pos, MachineProcessor<T> processor, T operation) {
+    public <T extends MachineOperation> AsyncMachineOperationFinishEvent(
+            BlockPosition pos, MachineProcessor<T> processor, T operation) {
         super(!Bukkit.isPrimaryThread());
 
         this.position = pos;
@@ -48,8 +48,7 @@ public class AsyncMachineOperationFinishEvent extends Event {
      *
      * @return The {@link MachineProcessor} instance of the machine
      */
-    @Nullable
-    public MachineProcessor<?> getProcessor() {
+    @Nullable public MachineProcessor<?> getProcessor() {
         return machineProcessor;
     }
 
@@ -58,8 +57,7 @@ public class AsyncMachineOperationFinishEvent extends Event {
      *
      * @return The {@link MachineOperation} of the process
      */
-    @Nullable
-    public MachineOperation getOperation() {
+    @Nullable public MachineOperation getOperation() {
         return machineOperation;
     }
 

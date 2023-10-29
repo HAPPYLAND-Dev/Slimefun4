@@ -8,16 +8,15 @@ import io.github.thebusybiscuit.slimefun4.api.events.BlockPlacerPlaceEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import javax.annotation.Nonnull;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-
 /**
  * This handles all integrations with {@link mcMMO}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -65,15 +64,14 @@ class McMMOIntegration implements Listener {
      * This method checks if an {@link ItemStack} can be salvaged or not.
      * We basically don't want players to salvage any {@link SlimefunItem} unless
      * it is a {@link VanillaItem}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to check
-     * 
+     *
      * @return Whether this item can be safely salvaged
      */
     private boolean isSalvageable(@Nonnull ItemStack item) {
         SlimefunItem sfItem = SlimefunItem.getByItem(item);
         return sfItem == null || sfItem instanceof VanillaItem;
     }
-
 }

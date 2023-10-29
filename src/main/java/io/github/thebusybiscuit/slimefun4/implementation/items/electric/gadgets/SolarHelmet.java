@@ -1,13 +1,5 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.electric.gadgets;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
-
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
@@ -16,13 +8,19 @@ import io.github.thebusybiscuit.slimefun4.api.items.settings.DoubleRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Rechargeable;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.armor.SolarHelmetTask;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 /**
  * The {@link SolarHelmet} can be worn by {@link Player}.
  * As long as that {@link Player} has contact with sunlight, the helmet will charge any
  * {@link Rechargeable} {@link SlimefunItem} that this {@link Player} is currently wearing
  * or holding.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @see SolarHelmetTask
@@ -34,7 +32,12 @@ public class SolarHelmet extends SlimefunItem {
     private final ItemSetting<Double> charge;
 
     @ParametersAreNonnullByDefault
-    public SolarHelmet(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, double defaultChargingLevel) {
+    public SolarHelmet(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            double defaultChargingLevel) {
         super(itemGroup, item, recipeType, recipe);
 
         if (defaultChargingLevel <= 0) {
@@ -48,7 +51,7 @@ public class SolarHelmet extends SlimefunItem {
     /**
      * This method recharges the equipment of the given {@link Player} by the configured
      * factor of this {@link SolarHelmet}.
-     * 
+     *
      * @param p
      *            The {@link Player} wearing this {@link SolarHelmet}
      */
@@ -71,5 +74,4 @@ public class SolarHelmet extends SlimefunItem {
             rechargeable.addItemCharge(item, charge.getValue().floatValue());
         }
     }
-
 }

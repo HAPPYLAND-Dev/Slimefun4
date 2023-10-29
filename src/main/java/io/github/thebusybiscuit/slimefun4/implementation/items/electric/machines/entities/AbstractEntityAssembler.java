@@ -18,6 +18,9 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunIte
 import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.utils.NumberUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.List;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
@@ -34,10 +37,6 @@ import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-
 /**
  * This is an abstract super class for Entity Assemblers.
  *
@@ -45,24 +44,26 @@ import java.util.List;
  * @see WitherAssembler
  * @see IronGolemAssembler
  */
-public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSlimefunItem<BlockTicker> implements EnergyNetComponent {
+public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSlimefunItem<BlockTicker>
+        implements EnergyNetComponent {
 
     private static final String KEY_ENABLED = "enabled";
     private static final String KEY_OFFSET = "offset";
 
-    private final int[] border = { 0, 2, 3, 4, 5, 6, 8, 12, 14, 21, 23, 30, 32, 39, 40, 41 };
-    private final int[] inputSlots = { 19, 28, 25, 34 };
+    private final int[] border = {0, 2, 3, 4, 5, 6, 8, 12, 14, 21, 23, 30, 32, 39, 40, 41};
+    private final int[] inputSlots = {19, 28, 25, 34};
 
-    private final int[] headSlots = { 19, 28 };
-    private final int[] headBorder = { 9, 10, 11, 18, 20, 27, 29, 36, 37, 38 };
+    private final int[] headSlots = {19, 28};
+    private final int[] headBorder = {9, 10, 11, 18, 20, 27, 29, 36, 37, 38};
 
-    private final int[] bodySlots = { 25, 34 };
-    private final int[] bodyBorder = { 15, 16, 17, 24, 26, 33, 35, 42, 43, 44 };
+    private final int[] bodySlots = {25, 34};
+    private final int[] bodyBorder = {15, 16, 17, 24, 26, 33, 35, 42, 43, 44};
 
     private int lifetime = 0;
 
     @ParametersAreNonnullByDefault
-    protected AbstractEntityAssembler(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected AbstractEntityAssembler(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
 
         new BlockMenuPreset(getId(), item.getItemMetaSnapshot().getDisplayName().orElse("Entity Assembler"), ChestMenuUtils.getBlankTexture()) {
@@ -84,7 +85,8 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
             @Override
             public boolean canOpen(Block b, Player p) {
                 return p.hasPermission("slimefun.inventory.bypass")
-                        || Slimefun.getProtectionManager().hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
+                        || Slimefun.getProtectionManager()
+                                .hasPermission(p, b.getLocation(), Interaction.INTERACT_BLOCK);
             }
 
             @Override
@@ -174,11 +176,17 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
         }
 
         val = null;
-        double offset = (blockData == null || (val = blockData.getData(KEY_OFFSET)) == null) ? 3.0F : Double.parseDouble(val);
+        double offset =
+                (blockData == null || (val = blockData.getData(KEY_OFFSET)) == null) ? 3.0F : Double.parseDouble(val);
 
-        menu.replaceExistingItem(31, new CustomItemStack(Material.PISTON, "&7生成高度: &3" + offset + " 格方块高", "", "&f左键: &7+0.1", "&f右键: &7-0.1"));
+        menu.replaceExistingItem(
+                31,
+                new CustomItemStack(
+                        Material.PISTON, "&7生成高度: &3" + offset + " 格方块高", "", "&f左键: &7+0.1", "&f右键: &7-0.1"));
         menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-            double offsetv = NumberUtils.reparseDouble(Double.parseDouble(StorageCacheUtils.getData(b.getLocation(), KEY_OFFSET)) + (action.isRightClicked() ? -0.1F : 0.1F));
+            double offsetv =
+                    NumberUtils.reparseDouble(Double.parseDouble(StorageCacheUtils.getData(b.getLocation(), KEY_OFFSET))
+                            + (action.isRightClicked() ? -0.1F : 0.1F));
             StorageCacheUtils.setData(b.getLocation(), KEY_OFFSET, String.valueOf(offsetv));
             updateBlockInventory(menu, b);
             return false;
@@ -208,10 +216,15 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
                         double offset = Double.parseDouble(data.getData(KEY_OFFSET));
 
                         Slimefun.runSync(() -> {
-                            Location loc = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
+                            Location loc =
+                                    new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + offset, b.getZ() + 0.5D);
                             spawnEntity(loc);
 
-                            b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, getHead().getType());
+                            b.getWorld()
+                                    .playEffect(
+                                            b.getLocation(),
+                                            Effect.STEP_SOUND,
+                                            getHead().getType());
                         });
                     }
                 }
@@ -279,9 +292,18 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     }
 
     protected void constructMenu(BlockMenuPreset preset) {
-        preset.addItem(1, new CustomItemStack(getHead(), "&7在此处放入头颅", "", "&f此处可以放入作为生成实体头颅的物品"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(7, new CustomItemStack(getBody(), "&7在此处放入组装原料", "", "&f此处可以放入作为生成实体躯干的物品"), ChestMenuUtils.getEmptyClickHandler());
-        preset.addItem(13, new CustomItemStack(Material.CLOCK, "&7冷却时间: &b30 秒", "", "&f这个机器需要半分钟的时间装配", "&f所以耐心等等吧!"), ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(
+                1,
+                new CustomItemStack(getHead(), "&7在此处放入头颅", "", "&f此处可以放入作为生成实体头颅的物品"),
+                ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(
+                7,
+                new CustomItemStack(getBody(), "&7在此处放入组装原料", "", "&f此处可以放入作为生成实体躯干的物品"),
+                ChestMenuUtils.getEmptyClickHandler());
+        preset.addItem(
+                13,
+                new CustomItemStack(Material.CLOCK, "&7冷却时间: &b30 秒", "", "&f这个机器需要半分钟的时间装配", "&f所以耐心等等吧!"),
+                ChestMenuUtils.getEmptyClickHandler());
     }
 
     @Override
@@ -300,5 +322,4 @@ public abstract class AbstractEntityAssembler<T extends Entity> extends SimpleSl
     public abstract Material getBodyBorder();
 
     public abstract T spawnEntity(Location l);
-
 }

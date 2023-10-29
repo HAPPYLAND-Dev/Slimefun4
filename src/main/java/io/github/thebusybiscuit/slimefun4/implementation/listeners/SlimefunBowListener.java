@@ -4,6 +4,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BowShootHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.weapons.SlimefunBow;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import javax.annotation.Nonnull;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -15,17 +19,12 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 /**
  * This {@link Listener} is responsible for tracking {@link Arrow Arrows} fired from a
  * {@link SlimefunBow}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunBow
  *
  */
@@ -40,7 +39,7 @@ public class SlimefunBowListener implements Listener {
     /**
      * This returns a {@link HashMap} holding the {@link UUID} of a {@link Arrow} and the
      * associated {@link SlimefunBow} with which this {@link Arrow} was fired from.
-     * 
+     *
      * @return A {@link HashMap} with all actively tracked {@link Arrow Arrows}
      */
     @Nonnull
@@ -61,16 +60,20 @@ public class SlimefunBowListener implements Listener {
 
     @EventHandler
     public void onArrowHit(ProjectileHitEvent e) {
-        Slimefun.runSync(() -> {
-            if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
-                projectiles.remove(e.getEntity().getUniqueId());
-            }
-        }, 4L);
+        Slimefun.runSync(
+                () -> {
+                    if (e.getEntity().isValid() && e.getEntity() instanceof Arrow) {
+                        projectiles.remove(e.getEntity().getUniqueId());
+                    }
+                },
+                4L);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onArrowSuccessfulHit(EntityDamageByEntityEvent e) {
-        if (e.getDamager() instanceof Arrow && e.getEntity() instanceof LivingEntity && e.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
+        if (e.getDamager() instanceof Arrow
+                && e.getEntity() instanceof LivingEntity
+                && e.getCause() != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) {
             SlimefunBow bow = projectiles.remove(e.getDamager().getUniqueId());
 
             if (!e.isCancelled() && bow != null) {
@@ -78,5 +81,4 @@ public class SlimefunBowListener implements Listener {
             }
         }
     }
-
 }

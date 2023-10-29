@@ -2,24 +2,23 @@ package io.github.thebusybiscuit.slimefun4.api.player;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
 import io.github.bakedlibs.dough.data.persistent.PersistentDataAPI;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Nonnull;
 import org.bukkit.Keyed;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
-import java.util.OptionalInt;
-import java.util.concurrent.TimeUnit;
-
 /**
  * A very simple API that is meant for adding/getting/clearing custom status effects
  * to/from players.
- * 
+ *
  * The effects are stored via {@link PersistentDataAPI} and use NBT data that is
  * saved across server restarts.
- * 
+ *
  * You can specify a level for your status effect too.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -40,7 +39,7 @@ public class StatusEffect implements Keyed {
      * This applies this {@link StatusEffect} to the given {@link Player}.
      * You can specify a duration, this will reference
      * {@link StatusEffect#add(Player, int, int, TimeUnit)} with a level of 1.
-     * 
+     *
      * @param p
      *            The {@link Player} whom to apply the effect to
      * @param duration
@@ -54,7 +53,7 @@ public class StatusEffect implements Keyed {
 
     /**
      * This applies this {@link StatusEffect} to the given {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player} whom to apply the effect to
      * @param level
@@ -71,7 +70,7 @@ public class StatusEffect implements Keyed {
     /**
      * This applies this {@link StatusEffect} to the given {@link Player}.
      * This will apply it permanently, there is no duration.
-     * 
+     *
      * @param p
      *            The {@link Player} whom to apply the effect to
      * @param level
@@ -86,7 +85,7 @@ public class StatusEffect implements Keyed {
      * to that {@link Player}.
      * If the effect has expired, it will automatically remove all associated
      * NBT data of this effect.
-     * 
+     *
      * @param p
      *            The {@link Player} to check for
      * @return Whether this {@link StatusEffect} is currently applied
@@ -112,7 +111,7 @@ public class StatusEffect implements Keyed {
     /**
      * This method returns an {@link OptionalInt} describing the level of this status
      * effect on that player.
-     * 
+     *
      * @param p
      *            The {@link Player} to check for
      * @return An {@link OptionalInt} that describes the result
@@ -130,12 +129,11 @@ public class StatusEffect implements Keyed {
 
     /**
      * This will remove this {@link StatusEffect} from the given {@link Player}.
-     * 
+     *
      * @param p
      *            The {@link Player} to clear it from
      */
     public void clear(@Nonnull Player p) {
         PersistentDataAPI.remove(p, getKey());
     }
-
 }

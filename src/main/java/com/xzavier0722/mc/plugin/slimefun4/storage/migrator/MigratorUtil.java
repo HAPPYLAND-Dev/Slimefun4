@@ -62,6 +62,9 @@ class MigratorUtil {
 
     protected static boolean checkMigrateMark() {
         var backupData = new File("data-storage/Slimefun/old_data/");
-        return backupData.exists() && backupData.isDirectory() && backupData.listFiles() != null && backupData.listFiles().length > 0;
+        return backupData.exists()
+                && backupData.isDirectory()
+                && backupData.listFiles() != null
+                && backupData.listFiles().length > 0;
     }
 }

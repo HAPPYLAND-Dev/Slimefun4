@@ -5,7 +5,6 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.IncompatibleItemHandler
 import io.github.thebusybiscuit.slimefun4.api.items.ItemHandler;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
-
 import java.util.Optional;
 
 @FunctionalInterface
@@ -16,7 +15,8 @@ public interface BlockUseHandler extends ItemHandler {
     @Override
     default Optional<IncompatibleItemHandlerException> validate(SlimefunItem item) {
         if (item instanceof NotPlaceable || !item.getItem().getType().isBlock()) {
-            return Optional.of(new IncompatibleItemHandlerException("Only blocks that are not marked as 'NotPlaceable' can have a BlockUseHandler.", item, this));
+            return Optional.of(new IncompatibleItemHandlerException(
+                    "Only blocks that are not marked as 'NotPlaceable' can have a BlockUseHandler.", item, this));
         }
 
         return Optional.empty();
@@ -26,5 +26,4 @@ public interface BlockUseHandler extends ItemHandler {
     default Class<? extends ItemHandler> getIdentifier() {
         return BlockUseHandler.class;
     }
-
 }

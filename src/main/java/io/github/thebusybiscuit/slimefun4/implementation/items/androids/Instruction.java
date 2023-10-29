@@ -2,6 +2,12 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.androids;
 
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Location;
@@ -13,17 +19,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Predicate;
-
 /**
  * This enum holds every {@link Instruction} for the {@link ProgrammableAndroid}
  * added by Slimefun itself.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -205,7 +204,7 @@ public enum Instruction {
     /**
      * This {@link Instruction} will make a {@link FarmerAndroid} try to harvest
      * the {@link Block} in front of them.
-     * 
+     *
      * <strong>This includes plants from ExoticGarden.</strong>
      */
     FARM_EXOTIC_FORWARD(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_FORWARD, (android, b, inv, face) -> {
@@ -216,7 +215,7 @@ public enum Instruction {
     /**
      * This {@link Instruction} will make a {@link FarmerAndroid} try to harvest
      * the {@link Block} below.
-     * 
+     *
      * <strong>This includes plants from ExoticGarden.</strong>
      */
     FARM_EXOTIC_DOWN(AndroidType.ADVANCED_FARMER, HeadTexture.SCRIPT_FARM_DOWN, (android, b, inv, face) -> {
@@ -291,11 +290,10 @@ public enum Instruction {
      *
      * @param value
      *            The value which you would like to look up.
-     * 
+     *
      * @return The {@link Instruction} or null if it does not exist.
      */
-    @Nullable
-    public static Instruction getInstruction(@Nonnull String value) {
+    @Nullable public static Instruction getInstruction(@Nonnull String value) {
         Validate.notNull(value, "An Instruction cannot be null!");
         return nameLookup.get(value);
     }

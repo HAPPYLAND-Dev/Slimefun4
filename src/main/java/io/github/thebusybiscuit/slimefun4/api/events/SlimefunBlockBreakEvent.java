@@ -1,21 +1,18 @@
 package io.github.thebusybiscuit.slimefun4.api.events;
 
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.block.BlockEvent;
 import org.bukkit.inventory.ItemStack;
-
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 
 /**
  * This {@link Event} is fired whenever a {@link SlimefunItem} placed as a {@link Block} in the world is broken.
- * 
+ *
  * @author J3fftw1
  */
 public class SlimefunBlockBreakEvent extends Event implements Cancellable {
@@ -42,7 +39,7 @@ public class SlimefunBlockBreakEvent extends Event implements Cancellable {
     @ParametersAreNonnullByDefault
     public SlimefunBlockBreakEvent(Player player, ItemStack heldItem, Block blockBroken, SlimefunItem slimefunItem) {
         super();
-        
+
         this.player = player;
         this.heldItem = heldItem;
         this.blockBroken = blockBroken;
@@ -51,7 +48,7 @@ public class SlimefunBlockBreakEvent extends Event implements Cancellable {
 
     /**
      * This gets the broken {@link Block}
-     * 
+     *
      * @return The broken {@link Block}
      */
     public @Nonnull Block getBlockBroken() {
@@ -60,7 +57,7 @@ public class SlimefunBlockBreakEvent extends Event implements Cancellable {
 
     /**
      * This gets the {@link SlimefunItem} being broken
-     * 
+     *
      * @return The {@link SlimefunItem} being broken
      */
     public @Nonnull SlimefunItem getSlimefunItem() {
@@ -69,7 +66,7 @@ public class SlimefunBlockBreakEvent extends Event implements Cancellable {
 
     /**
      * The {@link ItemStack} held by the {@link Player}
-     * 
+     *
      * @return The held {@link ItemStack}
      */
     public @Nonnull ItemStack getHeldItem() {
@@ -78,7 +75,7 @@ public class SlimefunBlockBreakEvent extends Event implements Cancellable {
 
     /**
      * This gets the {@link Player}
-     * 
+     *
      * @return The {@link Player}
      */
     public @Nonnull Player getPlayer() {

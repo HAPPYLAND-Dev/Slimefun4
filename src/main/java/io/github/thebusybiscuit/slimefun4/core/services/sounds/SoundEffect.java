@@ -1,25 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.core.services.sounds;
 
-import java.util.Locale;
+import com.google.common.base.Preconditions;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.logging.Level;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-
-
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import com.google.common.base.Preconditions;
-
 /**
  * This enum holds references to all our sounds.
- * 
+ *
  * @author TheBusyBiscuit
  * @author J3fftw1
  *
@@ -28,7 +22,6 @@ import com.google.common.base.Preconditions;
  *
  */
 public enum SoundEffect {
-
     ANCIENT_ALTAR_ITEM_CHECK_SOUND(Sound.ENTITY_ENDERMAN_TELEPORT, 1F, 2F),
     ANCIENT_ALTAR_ITEM_DROP_SOUND(Sound.ENTITY_ZOMBIE_ATTACK_IRON_DOOR, 1F, 1F),
     ANCIENT_ALTAR_ITEM_PICK_UP_SOUND(Sound.ENTITY_ITEM_PICKUP, 1F, 1F),
@@ -50,11 +43,11 @@ public enum SoundEffect {
     COMPRESSOR_CRAFT_EXTEND_SOUND(Sound.BLOCK_PISTON_EXTEND, 1F, 1F),
     COOLER_CONSUME_SOUND(Sound.ENTITY_GENERIC_DRINK, 1F, 1F),
     CRUCIBLE_ADD_WATER_SOUND(Sound.ENTITY_PLAYER_SPLASH, 1F, 1F),
-    CRUCIBLE_ADD_LAVA_SOUND(Sound.BLOCK_LAVA_POP, 1F , 1F),
+    CRUCIBLE_ADD_LAVA_SOUND(Sound.BLOCK_LAVA_POP, 1F, 1F),
     CRUCIBLE_BLOCK_BREAK_SOUND(Sound.BLOCK_METAL_BREAK, 1F, 1F),
     CRUCIBLE_GENERATE_LIQUID_SOUND(Sound.BLOCK_LAVA_EXTINGUISH, 1F, 1F),
     CRUCIBLE_INTERACT_SOUND(Sound.ENTITY_ARROW_HIT_PLAYER, 1F, 1F),
-    CRUCIBLE_PLACE_LAVA_SOUND(Sound.BLOCK_LAVA_POP, 1F , 1F),
+    CRUCIBLE_PLACE_LAVA_SOUND(Sound.BLOCK_LAVA_POP, 1F, 1F),
     CRUCIBLE_PLACE_WATER_SOUND(Sound.ENTITY_PLAYER_SPLASH, 1F, 1F),
     DEBUG_FISH_CLICK_SOUND(Sound.BLOCK_BAMBOO_PLACE, 1F, 1F),
     DIET_COOKIE_CONSUME_SOUND(Sound.ENTITY_GENERIC_EAT, 1F, 1F),

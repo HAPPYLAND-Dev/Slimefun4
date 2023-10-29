@@ -21,16 +21,20 @@ public class LocationUtils {
                 Bukkit.getWorld(strArr[0]),
                 Double.parseDouble(loc[0]),
                 Double.parseDouble(loc[1]),
-                Double.parseDouble(loc[2])
-        );
+                Double.parseDouble(loc[2]));
     }
 
     public static boolean isSameChunk(Chunk c1, Chunk c2) {
-        return c1 == c2 || (isSameWorld(c1.getWorld(), c2.getWorld()) && c1.getX() == c2.getX() && c1.getZ() == c2.getZ());
+        return c1 == c2
+                || (isSameWorld(c1.getWorld(), c2.getWorld()) && c1.getX() == c2.getX() && c1.getZ() == c2.getZ());
     }
 
     public static boolean isSameLoc(Location l1, Location l2) {
-        return l1 == l2 || (isSameChunk(l1.getChunk(), l2.getChunk()) && l1.getBlockX() == l2.getBlockX() && l1.getBlockY() == l2.getBlockY() && l1.getBlockZ() == l2.getBlockZ());
+        return l1 == l2
+                || (isSameChunk(l1.getChunk(), l2.getChunk())
+                        && l1.getBlockX() == l2.getBlockX()
+                        && l1.getBlockY() == l2.getBlockY()
+                        && l1.getBlockZ() == l2.getBlockZ());
     }
 
     public static Chunk toChunk(World w, String cKey) {
@@ -47,6 +51,14 @@ public class LocationUtils {
             return "";
         }
 
-        return "[world=" + location.getWorld().getName() + ",x=" + location.getX() + ",y=" + location.getY() + ",z=" + location.getZ() + "]";
+        return "[world="
+                + location.getWorld().getName()
+                + ",x="
+                + location.getX()
+                + ",y="
+                + location.getY()
+                + ",z="
+                + location.getZ()
+                + "]";
     }
 }

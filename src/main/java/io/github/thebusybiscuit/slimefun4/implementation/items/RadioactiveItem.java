@@ -9,21 +9,20 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactive;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
-import org.bukkit.inventory.ItemStack;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * A quick and easy implementation of {@link SlimefunItem} that also implements the
  * interface {@link Radioactive}.
  * This implementation is {@link NotPlaceable}!
- * 
+ *
  * Simply specify a level of {@link Radioactivity} in the constructor.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see Radioactive
  * @see Radioactivity
  *
@@ -37,7 +36,7 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
 
     /**
      * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
-     * 
+     *
      * @param itemGroup
      *            The {@link ItemGroup} of this {@link SlimefunItem}
      * @param radioactivity
@@ -50,13 +49,18 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      *            The recipe of how to craft this {@link SlimefunItem}
      */
     @ParametersAreNonnullByDefault
-    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public RadioactiveItem(
+            ItemGroup itemGroup,
+            Radioactivity radioactivity,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe) {
         this(itemGroup, radioactivity, item, recipeType, recipe, null);
     }
 
     /**
      * This will create a new {@link RadioactiveItem} with the given level of {@link Radioactivity}
-     * 
+     *
      * @param itemGroup
      *            The {@link ItemGroup} of this {@link SlimefunItem}
      * @param radioactivity
@@ -71,7 +75,13 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
      *            The recipe output
      */
     @ParametersAreNonnullByDefault
-    public RadioactiveItem(ItemGroup itemGroup, Radioactivity radioactivity, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, @Nullable ItemStack recipeOutput) {
+    public RadioactiveItem(
+            ItemGroup itemGroup,
+            Radioactivity radioactivity,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            @Nullable ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         this.radioactivity = radioactivity;
@@ -88,5 +98,4 @@ public class RadioactiveItem extends SlimefunItem implements Radioactive, NotPla
     public Radioactivity getRadioactivity() {
         return radioactivity;
     }
-
 }

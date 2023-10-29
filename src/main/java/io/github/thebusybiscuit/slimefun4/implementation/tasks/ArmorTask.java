@@ -140,7 +140,8 @@ public class ArmorTask implements Runnable {
             return false;
         }
 
-        return (world.getTime() < 12300 || world.getTime() > 23850) && p.getEyeLocation().getBlock().getLightFromSky() == 15;
+        return (world.getTime() < 12300 || world.getTime() > 23850)
+                && p.getEyeLocation().getBlock().getLightFromSky() == 15;
     }
 
     private void checkForRadiation(@Nonnull Player p, @Nonnull PlayerProfile profile) {

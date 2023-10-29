@@ -4,12 +4,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
 
 import javax.annotation.Nonnull;
 
 /**
  * Some helper methods for dealing with Json data.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -23,10 +24,10 @@ public final class JsonUtils {
     /**
      * Little helper method to provide {@link JsonParser} functionality across different
      * versions of Gson.
-     * 
+     *
      * @param json
      *            The {@link String} to parse
-     * 
+     *
      * @return The parsed {@link JsonElement}
      */
     @SuppressWarnings("deprecation")
@@ -44,5 +45,4 @@ public final class JsonUtils {
             return new JsonParser().parse(json);
         }
     }
-
 }

@@ -4,6 +4,8 @@ public interface IAsyncReadCallback<T> {
     default boolean runOnMainThread() {
         return false;
     }
-    default void onResult(T result) { }
-    default void onResultNotFound() { }
+
+    default void onResult(T result) {}
+
+    default void onResultNotFound() {}
 }

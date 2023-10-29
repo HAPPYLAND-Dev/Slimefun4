@@ -37,6 +37,7 @@ public class SlimefunConfigManager {
      * Hold research config named "Researches.yml"
      */
     private final Config researchesConfig;
+
     private boolean automaticallyLoadItems;
     private boolean enableResearches;
     private boolean freeCreativeResearches;
@@ -59,13 +60,19 @@ public class SlimefunConfigManager {
         researchesConfig = getConfig(plugin, "Researches", () -> new Config(plugin, "Researches.yml"));
     }
 
-    @Nullable
-    @ParametersAreNonnullByDefault
+    @Nullable @ParametersAreNonnullByDefault
     private Config getConfig(Slimefun plugin, String name, Supplier<Config> supplier) {
         try {
             return supplier.get();
         } catch (Exception x) {
-            plugin.getLogger().log(Level.SEVERE, x, () -> "An Exception was thrown while loading the config file \"" + name + ".yml\" for Slimefun v" + plugin.getDescription().getVersion());
+            plugin.getLogger()
+                    .log(
+                            Level.SEVERE,
+                            x,
+                            () -> "An Exception was thrown while loading the config file \""
+                                    + name
+                                    + ".yml\" for Slimefun v"
+                                    + plugin.getDescription().getVersion());
             return null;
         }
     }
@@ -97,7 +104,12 @@ public class SlimefunConfigManager {
             researchesConfig.setDefaultValue("researches.currency-cost-convert-rate", 25.0);
             researchCurrencyCostConvertRate = researchesConfig.getDouble("researches.currency-cost-convert-rate");
         } catch (Exception x) {
-            plugin.getLogger().log(Level.SEVERE, x, () -> "An Exception was caught while (re)loading the config files for Slimefun v" + plugin.getDescription().getVersion());
+            plugin.getLogger()
+                    .log(
+                            Level.SEVERE,
+                            x,
+                            () -> "An Exception was caught while (re)loading the config files for Slimefun v"
+                                    + plugin.getDescription().getVersion());
             isSuccessful = false;
         }
 
@@ -123,7 +135,12 @@ public class SlimefunConfigManager {
                     }
                 }
             } catch (Exception x) {
-                plugin.getLogger().log(Level.SEVERE, x, () -> "Something went wrong while trying to update the cost of a research: " + research);
+                plugin.getLogger()
+                        .log(
+                                Level.SEVERE,
+                                x,
+                                () -> "Something went wrong while trying to update the cost of a research: "
+                                        + research);
                 isSuccessful = false;
             }
         }

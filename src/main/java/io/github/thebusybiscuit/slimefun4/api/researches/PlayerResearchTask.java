@@ -1,21 +1,17 @@
 package io.github.thebusybiscuit.slimefun4.api.researches;
 
-import java.util.function.Consumer;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.apache.commons.lang.Validate;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 import io.github.thebusybiscuit.slimefun4.api.events.ResearchUnlockEvent;
 import io.github.thebusybiscuit.slimefun4.api.player.PlayerProfile;
 import io.github.thebusybiscuit.slimefun4.core.guide.options.SlimefunGuideSettings;
 import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
-
+import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.apache.commons.lang.Validate;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 /**
  * A {@link PlayerResearchTask} is run when a {@link Player} unlocks a {@link Research}.
@@ -64,10 +60,15 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
             }
 
             if (!isInstant) {
-                Slimefun.runSync(() -> {
-                    SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
-                    Slimefun.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)).replace("%progress%", "0%"));
-                }, 5L);
+                Slimefun.runSync(
+                        () -> {
+                            SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
+                            Slimefun.getLocalization()
+                                    .sendMessage(p, "messages.research.progress", true, msg -> msg.replace(
+                                                    PLACEHOLDER, research.getName(p))
+                                            .replace("%progress%", "0%"));
+                        },
+                        5L);
             }
 
             ResearchUnlockEvent event = new ResearchUnlockEvent(p, research);
@@ -76,14 +77,25 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
             if (!event.isCancelled()) {
                 if (isInstant) {
                     Slimefun.runSync(() -> unlockResearch(p, profile));
-                } else if (Slimefun.getRegistry().getCurrentlyResearchingPlayers().add(p.getUniqueId())) {
-                    Slimefun.getLocalization().sendMessage(p, "messages.research.start", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)));
+                } else if (Slimefun.getRegistry()
+                        .getCurrentlyResearchingPlayers()
+                        .add(p.getUniqueId())) {
+                    Slimefun.getLocalization()
+                            .sendMessage(
+                                    p,
+                                    "messages.research.start",
+                                    true,
+                                    msg -> msg.replace(PLACEHOLDER, research.getName(p)));
                     sendUpdateMessage(p);
 
-                    Slimefun.runSync(() -> {
-                        unlockResearch(p, profile);
-                        Slimefun.getRegistry().getCurrentlyResearchingPlayers().remove(p.getUniqueId());
-                    }, (RESEARCH_PROGRESS.length + 1) * 20L);
+                    Slimefun.runSync(
+                            () -> {
+                                unlockResearch(p, profile);
+                                Slimefun.getRegistry()
+                                        .getCurrentlyResearchingPlayers()
+                                        .remove(p.getUniqueId());
+                            },
+                            (RESEARCH_PROGRESS.length + 1) * 20L);
                 }
             }
         }
@@ -93,20 +105,23 @@ public class PlayerResearchTask implements Consumer<PlayerProfile> {
         for (int i = 1; i < RESEARCH_PROGRESS.length + 1; i++) {
             int index = i;
 
-            Slimefun.runSync(() -> {
-                SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
+            Slimefun.runSync(
+                    () -> {
+                        SoundEffect.PLAYER_RESEARCHING_SOUND.playFor(p);
 
-                Slimefun.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> {
-                    String progress = RESEARCH_PROGRESS[index - 1] + "%";
-                    return msg.replace(PLACEHOLDER, research.getName(p)).replace("%progress%", progress);
-                });
-            }, i * 20L);
+                        Slimefun.getLocalization().sendMessage(p, "messages.research.progress", true, msg -> {
+                            String progress = RESEARCH_PROGRESS[index - 1] + "%";
+                            return msg.replace(PLACEHOLDER, research.getName(p)).replace("%progress%", progress);
+                        });
+                    },
+                    i * 20L);
         }
     }
 
     private void unlockResearch(@Nonnull Player p, @Nonnull PlayerProfile profile) {
         profile.setResearched(research, true);
-        //Slimefun.getLocalization().sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)));
+        //Slimefun.getLocalization()
+        //        .sendMessage(p, "messages.unlocked", true, msg -> msg.replace(PLACEHOLDER, research.getName(p)));
         onFinish(p);
 
         // Check if the Server and the Player have enabled fireworks for researches

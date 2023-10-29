@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.crafting;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
@@ -13,12 +14,10 @@ import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 
-import javax.annotation.Nonnull;
-
 /**
  * This {@link Listener} prevents any {@link SlimefunItem} from being used in a
  * brewing stand.
- * 
+ *
  * @author VoidAngel
  * @author SoSeDiK
  * @author CURVX
@@ -35,7 +34,9 @@ public class BrewingStandListener implements SlimefunCraftingListener {
         Inventory clickedInventory = e.getClickedInventory();
         Inventory topInventory = e.getView().getTopInventory();
 
-        if (clickedInventory != null && topInventory.getType() == InventoryType.BREWING && topInventory.getHolder() instanceof BrewingStand) {
+        if (clickedInventory != null
+                && topInventory.getType() == InventoryType.BREWING
+                && topInventory.getHolder() instanceof BrewingStand) {
             if (e.getAction() == InventoryAction.HOTBAR_SWAP) {
                 e.setCancelled(true);
                 return;

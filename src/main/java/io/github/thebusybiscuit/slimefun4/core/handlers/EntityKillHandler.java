@@ -12,12 +12,12 @@ import org.bukkit.inventory.ItemStack;
  * If this {@link ItemHandler} is added to a {@link SlimefunItem} it will listen
  * for any {@link EntityDeathEvent} that was triggered by a {@link Player} using
  * the {@link SlimefunItem} this {@link EntityKillHandler} was linked to.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @see ItemHandler
  * @see SimpleSlimefunItem
- * 
+ *
  */
 @FunctionalInterface
 public interface EntityKillHandler extends ItemHandler {

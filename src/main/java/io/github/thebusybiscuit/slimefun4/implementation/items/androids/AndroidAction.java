@@ -8,5 +8,4 @@ import org.bukkit.block.BlockFace;
 interface AndroidAction {
 
     void perform(ProgrammableAndroid android, Block b, BlockMenu inventory, BlockFace face);
-
 }

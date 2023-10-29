@@ -1,10 +1,13 @@
 package com.xzavier0722.mc.plugin.slimefun4.storage.common;
 
 import io.github.bakedlibs.dough.collections.Pair;
-
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
 
 public class RecordKey extends ScopeKey {
     private final Set<FieldKey> fields;
@@ -62,7 +65,10 @@ public class RecordKey extends ScopeKey {
         if (changed) {
             var re = new StringBuilder();
             re.append(scope).append("/");
-            conditions.forEach(c -> re.append(c.getFirstValue()).append("=").append(c.getSecondValue()).append("/"));
+            conditions.forEach(c -> re.append(c.getFirstValue())
+                    .append("=")
+                    .append(c.getSecondValue())
+                    .append("/"));
             fields.forEach(f -> re.append(f).append("/"));
             strKey = re.toString();
             changed = false;

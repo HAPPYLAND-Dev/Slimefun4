@@ -30,5 +30,4 @@ public enum ItemState {
      * {@link VanillaItem}.
      */
     VANILLA_FALLBACK;
-
 }

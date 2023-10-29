@@ -6,6 +6,7 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -15,12 +16,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * A {@link Bandage} or Rag is a medical supply which heals the {@link Player} and extinguishes
  * fire.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -29,7 +28,13 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
     private final int healingLevel;
 
     @ParametersAreNonnullByDefault
-    public Bandage(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput, int healingLevel) {
+    public Bandage(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            ItemStack recipeOutput,
+            int healingLevel) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
 
         this.healingLevel = healingLevel;
@@ -41,7 +46,9 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
             Player p = e.getPlayer();
 
             // Player is neither burning nor injured
-            if (p.getFireTicks() <= 0 && p.getHealth() >= p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()) {
+            if (p.getFireTicks() <= 0
+                    && p.getHealth()
+                            >= p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()) {
                 return;
             }
 
@@ -56,5 +63,4 @@ public class Bandage extends SimpleSlimefunItem<ItemUseHandler> {
             e.cancel();
         };
     }
-
 }

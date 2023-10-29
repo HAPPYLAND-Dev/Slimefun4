@@ -8,22 +8,21 @@ import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockPlaceHandler;
 import io.github.thebusybiscuit.slimefun4.core.handlers.BlockUseHandler;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
+import java.util.ArrayList;
+import java.util.Collection;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.Collection;
-
 /**
  * A {@link RepairedSpawner} is the repaired variant of a {@link BrokenSpawner}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see BrokenSpawner
  *
  */
@@ -44,7 +43,8 @@ public class RepairedSpawner extends AbstractMonsterSpawner {
     @Nonnull
     private BlockUseHandler onInteract() {
         return e -> {
-            if (!allowSpawnEggs.getValue() && SlimefunTag.SPAWN_EGGS.isTagged(e.getItem().getType())) {
+            if (!allowSpawnEggs.getValue()
+                    && SlimefunTag.SPAWN_EGGS.isTagged(e.getItem().getType())) {
                 // Disallow spawn eggs from being used on Reinforced Spawners if disabled
                 e.cancel();
             }
@@ -90,5 +90,4 @@ public class RepairedSpawner extends AbstractMonsterSpawner {
          */
         return new ArrayList<>();
     }
-
 }

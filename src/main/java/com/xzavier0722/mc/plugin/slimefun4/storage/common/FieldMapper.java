@@ -21,5 +21,4 @@ public class FieldMapper<T> {
     public FieldKey get(T key) {
         return inverseMap.get(key);
     }
-
 }

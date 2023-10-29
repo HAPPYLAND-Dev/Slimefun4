@@ -48,5 +48,4 @@ public enum EnergyNetComponentType {
      * other options.
      */
     NONE;
-
 }

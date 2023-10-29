@@ -11,13 +11,12 @@ import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.FireworkUtils;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.GameMode;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The {@link ChristmasPresent} is a seasonal {@link SlimefunItem} that drops a random
@@ -31,7 +30,12 @@ public class ChristmasPresent extends SimpleSlimefunItem<ItemUseHandler> impleme
     private final ItemStack[] gifts;
 
     @ParametersAreNonnullByDefault
-    public ChristmasPresent(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack... gifts) {
+    public ChristmasPresent(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            ItemStack... gifts) {
         super(itemGroup, item, recipeType, recipe);
 
         this.gifts = gifts;
@@ -55,5 +59,4 @@ public class ChristmasPresent extends SimpleSlimefunItem<ItemUseHandler> impleme
             });
         };
     }
-
 }

@@ -44,5 +44,4 @@ class UraniumResource extends AbstractResource {
             return biomes.getOrDefault(biome, DEFAULT_OVERWORLD_VALUE);
         }
     }
-
 }

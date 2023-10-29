@@ -28,10 +28,10 @@ import java.util.function.Consumer;
 /**
  * This class represents the instance of a {@link SlimefunBackpack} that is ready to
  * be opened.
- * 
+ *
  * It holds an actual {@link Inventory} and represents the backpack on the
  * level of an individual {@link ItemStack} as opposed to the class {@link SlimefunBackpack}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  * @see SlimefunBackpack
@@ -56,9 +56,9 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
 
         var bUuid = getBackpackUUID(item.getItemMeta());
         if (bUuid.isPresent()) {
-            Slimefun.getDatabaseManager().getProfileDataController().getBackpackAsync(
-                    bUuid.get(),
-                    new IAsyncReadCallback<>() {
+            Slimefun.getDatabaseManager()
+                    .getProfileDataController()
+                    .getBackpackAsync(bUuid.get(), new IAsyncReadCallback<>() {
                         @Override
                         public boolean runOnMainThread() {
                             return runCbOnMainThread;
@@ -68,8 +68,7 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
                         public void onResult(PlayerBackpack result) {
                             callback.accept(result);
                         }
-                    }
-            );
+                    });
 
             return;
         }
@@ -91,25 +90,25 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
 
         if (id.isPresent()) {
             int number = id.getAsInt();
-            Slimefun.getDatabaseManager().getProfileDataController().getBackpackAsync(
-                    Bukkit.getOfflinePlayer(UUID.fromString(uuid)),
-                    number,
-                    new IAsyncReadCallback<>() {
-                        @Override
-                        public boolean runOnMainThread() {
-                            return runCbOnMainThread;
-                        }
+            Slimefun.getDatabaseManager()
+                    .getProfileDataController()
+                    .getBackpackAsync(
+                            Bukkit.getOfflinePlayer(UUID.fromString(uuid)), number, new IAsyncReadCallback<>() {
+                                @Override
+                                public boolean runOnMainThread() {
+                                    return runCbOnMainThread;
+                                }
 
-                        @Override
-                        public void onResult(PlayerBackpack result) {
-                            var meta = item.getItemMeta();
-                            meta.getPersistentDataContainer().set(KEY_BACKPACK_UUID, PersistentDataType.STRING, result.uuid.toString());
-                            item.setItemMeta(meta);
-                            // TODO: upgrade lore
-                            callback.accept(result);
-                        }
-                    }
-            );
+                                @Override
+                                public void onResult(PlayerBackpack result) {
+                                    var meta = item.getItemMeta();
+                                    meta.getPersistentDataContainer()
+                                            .set(KEY_BACKPACK_UUID, PersistentDataType.STRING, result.uuid.toString());
+                                    item.setItemMeta(meta);
+                                    // TODO: upgrade lore
+                                    callback.accept(result);
+                                }
+                            });
         }
     }
 
@@ -135,7 +134,8 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
         for (String line : meta.getLore()) {
             if (line.startsWith(ChatColors.color("&7ID: ")) && line.contains("#")) {
                 try {
-                    return OptionalInt.of(Integer.parseInt(CommonPatterns.HASH.split(line.replace(ChatColors.color("&7ID: "), ""))[1]));
+                    return OptionalInt.of(Integer.parseInt(
+                            CommonPatterns.HASH.split(line.replace(ChatColors.color("&7ID: "), ""))[1]));
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -196,7 +196,8 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
     }
 
     @ParametersAreNonnullByDefault
-    public PlayerBackpack(OfflinePlayer owner, UUID uuid, String name, int id, int size, @Nullable ItemStack[] contents) {
+    public PlayerBackpack(
+            OfflinePlayer owner, UUID uuid, String name, int id, int size, @Nullable ItemStack[] contents) {
         if (size < 9 || size > 54 || size % 9 != 0) {
             throw new IllegalArgumentException("Invalid size! Size must be one of: [9, 18, 27, 36, 45, 54]");
         }
@@ -220,7 +221,7 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
 
     /**
      * This returns the id of this {@link PlayerBackpack}
-     * 
+     *
      * @return The id of this {@link PlayerBackpack}
      */
     public int getId() {
@@ -229,7 +230,7 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
 
     /**
      * This method returns the {@link PlayerProfile} this {@link PlayerBackpack} belongs to
-     * 
+     *
      * @return The owning {@link PlayerProfile}
      */
     @Nonnull
@@ -239,7 +240,7 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
 
     /**
      * This returns the size of this {@link PlayerBackpack}.
-     * 
+     *
      * @return The size of this {@link PlayerBackpack}
      */
     public int getSize() {
@@ -273,7 +274,7 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
 
     /**
      * This will change the current size of this Backpack to the specified size.
-     * 
+     *
      * @param size
      *            The new size for this Backpack
      */
@@ -318,7 +319,8 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
      * @return new {@link Inventory}
      */
     private Inventory newInv() {
-        return Bukkit.createInventory(this, size, (name.isEmpty() ? "背包" : ChatColors.color(name + "&r")) + " [大小 " + size + "]");
+        return Bukkit.createInventory(
+                this, size, (name.isEmpty() ? "背包" : ChatColors.color(name + "&r")) + " [大小 " + size + "]");
     }
 
     private void updateInv() {
@@ -329,5 +331,4 @@ public class PlayerBackpack extends SlimefunInventoryHolder {
         this.inventory = inv;
         setInventory(inv);
     }
-
 }

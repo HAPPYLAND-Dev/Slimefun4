@@ -8,6 +8,10 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import org.bukkit.Bukkit;
@@ -15,11 +19,6 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
-
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * The {@link AutoEnchanter}, in contrast to the {@link AutoDisenchanter}, adds
@@ -37,7 +36,8 @@ import java.util.Map;
  */
 public class AutoEnchanter extends AbstractEnchantmentMachine {
 
-    private final ItemSetting<Boolean> overrideExistingEnchantsLvl = new ItemSetting<>(this, "override-existing-enchants-lvl", false);
+    private final ItemSetting<Boolean> overrideExistingEnchantsLvl =
+            new ItemSetting<>(this, "override-existing-enchants-lvl", false);
 
     @ParametersAreNonnullByDefault
     public AutoEnchanter(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -79,8 +79,7 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
         return null;
     }
 
-    @Nullable
-    @ParametersAreNonnullByDefault
+    @Nullable @ParametersAreNonnullByDefault
     protected MachineRecipe enchant(BlockMenu menu, ItemStack target, ItemStack enchantedBook) {
         // Call an event so other Plugins can modify it.
         AsyncAutoEnchanterProcessEvent event = new AsyncAutoEnchanterProcessEvent(target, enchantedBook, menu);
@@ -139,7 +138,10 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
             enchantedItem.setAmount(1);
             enchantedItem.addUnsafeEnchantments(enchantments);
 
-            MachineRecipe recipe = new MachineRecipe(75 * enchantments.size() / getSpeed(), new ItemStack[] { target, enchantedBook }, new ItemStack[] { enchantedItem, new ItemStack(Material.BOOK) });
+            MachineRecipe recipe = new MachineRecipe(
+                    75 * enchantments.size() / getSpeed(),
+                    new ItemStack[] {target, enchantedBook},
+                    new ItemStack[] {enchantedItem, new ItemStack(Material.BOOK)});
 
             if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                 return null;
@@ -157,7 +159,10 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
 
     private boolean isEnchantable(@Nullable ItemStack item) {
         // stops endless checks of getByItem for enchanted book stacks.
-        if (item != null && item.getType() != Material.ENCHANTED_BOOK && !item.getType().isAir() && !hasIgnoredLore(item)) {
+        if (item != null
+                && item.getType() != Material.ENCHANTED_BOOK
+                && !item.getType().isAir()
+                && !hasIgnoredLore(item)) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
             return sfItem == null || sfItem.isEnchantable();
         } else {
@@ -169,5 +174,4 @@ public class AutoEnchanter extends AbstractEnchantmentMachine {
     public String getMachineIdentifier() {
         return "AUTO_ENCHANTER";
     }
-
 }

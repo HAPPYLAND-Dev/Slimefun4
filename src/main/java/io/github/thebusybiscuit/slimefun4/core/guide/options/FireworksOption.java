@@ -30,7 +30,15 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
 
         if (cfgManager.isResearchingEnabled() && cfgManager.isResearchFireworkEnabled()) {
             boolean enabled = getSelectedOption(p, guide).orElse(true);
-            ItemStack item = new CustomItemStack(Material.FIREWORK_ROCKET, "&b烟花特效: &" + (enabled ? "a启用" : "4禁用"), "", "&7你现在可以选择是否", "&7在解锁一个新物品的时候", "&7展示烟花特效.", "", "&7\u21E8 &e点击 " + (enabled ? "禁用" : "启用") + " 烟花特效");
+            ItemStack item = new CustomItemStack(
+                    Material.FIREWORK_ROCKET,
+                    "&b烟花特效: &" + (enabled ? "a启用" : "4禁用"),
+                    "",
+                    "&7你现在可以选择是否",
+                    "&7在解锁一个新物品的时候",
+                    "&7展示烟花特效.",
+                    "",
+                    "&7\u21E8 &e点击 " + (enabled ? "禁用" : "启用") + " 烟花特效");
             return Optional.of(item);
         } else {
             return Optional.empty();
@@ -54,5 +62,4 @@ class FireworksOption implements SlimefunGuideOption<Boolean> {
     public void setSelectedOption(Player p, ItemStack guide, Boolean value) {
         PersistentDataAPI.setByte(p, getKey(), value.booleanValue() ? (byte) 1 : (byte) 0);
     }
-
 }

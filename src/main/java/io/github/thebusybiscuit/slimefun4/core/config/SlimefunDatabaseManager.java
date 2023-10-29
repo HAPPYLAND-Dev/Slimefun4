@@ -9,8 +9,8 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlite.SqliteAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.sqlite.SqliteConfig;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataType;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
-import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ControllerHolder;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ChunkDataLoadMode;
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ControllerHolder;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ProfileDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.StorageType;
 import io.github.bakedlibs.dough.config.Config;
@@ -38,7 +38,6 @@ public class SlimefunDatabaseManager {
     private final ConcurrentHashMap<World, IDataSourceAdapter<?>> blockStorageAdapters;
     private final ConcurrentHashMap<World, BlockDataController> blockDataControllers;
 
-
     public SlimefunDatabaseManager(Slimefun plugin) {
         this.plugin = plugin;
 
@@ -63,7 +62,8 @@ public class SlimefunDatabaseManager {
         try {
             profileStorageType = StorageType.valueOf(profileConfig.getString("storageType"));
             var readExecutorThread = profileConfig.getInt("readExecutorThread");
-            var writeExecutorThread = profileStorageType == StorageType.SQLITE ? 1 : profileConfig.getInt("writeExecutorThread");
+            var writeExecutorThread =
+                    profileStorageType == StorageType.SQLITE ? 1 : profileConfig.getInt("writeExecutorThread");
 
             initAdapter(profileStorageType, DataType.PLAYER_PROFILE, profileConfig);
             var profileController = ControllerHolder.createController(ProfileDataController.class, profileStorageType);
@@ -78,17 +78,15 @@ public class SlimefunDatabaseManager {
             case MYSQL -> {
                 var adapter = new MysqlAdapter();
 
-                adapter.prepare(
-                        new MysqlConfig(
-                                databaseConfig.getString("mysql.host"),
-                                databaseConfig.getInt("mysql.port"),
-                                databaseConfig.getString("mysql.database"),
-                                databaseConfig.getString("mysql.tablePrefix"),
-                                databaseConfig.getString("mysql.user"),
-                                databaseConfig.getString("mysql.password"),
-                                databaseConfig.getBoolean("mysql.useSSL"),
-                                databaseConfig.getInt("mysql.maxConnection")
-                        ));
+                adapter.prepare(new MysqlConfig(
+                        databaseConfig.getString("mysql.host"),
+                        databaseConfig.getInt("mysql.port"),
+                        databaseConfig.getString("mysql.database"),
+                        databaseConfig.getString("mysql.tablePrefix"),
+                        databaseConfig.getString("mysql.user"),
+                        databaseConfig.getString("mysql.password"),
+                        databaseConfig.getBoolean("mysql.useSSL"),
+                        databaseConfig.getInt("mysql.maxConnection")));
 
                 if (Objects.requireNonNull(dataType) == DataType.PLAYER_PROFILE) {
                     profileAdapter = adapter;
@@ -104,23 +102,22 @@ public class SlimefunDatabaseManager {
                     profileAdapter = adapter;
                 }
                 if (databasePath != null) {
-                    adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath(), databaseConfig.getInt("sqlite.maxConnection")));
+                    adapter.prepare(new SqliteConfig(
+                        databasePath.getAbsolutePath(), databaseConfig.getInt("sqlite.maxConnection")));
                 }
             }
             case POSTGRESQL -> {
                 var adapter = new PostgreSqlAdapter();
 
-                adapter.prepare(
-                        new PostgreSqlConfig(
-                                databaseConfig.getString("postgresql.host"),
-                                databaseConfig.getInt("postgresql.port"),
-                                databaseConfig.getString("postgresql.database"),
-                                databaseConfig.getString("postgresql.tablePrefix"),
-                                databaseConfig.getString("postgresql.user"),
-                                databaseConfig.getString("postgresql.password"),
-                                databaseConfig.getBoolean("postgresql.useSSL"),
-                                databaseConfig.getInt("postgresql.maxConnection")
-                        ));
+                adapter.prepare(new PostgreSqlConfig(
+                        databaseConfig.getString("postgresql.host"),
+                        databaseConfig.getInt("postgresql.port"),
+                        databaseConfig.getString("postgresql.database"),
+                        databaseConfig.getString("postgresql.tablePrefix"),
+                        databaseConfig.getString("postgresql.user"),
+                        databaseConfig.getString("postgresql.password"),
+                        databaseConfig.getBoolean("postgresql.useSSL"),
+                        databaseConfig.getInt("postgresql.maxConnection")));
 
                 if (Objects.requireNonNull(dataType) == DataType.PLAYER_PROFILE) {
                     profileAdapter = adapter;
@@ -138,8 +135,7 @@ public class SlimefunDatabaseManager {
         adapter.prepare(new SqliteConfig(databasePath.getAbsolutePath(), databaseConfig.getInt("sqlite.maxConnection")));
     }
 
-    @Nullable
-    public ProfileDataController getProfileDataController() {
+    @Nullable public ProfileDataController getProfileDataController() {
         return ControllerHolder.getController(ProfileDataController.class, profileStorageType);
     }
 

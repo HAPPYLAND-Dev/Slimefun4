@@ -3,9 +3,8 @@ package io.github.thebusybiscuit.slimefun4.core.commands.subcommands;
 import io.github.thebusybiscuit.slimefun4.core.commands.SlimefunCommand;
 import io.github.thebusybiscuit.slimefun4.core.commands.SubCommand;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.bukkit.command.CommandSender;
-
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.command.CommandSender;
 
 class HelpCommand extends SubCommand {
 
@@ -18,5 +17,4 @@ class HelpCommand extends SubCommand {
     public void onExecute(CommandSender sender, String[] args) {
         cmd.sendHelp(sender);
     }
-
 }

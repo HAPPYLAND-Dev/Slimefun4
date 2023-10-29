@@ -69,7 +69,12 @@ public final class AndroidShareMenu {
         // Draw background end
 
         // Add trusted player slot
-        menu.addItem(0, new CustomItemStack(HeadTexture.SCRIPT_UP.getAsItemStack(), Slimefun.getLocalization().getMessage("android.access-manager.menu.add-player-title"), Slimefun.getLocalization().getMessage("android.access-manager.menu.add-player")));
+        menu.addItem(
+                0,
+                new CustomItemStack(
+                        HeadTexture.SCRIPT_UP.getAsItemStack(),
+                        Slimefun.getLocalization().getMessage("android.access-manager.menu.add-player-title"),
+                        Slimefun.getLocalization().getMessage("android.access-manager.menu.add-player")));
         menu.addMenuClickHandler(0, (p1, slot, item, action) -> {
             p1.closeInventory();
 
@@ -84,7 +89,11 @@ public final class AndroidShareMenu {
                 Player target = Bukkit.getPlayerExact(message);
 
                 if (target == null) {
-                    Slimefun.getLocalization().sendMessage(p1, "android.access-manager.messages.cannot-find-player", msg -> msg.replace("%player%", message));
+                    Slimefun.getLocalization()
+                            .sendMessage(
+                                    p1,
+                                    "android.access-manager.messages.cannot-find-player",
+                                    msg -> msg.replace("%player%", message));
                 } else {
                     addPlayer(p1, target, b, users);
                 }
@@ -97,7 +106,12 @@ public final class AndroidShareMenu {
             for (int index = 0; index < users.size(); index++) {
                 int slot = index + DISPLAY_START_SLOT;
                 OfflinePlayer current = Bukkit.getOfflinePlayer(UUID.fromString(users.get(index)));
-                menu.addItem(slot, new CustomItemStack(PlayerHead.getItemStack(current), "&b" + current.getName(), Slimefun.getLocalization().getMessage("android.access-manager.menu.delete-player")));
+                menu.addItem(
+                        slot,
+                        new CustomItemStack(
+                                PlayerHead.getItemStack(current),
+                                "&b" + current.getName(),
+                                Slimefun.getLocalization().getMessage("android.access-manager.menu.delete-player")));
                 menu.addMenuClickHandler(slot, (p1, slot1, item, action) -> {
                     if (!action.isRightClicked() && !action.isShiftClicked()) {
                         removePlayer(p1, current, b, users);
@@ -118,12 +132,20 @@ public final class AndroidShareMenu {
         Validate.notNull(users, "The trusted users list cannot be null!");
 
         if (users.contains(p.getUniqueId().toString())) {
-            Slimefun.getLocalization().sendMessage(owner, "android.access-manager.messages.is-trusted-player", msg -> msg.replace("%player%", p.getName()));
+            Slimefun.getLocalization()
+                    .sendMessage(
+                            owner,
+                            "android.access-manager.messages.is-trusted-player",
+                            msg -> msg.replace("%player%", p.getName()));
         } else if (owner.getUniqueId() == p.getUniqueId()) {
             Slimefun.getLocalization().sendMessage(owner, "android.access-manager.messages.cannot-add-yourself");
         } else {
             users.add(p.getUniqueId().toString());
-            Slimefun.getLocalization().sendMessage(owner, "android.access-manager.messages.add-success", msg -> msg.replace("%player%", p.getName()));
+            Slimefun.getLocalization()
+                    .sendMessage(
+                            owner,
+                            "android.access-manager.messages.add-success",
+                            msg -> msg.replace("%player%", p.getName()));
 
             setSharedUserData(android.getState(), users.toString());
         }
@@ -138,11 +160,19 @@ public final class AndroidShareMenu {
 
         if (users.contains(p.getUniqueId().toString())) {
             users.remove(p.getUniqueId().toString());
-            Slimefun.getLocalization().sendMessage(owner, "android.access-manager.messages.delete-success", msg -> msg.replace("%player%", p.getName()));
+            Slimefun.getLocalization()
+                    .sendMessage(
+                            owner,
+                            "android.access-manager.messages.delete-success",
+                            msg -> msg.replace("%player%", p.getName()));
 
             setSharedUserData(android.getState(), users.toString());
         } else {
-            Slimefun.getLocalization().sendMessage(owner, "android.access-manager.messages.is-not-trusted-player", msg -> msg.replace("%player%", p.getName()));
+            Slimefun.getLocalization()
+                    .sendMessage(
+                            owner,
+                            "android.access-manager.messages.is-not-trusted-player",
+                            msg -> msg.replace("%player%", p.getName()));
         }
     }
 
@@ -218,9 +248,13 @@ public final class AndroidShareMenu {
             Slimefun.logger().log(Level.SEVERE, "Please check if your Server Software is up to date!");
 
             String serverSoftware = PaperLib.isSpigot() && !PaperLib.isPaper() ? "Spigot" : Bukkit.getName();
-            Slimefun.logger().log(Level.SEVERE, () -> serverSoftware + " | " + Bukkit.getVersion() + " | " + Bukkit.getBukkitVersion());
+            Slimefun.logger()
+                    .log(
+                            Level.SEVERE,
+                            () -> serverSoftware + " | " + Bukkit.getVersion() + " | " + Bukkit.getBukkitVersion());
 
-            Slimefun.logger().log(Level.SEVERE, "An Exception was thrown while trying to set Persistent Data for a Android", x);
+            Slimefun.logger()
+                    .log(Level.SEVERE, "An Exception was thrown while trying to set Persistent Data for a Android", x);
         }
     }
 

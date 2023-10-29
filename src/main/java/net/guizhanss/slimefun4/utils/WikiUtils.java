@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 import io.github.thebusybiscuit.slimefun4.api.SlimefunAddon;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.utils.JsonUtils;
-import org.bukkit.plugin.Plugin;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -15,6 +13,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
+import org.bukkit.plugin.Plugin;
 
 /**
  * 提供Wiki相关实用方法
@@ -46,7 +45,8 @@ public final class WikiUtils {
         if (!(plugin instanceof SlimefunAddon)) {
             throw new IllegalArgumentException("该插件不是 Slimefun 附属");
         }
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(plugin.getClass().getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(plugin.getClass().getResourceAsStream("/wiki.json"), StandardCharsets.UTF_8))) {
             JsonElement element = JsonUtils.parseString(reader.lines().collect(Collectors.joining("")));
             JsonObject json = element.getAsJsonObject();
 
@@ -63,7 +63,8 @@ public final class WikiUtils {
                 }
             }
 
-            plugin.getLogger().log(Level.INFO, MessageFormat.format("加载了 {0} 中 {1} 个物品的 Wiki 页面", plugin.getName(), count));
+            plugin.getLogger()
+                    .log(Level.INFO, MessageFormat.format("加载了 {0} 中 {1} 个物品的 Wiki 页面", plugin.getName(), count));
         } catch (Exception e) {
             plugin.getLogger().log(Level.SEVERE, MessageFormat.format("无法加载 {0} 的 wiki.json", plugin.getName()), e);
         }

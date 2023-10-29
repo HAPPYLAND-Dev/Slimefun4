@@ -5,6 +5,8 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -14,22 +16,20 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-
 /**
  * The {@link NetherStarReactor} is an implementation of {@link Reactor} that consumes
  * Nether Stars and adds Withering to any nearby {@link LivingEntity}
- * 
+ *
  * @author John000708
- * 
+ *
  * @see NuclearReactor
  *
  */
 public abstract class NetherStarReactor extends Reactor {
 
     @ParametersAreNonnullByDefault
-    protected NetherStarReactor(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    protected NetherStarReactor(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -41,7 +41,8 @@ public abstract class NetherStarReactor extends Reactor {
     @Override
     public void extraTick(@Nonnull Location l) {
         Slimefun.runSync(() -> {
-            for (Entity entity : l.getWorld().getNearbyEntities(l, 5, 5, 5, n -> n instanceof LivingEntity && n.isValid())) {
+            for (Entity entity :
+                    l.getWorld().getNearbyEntities(l, 5, 5, 5, n -> n instanceof LivingEntity && n.isValid())) {
                 if (entity instanceof LivingEntity livingEntity) {
                     livingEntity.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
                 }
@@ -63,5 +64,4 @@ public abstract class NetherStarReactor extends Reactor {
     public ItemStack getProgressBar() {
         return new ItemStack(Material.NETHER_STAR);
     }
-
 }

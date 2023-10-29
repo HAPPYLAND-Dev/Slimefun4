@@ -48,13 +48,19 @@ class BackpackCommand extends SubCommand {
         if (sender instanceof Player player) {
             if (sender.hasPermission("slimefun.command.backpack")) {
                 if (args.length < 1) {
-                    Slimefun.getLocalization().sendMessage(sender, "messages.usage", true, msg -> msg.replace("%usage%", "/sf backpack (玩家名)"));
+                    Slimefun.getLocalization()
+                            .sendMessage(
+                                    sender,
+                                    "messages.usage",
+                                    true,
+                                    msg -> msg.replace("%usage%", "/sf backpack (玩家名)"));
                     return;
                 }
 
                 if (args.length == 2) {
                     if (sender.hasPermission("slimefun.command.backpack.other")) {
-                        Slimefun.getDatabaseManager().getProfileDataController()
+                        Slimefun.getDatabaseManager()
+                                .getProfileDataController()
                                 .getPlayerUuidAsync(args[1], new IAsyncReadCallback<>() {
                                     @Override
                                     public void onResult(UUID result) {
@@ -66,7 +72,8 @@ class BackpackCommand extends SubCommand {
 
                                     @Override
                                     public void onResultNotFound() {
-                                        Slimefun.getLocalization().sendMessage(player, "commands.backpack.backpack-does-not-exist");
+                                        Slimefun.getLocalization()
+                                                .sendMessage(player, "commands.backpack.backpack-does-not-exist");
                                     }
                                 });
                     } else {
@@ -89,7 +96,8 @@ class BackpackCommand extends SubCommand {
     private void openBackpackMenu(@Nonnull OfflinePlayer owner, @Nonnull Player p) {
         Validate.notNull(p, "The player cannot be null!");
 
-        Slimefun.getDatabaseManager().getProfileDataController()
+        Slimefun.getDatabaseManager()
+                .getProfileDataController()
                 .getBackpacksAsync(owner.getUniqueId().toString(), new IAsyncReadCallback<>() {
                     @Override
                     public boolean runOnMainThread() {

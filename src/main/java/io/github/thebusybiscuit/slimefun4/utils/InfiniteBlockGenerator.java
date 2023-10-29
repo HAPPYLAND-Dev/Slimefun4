@@ -3,6 +3,10 @@ package io.github.thebusybiscuit.slimefun4.utils;
 import io.github.thebusybiscuit.slimefun4.api.MinecraftVersion;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.MinerAndroid;
 import io.papermc.lib.PaperLib;
+import java.util.function.Predicate;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -10,11 +14,6 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.block.BlockFormEvent;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Predicate;
 
 /**
  * This enum holds various ways of infinite block generators.
@@ -42,7 +41,8 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
     BASALT_GENERATOR("BASALT");
 
     private static final InfiniteBlockGenerator[] valuesCached = values();
-    private static final BlockFace[] sameLevelFaces = { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
+    private static final BlockFace[] sameLevelFaces = {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST
+    };
 
     private final Material material;
 
@@ -57,8 +57,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      *
      * @return The generated {@link Material} or null
      */
-    @Nullable
-    public Material getGeneratedMaterial() {
+    @Nullable public Material getGeneratedMaterial() {
         return material;
     }
 
@@ -158,8 +157,7 @@ public enum InfiniteBlockGenerator implements Predicate<Block> {
      *
      * @return An {@link InfiniteBlockGenerator} or null if none was found.
      */
-    @Nullable
-    public static InfiniteBlockGenerator findAt(@Nonnull Block b) {
+    @Nullable public static InfiniteBlockGenerator findAt(@Nonnull Block b) {
         Validate.notNull(b, "Cannot find a generator without a Location!");
 
         for (InfiniteBlockGenerator generator : valuesCached) {

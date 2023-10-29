@@ -2,6 +2,9 @@ package io.github.thebusybiscuit.slimefun4.utils.itemstack;
 
 import io.github.bakedlibs.dough.common.ChatColors;
 import io.github.bakedlibs.dough.items.CustomItemStack;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
@@ -10,14 +13,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This simple {@link ItemStack} implementation allows us to obtain
  * a colored {@code Material.FIREWORK_STAR} {@link ItemStack} quickly.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -30,7 +29,11 @@ public class ColoredFireworkStar extends CustomItemStack {
                 im.setDisplayName(ChatColors.color(name));
             }
 
-            ((FireworkEffectMeta) im).setEffect(FireworkEffect.builder().with(Type.BURST).withColor(color).build());
+            ((FireworkEffectMeta) im)
+                    .setEffect(FireworkEffect.builder()
+                            .with(Type.BURST)
+                            .withColor(color)
+                            .build());
 
             if (lore.length > 0) {
                 List<String> lines = new ArrayList<>();
@@ -45,5 +48,4 @@ public class ColoredFireworkStar extends CustomItemStack {
             im.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
         });
     }
-
 }

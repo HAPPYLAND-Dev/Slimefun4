@@ -21,7 +21,7 @@ import java.util.function.Consumer;
  * to the {@link SlimefunGuide}.
  *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunGuideMode
  * @see SurvivalSlimefunGuide
  *
@@ -75,9 +75,9 @@ public interface SlimefunGuideImplementation {
                 p.setLevel(p.getLevel() - research.getLevelCost());
             }
 
-            boolean skipLearningAnimation = Slimefun.getConfigManager().isLearningAnimationDisabled() || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
+            boolean skipLearningAnimation = Slimefun.getConfigManager().isLearningAnimationDisabled()
+                    || !SlimefunGuideSettings.hasLearningAnimationEnabled(p);
             research.unlock(p, skipLearningAnimation, callback);
         }
     }
-
 }

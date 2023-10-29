@@ -12,21 +12,20 @@ import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetBootsTa
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.JetpackTask;
 import io.github.thebusybiscuit.slimefun4.implementation.tasks.player.ParachuteTask;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 /**
  * This {@link Listener} is responsible for listening to the {@link PlayerToggleSneakEvent}
  * to start tasks for various gadgets that are activated by pressing shift,
  * like the {@link Jetpack} or {@link JetBoots}
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see JetpackTask
  * @see JetBootsTask
  * @see ParachuteTask
@@ -45,7 +44,8 @@ public class GadgetsListener implements Listener {
             Player p = e.getPlayer();
 
             if (p.getInventory().getChestplate() != null) {
-                SlimefunItem chestplate = SlimefunItem.getByItem(p.getInventory().getChestplate());
+                SlimefunItem chestplate =
+                        SlimefunItem.getByItem(p.getInventory().getChestplate());
                 handleChestplate(p, chestplate);
             }
 

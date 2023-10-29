@@ -1,9 +1,8 @@
 package io.github.thebusybiscuit.slimefun4.api;
 
 import io.github.bakedlibs.dough.common.CommonPatterns;
-import org.apache.commons.lang.Validate;
-
 import javax.annotation.Nonnull;
+import org.apache.commons.lang.Validate;
 
 /**
  * This enum represents the branch this Slimefun build is on.
@@ -45,14 +44,15 @@ public enum SlimefunBranch {
         this.official = official;
 
         if (!CommonPatterns.ASCII.matcher(name).matches()) {
-            throw new IllegalStateException("The SlimefunBranch enum contains ILLEGAL CHARACTERS. DO NOT TRANSLATE THIS FILE.");
+            throw new IllegalStateException(
+                    "The SlimefunBranch enum contains ILLEGAL CHARACTERS. DO NOT TRANSLATE THIS FILE.");
         }
     }
 
     /**
      * This returns the name of this {@link SlimefunBranch}. The name is just a more readable
      * version of the enum constant.
-     * 
+     *
      * @return The name of this {@link SlimefunBranch}
      */
     public @Nonnull String getName() {
@@ -62,11 +62,10 @@ public enum SlimefunBranch {
     /**
      * This method returns whether this {@link SlimefunBranch} is considered official.
      * Or whether it was unofficially modified.
-     * 
+     *
      * @return Whether this branch is an official one.
      */
     public boolean isOfficial() {
         return official;
     }
-
 }

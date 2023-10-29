@@ -2,15 +2,14 @@ package me.mrCookieSlime.Slimefun.api;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
-import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nonnull;
+import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
+import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * This class is used to speed up parsing of a {@link JsonObject} that is stored at
@@ -43,7 +42,13 @@ public class BlockInfoConfig extends Config {
     @Override
     public void setValue(String path, Object value) {
         if (value != null && !(value instanceof String)) {
-            throw new UnsupportedOperationException("Can't set \"" + path + "\" to \"" + value + "\" (type: " + value.getClass().getSimpleName() + ") because BlockInfoConfig only supports Strings");
+            throw new UnsupportedOperationException("Can't set \""
+                    + path
+                    + "\" to \""
+                    + value
+                    + "\" (type: "
+                    + value.getClass().getSimpleName()
+                    + ") because BlockInfoConfig only supports Strings");
         }
 
         if (value == null) {
@@ -112,5 +117,4 @@ public class BlockInfoConfig extends Config {
     public String toJSON() {
         return new GsonBuilder().create().toJson(data);
     }
-
 }

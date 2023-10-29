@@ -9,6 +9,15 @@ import io.github.thebusybiscuit.slimefun4.api.exceptions.PrematureCodeException;
 import io.github.thebusybiscuit.slimefun4.api.exceptions.WrongItemStackException;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.function.Consumer;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -20,12 +29,6 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * The {@link SlimefunItemStack} functions as the base for any
@@ -46,10 +49,12 @@ public class SlimefunItemStack extends ItemStack {
         super(item);
 
         Validate.notNull(id, "The Item id must never be null!");
-        Validate.isTrue(id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
+        Validate.isTrue(
+                id.equals(id.toUpperCase(Locale.ROOT)), "Slimefun Item Ids must be uppercase! (e.g. 'MY_ITEM_ID')");
 
         if (Slimefun.instance() == null) {
-            throw new PrematureCodeException("A SlimefunItemStack must never be be created before your Plugin was enabled.");
+            throw new PrematureCodeException(
+                    "A SlimefunItemStack must never be be created before your Plugin was enabled.");
         }
 
         this.id = id;
@@ -87,7 +92,8 @@ public class SlimefunItemStack extends ItemStack {
         this(id, new ItemStack(type), consumer);
     }
 
-    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
+    public SlimefunItemStack(
+            @Nonnull String id, @Nonnull Material type, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
         this(id, type, meta -> {
             if (name != null) {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -118,7 +124,8 @@ public class SlimefunItemStack extends ItemStack {
         this(id, new ItemStack(type), name, lore);
     }
 
-    public SlimefunItemStack(@Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
+    public SlimefunItemStack(
+            @Nonnull String id, @Nonnull Material type, @Nonnull Color color, @Nullable String name, String... lore) {
         this(id, type, im -> {
             if (name != null) {
                 im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -144,7 +151,12 @@ public class SlimefunItemStack extends ItemStack {
         });
     }
 
-    public SlimefunItemStack(@Nonnull String id, @Nonnull Color color, @Nonnull PotionEffect effect, @Nullable String name, String... lore) {
+    public SlimefunItemStack(
+            @Nonnull String id,
+            @Nonnull Color color,
+            @Nonnull PotionEffect effect,
+            @Nullable String name,
+            String... lore) {
         this(id, Material.POTION, im -> {
             if (name != null) {
                 im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -185,7 +197,8 @@ public class SlimefunItemStack extends ItemStack {
         this(id, head.getTexture(), name, lore);
     }
 
-    public SlimefunItemStack(@Nonnull String id, @Nonnull String texture, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
+    public SlimefunItemStack(
+            @Nonnull String id, @Nonnull String texture, @Nullable String name, @Nonnull Consumer<ItemMeta> consumer) {
         this(id, getSkull(id, texture), meta -> {
             if (name != null) {
                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
@@ -224,7 +237,7 @@ public class SlimefunItemStack extends ItemStack {
     /**
      * This method returns the associated {@link SlimefunItem} and casts it to the provided
      * {@link Class}.
-     * <p>
+     *<p>
      * If no item was found or the found {@link SlimefunItem} is not of the requested type,
      * the method will return null.
      *
@@ -232,7 +245,6 @@ public class SlimefunItemStack extends ItemStack {
      * @param type The {@link Class} of the target {@link SlimefunItem}
      * @return The {@link SlimefunItem} this {@link SlimefunItem} represents, casted to the given type
      */
-
     public @Nullable <T extends SlimefunItem> T getItem(@Nonnull Class<T> type) {
         SlimefunItem item = getItem();
         return type.isInstance(item) ? type.cast(item) : null;
@@ -301,10 +313,12 @@ public class SlimefunItemStack extends ItemStack {
         if (texture.startsWith("ey")) {
             return texture;
         } else if (CommonPatterns.HEXADECIMAL.matcher(texture).matches()) {
-            String value = "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}";
+            String value =
+                    "{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/" + texture + "\"}}}";
             return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
         } else {
-            throw new IllegalArgumentException("The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
+            throw new IllegalArgumentException(
+                    "The provided texture for Item \"" + id + "\" does not seem to be a valid texture String!");
         }
     }
 

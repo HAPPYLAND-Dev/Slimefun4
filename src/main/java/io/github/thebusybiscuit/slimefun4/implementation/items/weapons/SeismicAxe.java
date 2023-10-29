@@ -8,6 +8,12 @@ import io.github.thebusybiscuit.slimefun4.core.attributes.NotPlaceable;
 import io.github.thebusybiscuit.slimefun4.core.handlers.ItemUseHandler;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.SimpleSlimefunItem;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
@@ -20,13 +26,6 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 /**
  * The {@link SeismicAxe} is an interesting weapon. It spawns ghostly block entities in a straight line
@@ -73,12 +72,11 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
 
                 for (Entity n : ground.getChunk().getEntities()) {
                     // @formatter:off
-                    if (
-                            n instanceof LivingEntity && n.getType() != EntityType.ARMOR_STAND
-                                    && !n.getUniqueId().equals(p.getUniqueId())
-                                    && canReach(p.getLocation(), n.getLocation(), groundLocation)
-                                    && pushedEntities.add(n.getUniqueId())
-                    ) {
+                    if (n instanceof LivingEntity
+                            && n.getType() != EntityType.ARMOR_STAND
+                            && !n.getUniqueId().equals(p.getUniqueId())
+                            && canReach(p.getLocation(), n.getLocation(), groundLocation)
+                            && pushedEntities.add(n.getUniqueId())) {
                         pushEntity(p, n);
                     }
                     // @formatter:on
@@ -118,12 +116,16 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     private void pushEntity(Player p, Entity entity) {
         // Only damage players when PVP is enabled, other entities are fine.
         if (entity.getType() != EntityType.PLAYER || p.getWorld().getPVP()) {
-            EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(p, entity, DamageCause.ENTITY_ATTACK, DAMAGE);
+            EntityDamageByEntityEvent event =
+                    new EntityDamageByEntityEvent(p, entity, DamageCause.ENTITY_ATTACK, DAMAGE);
             Bukkit.getPluginManager().callEvent(event);
 
             // Fixes #2207 - Only apply Vector if the Player is able to damage the entity
             if (!event.isCancelled()) {
-                Vector vector = entity.getLocation().toVector().subtract(p.getLocation().toVector()).normalize();
+                Vector vector = entity.getLocation()
+                        .toVector()
+                        .subtract(p.getLocation().toVector())
+                        .normalize();
                 vector.multiply(STRENGTH);
                 vector.setY(HEIGHT);
 
@@ -161,5 +163,4 @@ public class SeismicAxe extends SimpleSlimefunItem<ItemUseHandler> implements No
     public boolean isDamageable() {
         return true;
     }
-
 }

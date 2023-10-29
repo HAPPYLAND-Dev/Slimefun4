@@ -18,7 +18,6 @@ import org.bukkit.event.Event;
  *
  * @deprecated Please use the {@link BlockBreakHandler} instead.
  */
-
 @Deprecated
 @FunctionalInterface
 public interface SlimefunBlockHandler {

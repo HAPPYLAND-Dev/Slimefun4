@@ -2,9 +2,8 @@ package io.github.thebusybiscuit.slimefun4.core.attributes;
 
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.interactions.InteractionResult;
-import org.bukkit.Location;
-
 import javax.annotation.Nonnull;
+import org.bukkit.Location;
 
 /**
  * Implement this interface for any {@link SlimefunItem} to provide methods for
@@ -26,5 +25,4 @@ public interface ExternallyInteractable {
      */
     @Nonnull
     InteractionResult onInteract(@Nonnull Location location);
-
 }

@@ -2,14 +2,13 @@ package io.github.thebusybiscuit.slimefun4.api.events;
 
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.AndroidInstance;
 import io.github.thebusybiscuit.slimefun4.implementation.items.androids.FarmerAndroid;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 /**
  * This {@link Event} is fired before a {@link FarmerAndroid} harvests a {@link Block}.
@@ -35,7 +34,8 @@ public class AndroidFarmEvent extends Event implements Cancellable {
      * @param isAdvanced Whether this is an advanced farming action
      * @param drop       The item to be dropped or null
      */
-    public AndroidFarmEvent(@Nonnull Block block, @Nonnull AndroidInstance android, boolean isAdvanced, @Nullable ItemStack drop) {
+    public AndroidFarmEvent(
+            @Nonnull Block block, @Nonnull AndroidInstance android, boolean isAdvanced, @Nullable ItemStack drop) {
         this.block = block;
         this.android = android;
         this.isAdvanced = isAdvanced;
@@ -57,8 +57,7 @@ public class AndroidFarmEvent extends Event implements Cancellable {
      *
      * @return The harvested item or null
      */
-    @Nullable
-    public ItemStack getDrop() {
+    @Nullable public ItemStack getDrop() {
         return drop;
     }
 
@@ -111,5 +110,4 @@ public class AndroidFarmEvent extends Event implements Cancellable {
     public HandlerList getHandlers() {
         return getHandlerList();
     }
-
 }

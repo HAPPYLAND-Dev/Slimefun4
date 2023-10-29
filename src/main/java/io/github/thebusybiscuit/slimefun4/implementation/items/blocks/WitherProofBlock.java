@@ -5,19 +5,18 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.WitherProof;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Wither;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A quick and easy implementation of {@link SlimefunItem} that also implements the
  * interface {@link WitherProof}.
  * Items created with this class cannot be destroyed by a {@link Wither}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see WitherProof
  *
  */
@@ -29,7 +28,12 @@ public class WitherProofBlock extends SlimefunItem implements WitherProof {
     }
 
     @ParametersAreNonnullByDefault
-    public WitherProofBlock(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe, ItemStack recipeOutput) {
+    public WitherProofBlock(
+            ItemGroup itemGroup,
+            SlimefunItemStack item,
+            RecipeType recipeType,
+            ItemStack[] recipe,
+            ItemStack recipeOutput) {
         super(itemGroup, item, recipeType, recipe, recipeOutput);
     }
 
@@ -37,5 +41,4 @@ public class WitherProofBlock extends SlimefunItem implements WitherProof {
     public void onAttack(Block block, Wither wither) {
         // In this implementation we simply do nothing.
     }
-
 }

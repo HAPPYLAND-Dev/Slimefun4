@@ -6,6 +6,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.EnhancedFurnace;
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
+import java.util.Optional;
+import javax.annotation.Nonnull;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Furnace;
@@ -17,15 +19,12 @@ import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.FurnaceInventory;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import java.util.Optional;
-
 /**
  * This {@link Listener} is responsible for enforcing the "fuel efficiency" and "fortune" policies
  * of an {@link EnhancedFurnace}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see EnhancedFurnace
  *
  */
@@ -46,9 +45,8 @@ public class EnhancedFurnaceListener implements Listener {
 
         // Fixes #2958
         if (furnace instanceof EnhancedFurnace enhancedFurnace
-            && !enhancedFurnace.isDisabledIn(e.getBlock().getWorld())
-            && enhancedFurnace.getFuelEfficiency() > 0
-        ) {
+                && !enhancedFurnace.isDisabledIn(e.getBlock().getWorld())
+                && enhancedFurnace.getFuelEfficiency() > 0) {
             int burnTime = e.getBurnTime();
             int newBurnTime = enhancedFurnace.getFuelEfficiency() * burnTime;
 
@@ -65,7 +63,8 @@ public class EnhancedFurnaceListener implements Listener {
 
         SlimefunItem sfItem = StorageCacheUtils.getSfItem(e.getBlock().getLocation());
 
-        if (sfItem instanceof EnhancedFurnace enhancedFurnace && !enhancedFurnace.isDisabledIn(e.getBlock().getWorld())) {
+        if (sfItem instanceof EnhancedFurnace enhancedFurnace
+                && !enhancedFurnace.isDisabledIn(e.getBlock().getWorld())) {
             BlockState state = PaperLib.getBlockState(e.getBlock(), false).getState();
 
             if (state instanceof Furnace furnace) {
@@ -76,18 +75,21 @@ public class EnhancedFurnaceListener implements Listener {
                     return;
                 }
 
-                boolean multiplier = SlimefunTag.ENHANCED_FURNACE_LUCK_MATERIALS.isTagged(inventory.getSmelting().getType());
+                boolean multiplier = SlimefunTag.ENHANCED_FURNACE_LUCK_MATERIALS.isTagged(
+                        inventory.getSmelting().getType());
                 int amount = multiplier ? enhancedFurnace.getRandomOutputAmount() : 1;
-                Optional<ItemStack> result = Slimefun.getMinecraftRecipeService().getFurnaceOutput(inventory.getSmelting());
+                Optional<ItemStack> result =
+                        Slimefun.getMinecraftRecipeService().getFurnaceOutput(inventory.getSmelting());
 
                 if (result.isPresent()) {
                     ItemStack item = result.get();
-                    int previous = inventory.getResult() != null ? inventory.getResult().getAmount() : 0;
+                    int previous = inventory.getResult() != null
+                            ? inventory.getResult().getAmount()
+                            : 0;
                     amount = Math.min(item.getMaxStackSize() - previous, amount);
                     e.setResult(new ItemStack(item.getType(), amount));
                 }
             }
         }
     }
-
 }

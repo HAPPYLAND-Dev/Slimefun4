@@ -10,5 +10,4 @@ interface IssuesCallback {
      * @param pullRequests The amount of open Pull Requests
      */
     void accept(int issues, int pullRequests);
-
 }

@@ -45,9 +45,12 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
         } else {
             boolean enabled = getSelectedOption(p, guide).orElse(true);
             String optionState = enabled ? "enabled" : "disabled";
-            List<String> lore = Slimefun.getLocalization().getMessages(p, "guide.options.learning-animation." + optionState + ".text");
+            List<String> lore = Slimefun.getLocalization()
+                    .getMessages(p, "guide.options.learning-animation." + optionState + ".text");
             lore.add("");
-            lore.add("&7\u21E8 " + Slimefun.getLocalization().getMessage(p, "guide.options.learning-animation." + optionState + ".click"));
+            lore.add("&7\u21E8 "
+                    + Slimefun.getLocalization()
+                            .getMessage(p, "guide.options.learning-animation." + optionState + ".click"));
 
             ItemStack item = new CustomItemStack(enabled ? Material.MAP : Material.PAPER, lore);
             return Optional.of(item);
@@ -71,5 +74,4 @@ class LearningAnimationOption implements SlimefunGuideOption<Boolean> {
     public void setSelectedOption(@Nonnull Player p, @Nonnull ItemStack guide, @Nonnull Boolean value) {
         PersistentDataAPI.setByte(p, getKey(), (byte) (value.booleanValue() ? 1 : 0));
     }
-
 }

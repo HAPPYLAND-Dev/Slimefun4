@@ -23,7 +23,8 @@ public class AnimalGrowthAccelerator extends AbstractGrowthAccelerator {
     // We wanna strip the Slimefun Item id here
     private static final ItemStack organicFood = ItemStackWrapper.wrap(SlimefunItems.ORGANIC_FOOD);
 
-    public AnimalGrowthAccelerator(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
+    public AnimalGrowthAccelerator(
+            ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
         super(itemGroup, item, recipeType, recipe);
     }
 
@@ -52,7 +53,9 @@ public class AnimalGrowthAccelerator extends AbstractGrowthAccelerator {
                         ageable.setAge(0);
                     }
 
-                    n.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, ((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
+                    n.getWorld()
+                            .spawnParticle(
+                                    Particle.VILLAGER_HAPPY, ((LivingEntity) n).getEyeLocation(), 8, 0.2F, 0.2F, 0.2F);
                     return;
                 }
             }
@@ -62,5 +65,4 @@ public class AnimalGrowthAccelerator extends AbstractGrowthAccelerator {
     private boolean isReadyToGrow(Entity n) {
         return n instanceof Ageable ageable && n.isValid() && !ageable.isAdult();
     }
-
 }

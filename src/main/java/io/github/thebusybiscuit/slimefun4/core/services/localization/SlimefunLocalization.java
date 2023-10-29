@@ -8,22 +8,29 @@ import io.github.thebusybiscuit.slimefun4.api.SlimefunBranch;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.core.services.LocalizationService;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.UnaryOperator;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang.Validate;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.Keyed;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
-import java.util.function.UnaryOperator;
 
 /**
  * This is an abstract parent class of {@link LocalizationService}.
@@ -57,7 +64,7 @@ public abstract class SlimefunLocalization implements Keyed {
      * This returns the chat prefix for our messages.
      * Every message (unless explicitly omitted) will have this
      * prefix prepended.
-     * 
+     *
      * @return The chat prefix
      */
     public @Nonnull String getChatPrefix() {
@@ -73,7 +80,6 @@ public abstract class SlimefunLocalization implements Keyed {
      *
      * @return A {@link Language} with the given id or null
      */
-
     public abstract @Nullable Language getLanguage(@Nonnull String id);
 
     /**
@@ -84,7 +90,6 @@ public abstract class SlimefunLocalization implements Keyed {
      *
      * @return The {@link Language} that was selected by the given {@link Player}
      */
-
     public abstract @Nullable Language getLanguage(@Nonnull Player p);
 
     /**
@@ -92,7 +97,6 @@ public abstract class SlimefunLocalization implements Keyed {
      *
      * @return The default {@link Language}
      */
-
     public abstract @Nullable Language getDefaultLanguage();
 
     /**
@@ -112,7 +116,6 @@ public abstract class SlimefunLocalization implements Keyed {
      *
      * @return A {@link Collection} that contains every installed {@link Language}
      */
-
     public abstract @Nonnull Collection<Language> getLanguages();
 
     /**
@@ -229,7 +232,9 @@ public abstract class SlimefunLocalization implements Keyed {
 
         Language language = getDefaultLanguage();
 
-        String message = language == null ? null : language.getFile(LanguageFile.MESSAGES).getString(key);
+        String message = language == null
+                ? null
+                : language.getFile(LanguageFile.MESSAGES).getString(key);
 
         if (message == null) {
             return getDefaultFile(LanguageFile.MESSAGES).getString(key);
@@ -312,14 +317,16 @@ public abstract class SlimefunLocalization implements Keyed {
         NamespacedKey key = recipeType.getKey();
 
         return new CustomItemStack(item, meta -> {
-            String displayName = getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
+            String displayName =
+                    getStringOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".name");
 
             // Set the display name if possible, else keep the default item name.
             if (displayName != null) {
                 meta.setDisplayName(ChatColor.AQUA + displayName);
             }
 
-            List<String> lore = getStringListOrNull(language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".lore");
+            List<String> lore = getStringListOrNull(
+                    language, LanguageFile.RECIPES, key.getNamespace() + "." + key.getKey() + ".lore");
 
             // Set the lore if possible, else keep the default lore.
             if (lore != null) {

@@ -8,6 +8,4 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
  *
  * @author TheBusyBiscuit
  */
-public interface NotConfigurable extends ItemAttribute {
-
-}
+public interface NotConfigurable extends ItemAttribute {}

@@ -76,9 +76,9 @@ public final class Debug {
 
         if (vars.length > 0) {
             String formatted = formatMessage(msg, vars);
-            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[] { test, formatted });
+            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[] {test, formatted});
         } else {
-            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[] { test, msg });
+            Slimefun.logger().log(Level.INFO, "[DEBUG {0}] {1}", new Object[] {test, msg});
         }
     }
 
@@ -104,7 +104,8 @@ public final class Debug {
 
         // Find an opening curly brace `{` and validate the next char is a closing one `}`
         while ((i = msg.indexOf('{', i)) != -1 && msg.charAt(i + 1) == '}') {
-            // Substring up to the opening brace `{`, add the variable for this and add the rest of the message
+            // Substring up to the opening brace `{`, add the variable for this and add the rest of the
+            // message
             msg = msg.substring(0, i) + vars[idx] + msg.substring(i + 2);
             idx++;
         }

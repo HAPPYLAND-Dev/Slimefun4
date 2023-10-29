@@ -4,6 +4,10 @@ import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockInteractEvent;
 import io.github.thebusybiscuit.slimefun4.core.handlers.MultiBlockInteractionHandler;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlock;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import java.util.LinkedList;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -16,17 +20,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.LinkedList;
-
 /**
  * This {@link Listener} is responsible for listening to a {@link PlayerInteractEvent} and
  * triggering any {@link MultiBlockInteractionHandler}.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see MultiBlock
  * @see MultiBlockInteractionHandler
  * @see MultiBlockInteractEvent
@@ -65,7 +64,8 @@ public class MultiBlockListener implements Listener {
 
             // Fixes #2809
             if (!event.isCancelled()) {
-                mb.getSlimefunItem().callItemHandler(MultiBlockInteractionHandler.class, handler -> handler.onInteract(p, mb, b));
+                mb.getSlimefunItem()
+                        .callItemHandler(MultiBlockInteractionHandler.class, handler -> handler.onInteract(p, mb, b));
             }
         }
     }
@@ -76,10 +76,14 @@ public class MultiBlockListener implements Listener {
             return false;
         }
 
-        BlockFace[] directions = onlyTwoWay ? new BlockFace[] { BlockFace.NORTH, BlockFace.EAST } : new BlockFace[] { BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST };
+        BlockFace[] directions = onlyTwoWay
+                ? new BlockFace[] {BlockFace.NORTH, BlockFace.EAST}
+                : new BlockFace[] {BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST};
 
         for (BlockFace direction : directions) {
-            if (compareMaterialsVertical(b.getRelative(direction), blocks[0], blocks[3], blocks[6]) && compareMaterialsVertical(b.getRelative(direction.getOppositeFace()), blocks[2], blocks[5], blocks[8])) {
+            if (compareMaterialsVertical(b.getRelative(direction), blocks[0], blocks[3], blocks[6])
+                    && compareMaterialsVertical(
+                            b.getRelative(direction.getOppositeFace()), blocks[2], blocks[5], blocks[8])) {
                 return true;
             }
         }
@@ -87,8 +91,11 @@ public class MultiBlockListener implements Listener {
         return false;
     }
 
-    private boolean compareMaterialsVertical(@Nonnull Block b, @Nullable Material top, @Nullable Material center, @Nullable Material bottom) {
-        return (center == null || equals(b.getType(), center)) && (top == null || equals(b.getRelative(BlockFace.UP).getType(), top)) && (bottom == null || equals(b.getRelative(BlockFace.DOWN).getType(), bottom));
+    private boolean compareMaterialsVertical(
+            @Nonnull Block b, @Nullable Material top, @Nullable Material center, @Nullable Material bottom) {
+        return (center == null || equals(b.getType(), center))
+                && (top == null || equals(b.getRelative(BlockFace.UP).getType(), top))
+                && (bottom == null || equals(b.getRelative(BlockFace.DOWN).getType(), bottom));
     }
 
     @ParametersAreNonnullByDefault

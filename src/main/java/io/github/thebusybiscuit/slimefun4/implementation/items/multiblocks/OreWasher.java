@@ -1,13 +1,19 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
+import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
+import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.papermc.lib.PaperLib;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
-
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -18,19 +24,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
-import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.papermc.lib.PaperLib;
-
 /**
  * The {@link OreWasher} is a special {@link MultiBlockMachine} which allows you to
  * turn Sifted Ore into ore dusts.
- * 
+ *
  * @author TheBusyBiscuit
  * @author Sfiguz7
  *
@@ -56,11 +53,15 @@ public class OreWasher extends MultiBlockMachine {
     @ParametersAreNonnullByDefault
     public OreWasher(ItemGroup itemGroup, SlimefunItemStack item) {
         // @formatter:off
-        super(itemGroup, item, new ItemStack[] {
-            null, new ItemStack(Material.DISPENSER), null,
-            null, new ItemStack(Material.OAK_FENCE), null,
-            null, new ItemStack(Material.CAULDRON), null
-        }, BlockFace.SELF);
+        super(
+                itemGroup,
+                item,
+                new ItemStack[] {
+                    null, new ItemStack(Material.DISPENSER), null,
+                    null, new ItemStack(Material.OAK_FENCE), null,
+                    null, new ItemStack(Material.CAULDRON), null
+                },
+                BlockFace.SELF);
         // @formatter:on
 
         legacyMode = Slimefun.getCfg().getBoolean("options.legacy-ore-washer");
@@ -148,7 +149,14 @@ public class OreWasher extends MultiBlockMachine {
     }
 
     @ParametersAreNonnullByDefault
-    private void removeItem(Player p, Block b, Inventory inputInv, @Nullable Inventory outputInv, ItemStack input, ItemStack output, int amount) {
+    private void removeItem(
+            Player p,
+            Block b,
+            Inventory inputInv,
+            @Nullable Inventory outputInv,
+            ItemStack input,
+            ItemStack output,
+            int amount) {
         if (outputInv != null) {
             ItemStack removing = input.clone();
             removing.setAmount(amount);
@@ -164,12 +172,11 @@ public class OreWasher extends MultiBlockMachine {
 
     /**
      * This returns a random dust item from Slimefun.
-     * 
+     *
      * @return A randomly picked dust item
      */
     public @Nonnull ItemStack getRandomDust() {
         int index = ThreadLocalRandom.current().nextInt(dusts.length);
         return dusts[index].clone();
     }
-
 }

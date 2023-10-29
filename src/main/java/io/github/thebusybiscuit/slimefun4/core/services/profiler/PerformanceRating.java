@@ -1,11 +1,10 @@
 package io.github.thebusybiscuit.slimefun4.core.services.profiler;
 
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-
+import java.util.function.Predicate;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.function.Predicate;
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
 
 /**
  * This enum is used to quantify Slimefun's performance impact. This way we can assign a
@@ -53,5 +52,4 @@ public enum PerformanceRating implements Predicate<Float> {
     public ChatColor getColor() {
         return color;
     }
-
 }

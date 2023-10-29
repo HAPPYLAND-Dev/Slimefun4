@@ -82,8 +82,7 @@ public abstract class Network {
      *
      * @return The assigned type of {@link NetworkComponent} for this {@link Location}
      */
-    @Nullable
-    public abstract NetworkComponent classifyLocation(@Nonnull Location l);
+    @Nullable public abstract NetworkComponent classifyLocation(@Nonnull Location l);
 
     /**
      * This method is called whenever a {@link Location} in this {@link Network} changes
@@ -153,8 +152,7 @@ public abstract class Network {
         }
     }
 
-    @Nullable
-    private NetworkComponent getCurrentClassification(@Nonnull Location l) {
+    @Nullable private NetworkComponent getCurrentClassification(@Nonnull Location l) {
         if (regulatorNodes.contains(l)) {
             return NetworkComponent.REGULATOR;
         } else if (connectorNodes.contains(l)) {
@@ -176,7 +174,8 @@ public abstract class Network {
             NetworkComponent classification = classifyLocation(l);
 
             if (classification != currentAssignment) {
-                if (currentAssignment == NetworkComponent.REGULATOR || currentAssignment == NetworkComponent.CONNECTOR) {
+                if (currentAssignment == NetworkComponent.REGULATOR
+                        || currentAssignment == NetworkComponent.CONNECTOR) {
                     // Requires a complete rebuild of the network, so we just throw the current one away.
                     manager.unregisterNetwork(this);
                     return;

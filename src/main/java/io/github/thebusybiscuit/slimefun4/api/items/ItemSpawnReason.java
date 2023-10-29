@@ -64,5 +64,4 @@ public enum ItemSpawnReason {
      * Other reasons we did not account for.
      */
     MISC;
-
 }

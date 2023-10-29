@@ -1,14 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.api.exceptions;
 
 import io.github.thebusybiscuit.slimefun4.utils.biomes.BiomeMap;
-import org.bukkit.NamespacedKey;
-
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.NamespacedKey;
 
 /**
  * A {@link BiomeMapException} is thrown whenever a {@link BiomeMap}
  * contains illegal, invalid or unknown values.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -19,7 +18,7 @@ public class BiomeMapException extends Exception {
     /**
      * This constructs a new {@link BiomeMapException} for the given
      * {@link BiomeMap}'s {@link NamespacedKey} with the provided context.
-     * 
+     *
      * @param key
      *            The {@link NamespacedKey} of our {@link BiomeMap}
      * @param message
@@ -33,7 +32,7 @@ public class BiomeMapException extends Exception {
     /**
      * This constructs a new {@link BiomeMapException} for the given
      * {@link BiomeMap}'s {@link NamespacedKey} with the provided context.
-     * 
+     *
      * @param key
      *            The {@link NamespacedKey} of our {@link BiomeMap}
      * @param cause

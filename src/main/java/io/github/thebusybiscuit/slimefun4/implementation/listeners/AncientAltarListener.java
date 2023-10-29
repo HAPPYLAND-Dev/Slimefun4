@@ -1,18 +1,30 @@
 package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
+import io.github.bakedlibs.dough.items.CustomItemStack;
+import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.bakedlibs.dough.protection.Interaction;
+import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
+import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
+import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
+import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
+import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
+import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
+import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.Map;
-
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
-import io.github.thebusybiscuit.slimefun4.core.services.sounds.SoundEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,25 +42,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.inventory.ItemStack;
 
-import io.github.bakedlibs.dough.items.CustomItemStack;
-import io.github.bakedlibs.dough.items.ItemUtils;
-import io.github.bakedlibs.dough.protection.Interaction;
-import io.github.thebusybiscuit.slimefun4.api.events.PlayerRightClickEvent;
-import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
-import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import io.github.thebusybiscuit.slimefun4.implementation.SlimefunItems;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AltarRecipe;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientAltar;
-import io.github.thebusybiscuit.slimefun4.implementation.items.altar.AncientPedestal;
-import io.github.thebusybiscuit.slimefun4.implementation.items.blocks.RepairedSpawner;
-import io.github.thebusybiscuit.slimefun4.implementation.tasks.AncientAltarTask;
-import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
-import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-
 /**
  * This {@link Listener} is responsible for providing the core mechanics of the {@link AncientAltar}
  * and the {@link AncientPedestal}, it also handles the crafting of items using the Altar.
- * 
+ *
  * @author Redemption198
  * @author TheBusyBiscuit
  *
@@ -73,7 +70,7 @@ public class AncientAltarListener implements Listener {
 
     /**
      * This returns all {@link AncientAltar Altars} that are currently in use.
-     * 
+     *
      * @return A {@link Set} of every {@link AncientAltar} currently in use
      */
     public @Nonnull Set<Location> getAltarsInUse() {
@@ -165,7 +162,8 @@ public class AncientAltarListener implements Listener {
              * Drop the item instead if the player's inventory is full and
              * no stack space left else add remaining items from the returned map value
              */
-            Map<Integer, ItemStack> remainingItemMap = p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
+            Map<Integer, ItemStack> remainingItemMap =
+                    p.getInventory().addItem(pedestalItem.getOriginalItemStack(entity));
 
             for (ItemStack item : remainingItemMap.values()) {
                 p.getWorld().dropItem(pedestal.getLocation().add(0, 1, 0), item.clone());
@@ -203,7 +201,12 @@ public class AncientAltarListener implements Listener {
                 }
             } else {
                 altars.remove(altar);
-                Slimefun.getLocalization().sendMessage(p, "machines.ANCIENT_ALTAR.not-enough-pedestals", true, msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
+                Slimefun.getLocalization()
+                        .sendMessage(
+                                p,
+                                "machines.ANCIENT_ALTAR.not-enough-pedestals",
+                                true,
+                                msg -> msg.replace("%pedestals%", String.valueOf(pedestals.size())));
 
                 // Not a valid altar so remove from inuse
                 altarsInUse.remove(altar.getLocation());
@@ -234,7 +237,8 @@ public class AncientAltarListener implements Listener {
 
                 SoundEffect.ANCIENT_ALTAR_START_SOUND.playAt(b);
 
-                AncientAltarTask task = new AncientAltarTask(this, b, altarItem.getStepDelay(), result.get(), pedestals, consumed, p);
+                AncientAltarTask task =
+                        new AncientAltarTask(this, b, altarItem.getStepDelay(), result.get(), pedestals, consumed, p);
                 Slimefun.runSync(task, 10L);
             } else {
                 altars.remove(b);
@@ -268,7 +272,9 @@ public class AncientAltarListener implements Listener {
         Block pedestal = e.getBlockPlaced().getRelative(BlockFace.DOWN);
 
         if (pedestal.getType() == Material.DISPENSER) {
-            var blockData = Slimefun.getDatabaseManager().getBlockDataController(pedestal.getWorld()).getBlockDataFromCache(pedestal.getLocation());
+            var blockData = Slimefun.getDatabaseManager()
+                    .getBlockDataController(pedestal.getWorld())
+                    .getBlockDataFromCache(pedestal.getLocation());
 
             if (blockData != null && blockData.getSfId().equals(pedestalItem.getId())) {
                 Slimefun.getLocalization().sendMessage(e.getPlayer(), "messages.cannot-place", true);
@@ -323,13 +329,15 @@ public class AncientAltarListener implements Listener {
             }
 
             RepairedSpawner spawner = (RepairedSpawner) SlimefunItems.REPAIRED_SPAWNER.getItem();
-            return Optional.of(spawner.getItemForEntityType(spawner.getEntityType(wrapper).orElse(EntityType.PIG)));
+            return Optional.of(
+                    spawner.getItemForEntityType(spawner.getEntityType(wrapper).orElse(EntityType.PIG)));
         }
 
         return checkRecipe(wrapper, items);
     }
 
-    private @Nonnull Optional<ItemStack> checkRecipe(@Nonnull ItemStack catalyst, @Nonnull List<ItemStackWrapper> items) {
+    private @Nonnull Optional<ItemStack> checkRecipe(
+            @Nonnull ItemStack catalyst, @Nonnull List<ItemStackWrapper> items) {
         for (AltarRecipe recipe : altarItem.getRecipes()) {
             if (SlimefunUtils.isItemSimilar(catalyst, recipe.getCatalyst(), true)) {
                 Optional<ItemStack> optional = checkPedestals(items, recipe);
@@ -343,11 +351,13 @@ public class AncientAltarListener implements Listener {
         return Optional.empty();
     }
 
-    private @Nonnull Optional<ItemStack> checkPedestals(@Nonnull List<ItemStackWrapper> items, @Nonnull AltarRecipe recipe) {
+    private @Nonnull Optional<ItemStack> checkPedestals(
+            @Nonnull List<ItemStackWrapper> items, @Nonnull AltarRecipe recipe) {
         for (int i = 0; i < 8; i++) {
             if (SlimefunUtils.isItemSimilar(items.get(i), recipe.getInput().get(0), true)) {
                 for (int j = 1; j < 8; j++) {
-                    if (!SlimefunUtils.isItemSimilar(items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
+                    if (!SlimefunUtils.isItemSimilar(
+                            items.get((i + j) % items.size()), recipe.getInput().get(j), true)) {
                         break;
                     } else if (j == 7) {
                         return Optional.of(recipe.getOutput());

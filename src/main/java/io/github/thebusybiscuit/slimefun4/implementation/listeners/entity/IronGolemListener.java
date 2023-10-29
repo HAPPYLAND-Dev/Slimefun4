@@ -3,6 +3,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners.entity;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.items.VanillaItem;
+import javax.annotation.Nonnull;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.IronGolem;
@@ -13,12 +14,10 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import javax.annotation.Nonnull;
-
 /**
  * This {@link Listener} makes sure that an {@link IronGolem} cannot be healed with
  * a {@link SlimefunItem}.
- * 
+ *
  * @author TheBusyBiscuit
  *
  */
@@ -61,5 +60,4 @@ public class IronGolemListener implements Listener {
             }
         }
     }
-
 }

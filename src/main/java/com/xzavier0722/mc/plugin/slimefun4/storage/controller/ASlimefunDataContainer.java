@@ -1,12 +1,12 @@
 package com.xzavier0722.mc.plugin.slimefun4.storage.controller;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 public abstract class ASlimefunDataContainer {
     private final String key;
@@ -68,8 +68,7 @@ public abstract class ASlimefunDataContainer {
         return Collections.unmodifiableSet(data.keySet());
     }
 
-    @Nullable
-    public String getData(String key) {
+    @Nullable public String getData(String key) {
         checkData();
         return getCacheInternal(key);
     }

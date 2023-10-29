@@ -7,21 +7,20 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.guide.SurvivalSlimefunGuide;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.SlimefunGuideItem;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Optional;
-
 /**
  * This is a static utility class that provides convenient access to the methods
  * of {@link SlimefunGuideImplementation} that abstracts away the actual implementation.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see SlimefunGuideImplementation
  * @see SurvivalSlimefunGuide
  *
@@ -80,7 +79,8 @@ public final class SlimefunGuide {
     }
 
     @ParametersAreNonnullByDefault
-    public static void openItemGroup(PlayerProfile profile, ItemGroup itemGroup, SlimefunGuideMode mode, int selectedPage) {
+    public static void openItemGroup(
+            PlayerProfile profile, ItemGroup itemGroup, SlimefunGuideMode mode, int selectedPage) {
         Slimefun.getRegistry().getSlimefunGuide(mode).openItemGroup(profile, itemGroup, selectedPage);
     }
 
@@ -92,20 +92,24 @@ public final class SlimefunGuide {
 
     @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, ItemStack item, boolean addToHistory) {
-        Slimefun.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, 0, addToHistory);
+        Slimefun.getRegistry()
+                .getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE)
+                .displayItem(profile, item, 0, addToHistory);
     }
 
     @ParametersAreNonnullByDefault
     public static void displayItem(PlayerProfile profile, SlimefunItem item, boolean addToHistory) {
-        Slimefun.getRegistry().getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE).displayItem(profile, item, addToHistory);
+        Slimefun.getRegistry()
+                .getSlimefunGuide(SlimefunGuideMode.SURVIVAL_MODE)
+                .displayItem(profile, item, addToHistory);
     }
 
     /**
      * This method checks if a given {@link ItemStack} is a {@link SlimefunGuide}.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to check
-     * 
+     *
      * @return Whether this {@link ItemStack} represents a {@link SlimefunGuide}
      */
     public static boolean isGuideItem(@Nullable ItemStack item) {
@@ -114,7 +118,8 @@ public final class SlimefunGuide {
         } else if (item instanceof SlimefunGuideItem) {
             return true;
         } else {
-            return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true) || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
+            return SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.SURVIVAL_MODE), true)
+                    || SlimefunUtils.isItemSimilar(item, getItem(SlimefunGuideMode.CHEAT_MODE), true);
         }
     }
 

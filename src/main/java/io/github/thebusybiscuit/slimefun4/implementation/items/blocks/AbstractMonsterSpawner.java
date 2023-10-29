@@ -5,6 +5,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
 import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.block.BlockState;
@@ -14,18 +19,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
-
 /**
  * This is a parent class for the {@link BrokenSpawner} and {@link RepairedSpawner}
  * to provide some utility methods.
- * 
+ *
  * @author TheBusyBiscuit
- * 
+ *
  * @see BrokenSpawner
  * @see RepairedSpawner
  *
@@ -40,10 +39,10 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
     /**
      * This method tries to obtain an {@link EntityType} from a given {@link ItemStack}.
      * The provided {@link ItemStack} must be a {@link RepairedSpawner} item.
-     * 
+     *
      * @param item
      *            The {@link ItemStack} to extract the {@link EntityType} from
-     * 
+     *
      * @return An {@link Optional} describing the result
      */
     @Nonnull
@@ -56,8 +55,13 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
         for (String line : meta.getLore()) {
             String stripColor = ChatColor.stripColor(line);
 
-            if ((stripColor.startsWith("类型: ") || stripColor.startsWith("Type:")) && (!line.contains("<类型>") || line.contains("<Type>"))) {
-                EntityType type = EntityType.valueOf(ChatColor.stripColor(line).replace("类型: ", "").replace("Type: ", "").replace(' ', '_').toUpperCase(Locale.ROOT));
+            if ((stripColor.startsWith("类型: ") || stripColor.startsWith("Type:"))
+                    && (!line.contains("<类型>") || line.contains("<Type>"))) {
+                EntityType type = EntityType.valueOf(ChatColor.stripColor(line)
+                        .replace("类型: ", "")
+                        .replace("Type: ", "")
+                        .replace(' ', '_')
+                        .toUpperCase(Locale.ROOT));
                 return Optional.of(type);
             }
         }
@@ -110,5 +114,4 @@ public abstract class AbstractMonsterSpawner extends SlimefunItem {
 
         return item;
     }
-
 }

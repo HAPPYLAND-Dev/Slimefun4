@@ -17,7 +17,7 @@ import java.util.Optional;
 /**
  * This {@link Listener} removes a {@link PlayerProfile} from memory if the corresponding {@link Player}
  * has left the {@link Server} or was kicked.
- * 
+ *
  * @author TheBusyBiscuit
  * @author SoSeDiK
  *
@@ -34,7 +34,9 @@ public class PlayerProfileListener implements Listener {
 
         // if we still have a profile of this Player in memory, delete it
         profile.ifPresent(PlayerProfile::markForDeletion);
-        Slimefun.getDatabaseManager().getProfileDataController().invalidateCache(e.getPlayer().getUniqueId().toString());
+        Slimefun.getDatabaseManager()
+                .getProfileDataController()
+                .invalidateCache(e.getPlayer().getUniqueId().toString());
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -43,12 +45,15 @@ public class PlayerProfileListener implements Listener {
 
         // if we still have a profile of this Player in memory, delete it
         profile.ifPresent(PlayerProfile::markForDeletion);
-        Slimefun.getDatabaseManager().getProfileDataController().invalidateCache(e.getPlayer().getUniqueId().toString());
+        Slimefun.getDatabaseManager()
+                .getProfileDataController()
+                .invalidateCache(e.getPlayer().getUniqueId().toString());
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent e) {
-        Slimefun.getDatabaseManager().getProfileDataController().invalidateCache(e.getPlayer().getUniqueId().toString());
+        Slimefun.getDatabaseManager()
+                .getProfileDataController()
+                .invalidateCache(e.getPlayer().getUniqueId().toString());
     }
-
 }

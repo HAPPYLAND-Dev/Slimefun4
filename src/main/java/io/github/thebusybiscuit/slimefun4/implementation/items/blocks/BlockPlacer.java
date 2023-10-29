@@ -17,7 +17,16 @@ import io.github.thebusybiscuit.slimefun4.implementation.handlers.VanillaInvento
 import io.github.thebusybiscuit.slimefun4.utils.tags.SlimefunTag;
 import io.papermc.lib.PaperLib;
 import io.papermc.lib.features.blockstatesnapshot.BlockStateSnapshotResult;
-import org.bukkit.*;
+import java.util.List;
+import java.util.UUID;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Nameable;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
@@ -26,11 +35,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * The {@link BlockPlacer} is a machine which can place {@link Block Blocks}, as the name
@@ -45,7 +49,8 @@ import java.util.UUID;
  */
 public class BlockPlacer extends SlimefunItem {
 
-    private final ItemSetting<List<String>> unplaceableBlocks = new MaterialTagSetting(this, "unplaceable-blocks", SlimefunTag.UNBREAKABLE_MATERIALS);
+    private final ItemSetting<List<String>> unplaceableBlocks =
+            new MaterialTagSetting(this, "unplaceable-blocks", SlimefunTag.UNBREAKABLE_MATERIALS);
 
     @ParametersAreNonnullByDefault
     public BlockPlacer(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -65,7 +70,8 @@ public class BlockPlacer extends SlimefunItem {
             public void onPlayerPlace(BlockPlaceEvent e) {
                 Player p = e.getPlayer();
 
-                StorageCacheUtils.setData(e.getBlock().getLocation(), "owner", p.getUniqueId().toString());
+                StorageCacheUtils.setData(
+                        e.getBlock().getLocation(), "owner", p.getUniqueId().toString());
             }
         };
     }
@@ -90,7 +96,9 @@ public class BlockPlacer extends SlimefunItem {
 
             e.setCancelled(true);
 
-            if (facedBlock.isEmpty() && dispenser.getInventory().getViewers().isEmpty() && isAllowed(facedBlock, material)) {
+            if (facedBlock.isEmpty()
+                    && dispenser.getInventory().getViewers().isEmpty()
+                    && isAllowed(facedBlock, material)) {
                 SlimefunItem item = SlimefunItem.getByItem(e.getItem());
 
                 if (item != null) {
@@ -109,12 +117,12 @@ public class BlockPlacer extends SlimefunItem {
     /**
      * This checks whether the {@link Player} who placed down this {@link BlockPlacer} has
      * building permissions at that {@link Location}.
-     * 
+     *
      * @param dispenser
      *            The {@link Dispenser} who represents our {@link BlockPlacer}
      * @param target
      *            The {@link Block} where it should be placed
-     * 
+     *
      * @return Whether this action is permitted or not
      */
     @ParametersAreNonnullByDefault
@@ -137,10 +145,10 @@ public class BlockPlacer extends SlimefunItem {
 
     /**
      * This checks if the given {@link Material} is allowed to be placed.
-     * 
+     *
      * @param type
      *            The {@link Material} to check
-     * 
+     *
      * @return Whether placing this {@link Material} is allowed
      */
     private boolean isAllowed(@Nonnull Block facedBlock, @Nonnull Material type) {
@@ -182,7 +190,9 @@ public class BlockPlacer extends SlimefunItem {
                 if (handler.isBlockPlacerAllowed()) {
                     schedulePlacement(block, dispenser.getInventory(), item, () -> {
                         block.setType(item.getType());
-                        Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).createBlock(block.getLocation(), sfItem.getId());
+                        Slimefun.getDatabaseManager()
+                                .getBlockDataController(block.getWorld())
+                                .createBlock(block.getLocation(), sfItem.getId());
 
                         handler.onBlockPlacerPlace(e);
                     });
@@ -192,7 +202,9 @@ public class BlockPlacer extends SlimefunItem {
             if (!hasItemHandler) {
                 schedulePlacement(block, dispenser.getInventory(), item, () -> {
                     block.setType(item.getType());
-                    Slimefun.getDatabaseManager().getBlockDataController(block.getWorld()).createBlock(block.getLocation(), sfItem.getId());
+                    Slimefun.getDatabaseManager()
+                            .getBlockDataController(block.getWorld())
+                            .createBlock(block.getLocation(), sfItem.getId());
                 });
             }
         }
@@ -222,7 +234,6 @@ public class BlockPlacer extends SlimefunItem {
                             }
                         }
                     }
-
                 }
             });
         }
@@ -231,27 +242,29 @@ public class BlockPlacer extends SlimefunItem {
     @ParametersAreNonnullByDefault
     private void schedulePlacement(Block b, Inventory inv, ItemStack item, Runnable runnable) {
         // We need to delay this due to Dispenser-Inventory synchronization issues in Spigot.
-        Slimefun.runSync(() -> {
-            // Make sure the Block has not been occupied yet
-            if (b.isEmpty()) {
-                // Only remove 1 item.
-                ItemStack removedItem = item.clone();
-                removedItem.setAmount(1);
+        Slimefun.runSync(
+                () -> {
+                    // Make sure the Block has not been occupied yet
+                    if (b.isEmpty()) {
+                        // Only remove 1 item.
+                        ItemStack removedItem = item.clone();
+                        removedItem.setAmount(1);
 
-                // Play particles
-                b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
+                        // Play particles
+                        b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, item.getType());
 
-                // Make sure the item was actually removed (fixes #2817)
+                        // Make sure the item was actually removed (fixes #2817)
 
-                try {
-                    if (inv.removeItem(removedItem).isEmpty()) {
-                        runnable.run();
+                        try {
+                            if (inv.removeItem(removedItem).isEmpty()) {
+                                runnable.run();
+                            }
+                        } catch (Exception x) {
+                            error("An Exception was thrown while a BlockPlacer was performing its action", x);
+                        }
                     }
-                } catch (Exception x) {
-                    error("An Exception was thrown while a BlockPlacer was performing its action", x);
-                }
-            }
-        }, 2L);
+                },
+                2L);
     }
 
     @Override

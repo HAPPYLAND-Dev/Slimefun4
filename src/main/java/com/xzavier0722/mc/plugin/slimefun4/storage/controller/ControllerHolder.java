@@ -41,5 +41,4 @@ public class ControllerHolder<T extends ADataController> {
     private void remove(StorageType type) {
         controllers.remove(type);
     }
-
 }

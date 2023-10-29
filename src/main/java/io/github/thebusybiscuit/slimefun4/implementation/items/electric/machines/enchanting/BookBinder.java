@@ -6,6 +6,11 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemSetting;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.items.settings.IntRangeSetting;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineRecipe;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -14,12 +19,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Represents Book Binder, a machine that binds multiple enchantments books into one.
  *
@@ -27,9 +26,11 @@ import java.util.Map;
  */
 public class BookBinder extends AContainer {
 
-    private final ItemSetting<Boolean> bypassVanillaMaxLevel = new ItemSetting<>(this, "bypass-vanilla-max-level", false);
+    private final ItemSetting<Boolean> bypassVanillaMaxLevel =
+            new ItemSetting<>(this, "bypass-vanilla-max-level", false);
     private final ItemSetting<Boolean> hasCustomMaxLevel = new ItemSetting<>(this, "has-custom-max-level", false);
-    private final ItemSetting<Integer> customMaxLevel = new IntRangeSetting(this, "custom-max-level", 0, 15, Integer.MAX_VALUE);
+    private final ItemSetting<Integer> customMaxLevel =
+            new IntRangeSetting(this, "custom-max-level", 0, 15, Integer.MAX_VALUE);
 
     @ParametersAreNonnullByDefault
     public BookBinder(ItemGroup itemGroup, SlimefunItemStack item, RecipeType recipeType, ItemStack[] recipe) {
@@ -50,7 +51,8 @@ public class BookBinder extends AContainer {
 
                 Map<Enchantment, Integer> storedItemEnchantments = itemMeta.getStoredEnchants();
                 Map<Enchantment, Integer> storedTargetEnchantments = targetMeta.getStoredEnchants();
-                Map<Enchantment, Integer> enchantments = combineEnchantments(storedItemEnchantments, storedTargetEnchantments);
+                Map<Enchantment, Integer> enchantments =
+                        combineEnchantments(storedItemEnchantments, storedTargetEnchantments);
 
                 // Just return if no enchantments exist. This shouldn't ever happen. :NotLikeThis:
                 if (enchantments.size() > 0) {
@@ -59,7 +61,8 @@ public class BookBinder extends AContainer {
                     EnchantmentStorageMeta enchantMeta = (EnchantmentStorageMeta) book.getItemMeta();
 
                     for (Map.Entry<Enchantment, Integer> entry : enchantments.entrySet()) {
-                        enchantMeta.addStoredEnchant(entry.getKey(), entry.getValue(), bypassVanillaMaxLevel.getValue());
+                        enchantMeta.addStoredEnchant(
+                                entry.getKey(), entry.getValue(), bypassVanillaMaxLevel.getValue());
                     }
 
                     // Make sure we never return an enchanted book with no enchantments.
@@ -69,7 +72,10 @@ public class BookBinder extends AContainer {
 
                     book.setItemMeta(enchantMeta);
 
-                    MachineRecipe recipe = new MachineRecipe(25 * (enchantments.size() / this.getSpeed()), new ItemStack[] { target, item }, new ItemStack[] { book });
+                    MachineRecipe recipe = new MachineRecipe(
+                            25 * (enchantments.size() / this.getSpeed()),
+                            new ItemStack[] {target, item},
+                            new ItemStack[] {book});
 
                     if (!InvUtils.fitAll(menu.toInventory(), recipe.getOutput(), getOutputSlots())) {
                         return null;
@@ -84,7 +90,6 @@ public class BookBinder extends AContainer {
 
                 return null;
             }
-
         }
 
         return null;
@@ -106,7 +111,8 @@ public class BookBinder extends AContainer {
 
     @Nonnull
     @ParametersAreNonnullByDefault
-    private Map<Enchantment, Integer> combineEnchantments(Map<Enchantment, Integer> ech1, Map<Enchantment, Integer> ech2) {
+    private Map<Enchantment, Integer> combineEnchantments(
+            Map<Enchantment, Integer> ech1, Map<Enchantment, Integer> ech2) {
         Map<Enchantment, Integer> enchantments = new HashMap<>();
         enchantments.putAll(ech1);
         boolean hasConflicts = false;
@@ -118,7 +124,8 @@ public class BookBinder extends AContainer {
                  * Check if entry enchantment and conflictsWith enchantment conflict
                  * and confirm that the enchantsments aren't the exact same.
                  */
-                if (entry.getKey().conflictsWith(conflictsWith.getKey()) && !entry.getKey().equals(conflictsWith.getKey())) {
+                if (entry.getKey().conflictsWith(conflictsWith.getKey())
+                        && !entry.getKey().equals(conflictsWith.getKey())) {
                     hasConflicts = true;
                 }
             }
@@ -132,7 +139,6 @@ public class BookBinder extends AContainer {
         }
 
         return enchantments;
-
     }
 
     private int combineEnchantmentLevels(int maxLevel, int lvl1, int lvl2) {
@@ -162,7 +168,6 @@ public class BookBinder extends AContainer {
             } else {
                 return highestLevel;
             }
-
         }
     }
 }

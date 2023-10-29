@@ -25,7 +25,21 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
 
     @ParametersAreNonnullByDefault
     public EnhancedCraftingTable(ItemGroup itemGroup, SlimefunItemStack item) {
-        super(itemGroup, item, new ItemStack[] { null, null, null, null, new ItemStack(Material.CRAFTING_TABLE), null, null, new ItemStack(Material.DISPENSER), null }, BlockFace.SELF);
+        super(
+                itemGroup,
+                item,
+                new ItemStack[] {
+                    null,
+                    null,
+                    null,
+                    null,
+                    new ItemStack(Material.CRAFTING_TABLE),
+                    null,
+                    null,
+                    new ItemStack(Material.DISPENSER),
+                    null
+                },
+                BlockFace.SELF);
     }
 
     @Override
@@ -39,7 +53,8 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
 
             for (ItemStack[] input : inputs) {
                 if (isCraftable(inv, input)) {
-                    ItemStack output = RecipeType.getRecipeOutputList(this, input).clone();
+                    ItemStack output =
+                            RecipeType.getRecipeOutputList(this, input).clone();
 
                     if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         craft(inv, possibleDispenser, p, b, output);

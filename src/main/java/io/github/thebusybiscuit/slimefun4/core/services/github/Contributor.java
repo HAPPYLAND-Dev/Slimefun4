@@ -3,14 +3,18 @@ package io.github.thebusybiscuit.slimefun4.core.services.github;
 import io.github.bakedlibs.dough.data.TriStateOptional;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.utils.HeadTexture;
-import org.apache.commons.lang.Validate;
-import org.bukkit.ChatColor;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import org.apache.commons.lang.Validate;
+import org.bukkit.ChatColor;
 
 /**
  * Represents a {@link Contributor} who contributed to a GitHub repository.
@@ -105,8 +109,7 @@ public class Contributor {
      *
      * @return The GitHub profile of this {@link Contributor}
      */
-    @Nullable
-    public String getProfile() {
+    @Nullable public String getProfile() {
         return profileLink;
     }
 
@@ -236,7 +239,11 @@ public class Contributor {
      */
     @Nonnull
     public String getDisplayName() {
-        return ChatColor.GRAY + githubUsername + (!githubUsername.equals(minecraftUsername) ? ChatColor.DARK_GRAY + " (MC: " + minecraftUsername + ")" : "");
+        return ChatColor.GRAY
+                + githubUsername
+                + (!githubUsername.equals(minecraftUsername)
+                        ? ChatColor.DARK_GRAY + " (MC: " + minecraftUsername + ")"
+                        : "");
     }
 
     /**

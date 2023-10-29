@@ -3,12 +3,11 @@ package com.xzavier0722.mc.plugin.slimefun4.autocrafter;
 import io.github.thebusybiscuit.slimefun4.implementation.items.autocrafters.AbstractAutoCrafter;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.github.thebusybiscuit.slimefun4.utils.itemstack.ItemStackWrapper;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Predicate;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -30,7 +29,10 @@ public class ChestInventoryParser implements CrafterInteractable {
     }
 
     @Override
-    public boolean matchRecipe(AbstractAutoCrafter crafter, Collection<Predicate<ItemStack>> recipe, Map<Integer, Integer> itemQuantities) {
+    public boolean matchRecipe(
+            AbstractAutoCrafter crafter,
+            Collection<Predicate<ItemStack>> recipe,
+            Map<Integer, Integer> itemQuantities) {
         for (Predicate<ItemStack> predicate : recipe) {
             // Check if any Item matches the Predicate
             if (!crafter.matchesAny(inv, itemQuantities, predicate)) {
@@ -69,5 +71,4 @@ public class ChestInventoryParser implements CrafterInteractable {
         }
         return false;
     }
-
 }

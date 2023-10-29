@@ -27,5 +27,4 @@ public enum ItemTransportFlow {
      * from an {@link Inventory}.
      */
     WITHDRAW
-
 }

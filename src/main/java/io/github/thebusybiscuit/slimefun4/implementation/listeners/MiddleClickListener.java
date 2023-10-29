@@ -3,6 +3,8 @@ package io.github.thebusybiscuit.slimefun4.implementation.listeners;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.HumanEntity;
@@ -11,9 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryCreativeEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
-
-import javax.annotation.Nonnull;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * The {@link MiddleClickListener} is responsible for listening to
@@ -87,14 +86,16 @@ public class MiddleClickListener implements Listener {
          * after this we can make sure that it is a middle click outside of the inventory
          * currentItem should also be air, otherwise it is not outside of the inventory
          */
-        boolean isOutsideInventoryClick = e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR;
+        boolean isOutsideInventoryClick =
+                e.getCursor().getType() == b.getType() && e.getCurrentItem().getType() == Material.AIR;
 
         /*
          * This is an edge case where the player is looking at a WALL_HEAD (eg. cargo)
          * and then the boolean above wont match because WALL_HEAD != PLAYER_HEAD.
          * This check makes up for that lack.
          */
-        boolean isPlayerWallhead = b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD;
+        boolean isPlayerWallhead =
+                b.getType() == Material.PLAYER_WALL_HEAD && e.getCursor().getType() == Material.PLAYER_HEAD;
 
         return isOutsideInventoryClick || isPlayerWallhead;
     }

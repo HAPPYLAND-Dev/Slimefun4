@@ -32,5 +32,4 @@ public enum UnregisterReason {
      * An android miner breaks the block.
      */
     ANDROID_DIG
-
 }
