@@ -2,7 +2,6 @@ package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.ChunkDataLoadMode;
 import com.xzavier0722.mc.plugin.slimefun4.storage.listener.ChunkListener;
-import com.xzavier0722.mc.plugin.slimefun4.storage.listener.WorldListener;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import io.github.thebusybiscuit.slimefun4.implementation.listeners.TeleporterListener;

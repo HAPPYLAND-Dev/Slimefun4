@@ -20,14 +20,12 @@ class EnvironmentChecker {
             return false;
         }
 
-        printBorder(logger);
         logger.log(Level.WARNING, "");
         logger.log(Level.WARNING, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         logger.log(Level.WARNING, "检测到不兼容的插件, 已自动禁用 Slimefun!");
         logger.log(Level.WARNING, "插件列表: ", String.join(", ", plugins));
         logger.log(Level.WARNING, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         logger.log(Level.WARNING, "");
-        printBorder(logger);
         Bukkit.getPluginManager().disablePlugin(sf);
 
         return true;
@@ -38,13 +36,11 @@ class EnvironmentChecker {
             Class.forName("net.minecraftforge.common.MinecraftForge");
             Class.forName("net.fabricmc.loader.impl.launch.server.FabricServerLauncher");
 
-            printBorder(logger);
             logger.log(Level.WARNING, "");
             logger.log(Level.WARNING, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             logger.log(Level.WARNING, "检测到正在使用混合端, Slimefun 将会被禁用!");
             logger.log(Level.WARNING, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             logger.log(Level.WARNING, "");
-            printBorder(logger);
 
             Bukkit.getPluginManager().disablePlugin(sf);
 

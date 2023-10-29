@@ -23,6 +23,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
+
 /**
  * This {@link Listener} is responsible for providing interactions to the auto crafters.
  * See Issue #2896 with the {@link EnhancedAutoCrafter}, any {@link SlimefunItem} which

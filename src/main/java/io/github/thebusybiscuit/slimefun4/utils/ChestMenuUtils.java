@@ -7,6 +7,8 @@ import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.Nonnull;
+
+import io.sn.slimefun4.ChestMenuTexture;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import org.bukkit.ChatColor;
