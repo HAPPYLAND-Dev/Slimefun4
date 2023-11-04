@@ -26,12 +26,15 @@ public class CraftingTableListener implements SlimefunCraftingListener {
 
     @EventHandler
     public void onCraft(CraftItemEvent e) {
+        var result = e.getInventory().getResult();
+        if (SlimefunItem.getByItem(result) != null) return;
+
         for (ItemStack item : e.getInventory().getContents()) {
             SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
             if (sfItem != null && !sfItem.isUseableInWorkbench()) {
                 e.setResult(Result.DENY);
-                Slimefun.getLocalization().sendMessage((Player) e.getWhoClicked(), "workbench.not-enhanced", true);
+                Slimefun.getLocalization().sendMessage(e.getWhoClicked(), "workbench.not-enhanced", true);
                 break;
             }
         }
@@ -39,7 +42,11 @@ public class CraftingTableListener implements SlimefunCraftingListener {
 
     @EventHandler
     public void onPrepareCraft(PrepareItemCraftEvent e) {
-        if (e.getInventory().getResult() != null) {
+        var result = e.getInventory().getResult();
+
+        if (result != null) {
+            if (SlimefunItem.getByItem(result) != null) return;
+
             for (ItemStack item : e.getInventory().getContents()) {
                 SlimefunItem sfItem = SlimefunItem.getByItem(item);
 
