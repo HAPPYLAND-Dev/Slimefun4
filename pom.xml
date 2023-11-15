@@ -232,9 +232,9 @@
 
         <!-- Shaded packages -->
         <dependency>
-            <groupId>com.github.HAPPYLAND-Dev.dough</groupId>
+            <groupId>com.github.StarWishsama.dough</groupId>
             <artifactId>dough-api</artifactId>
-            <version>6ceefe9901</version>
+            <version>65cfacbe4c</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
