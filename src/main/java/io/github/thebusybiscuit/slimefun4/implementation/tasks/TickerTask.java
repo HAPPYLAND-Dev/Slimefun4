@@ -1,11 +1,13 @@
 package io.github.thebusybiscuit.slimefun4.implementation.tasks;
 
+import com.xzavier0722.mc.plugin.slimefun4.storage.controller.BlockDataController;
 import com.xzavier0722.mc.plugin.slimefun4.storage.controller.SlimefunBlockData;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.StorageCacheUtils;
 import io.github.bakedlibs.dough.blocks.BlockPosition;
 import io.github.bakedlibs.dough.blocks.ChunkPosition;
 import io.github.thebusybiscuit.slimefun4.api.ErrorReport;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
+import io.github.thebusybiscuit.slimefun4.core.config.SlimefunDatabaseManager;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.Collections;
 import java.util.HashSet;
@@ -96,7 +98,7 @@ public class TickerTask implements Runnable {
                 }
 
                 for (Map.Entry<ChunkPosition, Set<Location>> entry : loc) {
-                    if (Bukkit.getWorlds().contains(entry.getKey().getWorld())) {
+                    if (!Slimefun.getDatabaseManager().getBlockDataController(entry.getKey().getWorld()).destroyed) {
                         tickChunk(entry.getKey(), tickers, new HashSet<>(entry.getValue()));
                     } else {
                         tickingLocations.remove(entry.getKey());
