@@ -214,12 +214,14 @@ public class SlimefunDatabaseManager {
         }
     }
 
+    public void shutdownAdapter(World world) {
+        blockStorageAdapters.get(world).shutdown();
+        blockStorageAdapters.remove(world);
+    }
+
     private void shutdownWorld(World world) {
         blockDataControllers.get(world).shutdown();
-        blockStorageAdapters.get(world).shutdown();
-
         blockDataControllers.remove(world);
-        blockStorageAdapters.remove(world);
     }
 
     private void initDefaultVal() {

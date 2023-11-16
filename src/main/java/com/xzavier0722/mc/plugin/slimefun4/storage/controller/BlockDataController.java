@@ -13,6 +13,7 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.event.SlimefunChunkDataLoadEv
 import com.xzavier0722.mc.plugin.slimefun4.storage.task.DelayedSavingLooperTask;
 import com.xzavier0722.mc.plugin.slimefun4.storage.task.DelayedTask;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.DataUtils;
+import com.xzavier0722.mc.plugin.slimefun4.storage.util.ExecutesUtils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.InvStorageUtils;
 import com.xzavier0722.mc.plugin.slimefun4.storage.util.LocationUtils;
 import io.github.bakedlibs.dough.collections.Pair;
@@ -577,11 +578,14 @@ public class BlockDataController extends ADataController {
         isTickable = false;
 
         saveAllBlockInventories();
-        if (enableDelayedSaving) {
-            looperTask.cancel();
-            executeAllDelayedTasks();
-        }
-        super.shutdown();
+        ExecutesUtils.execute(() -> {
+            if (enableDelayedSaving) {
+                looperTask.cancel();
+                executeAllDelayedTasks();
+            }
+            super.shutdown();
+            Slimefun.getDatabaseManager().shutdownAdapter(world); //当成功保存完成后进行连接器关闭
+        });
     }
 
     void scheduleDelayedBlockDataUpdate(SlimefunBlockData blockData, String key) {
