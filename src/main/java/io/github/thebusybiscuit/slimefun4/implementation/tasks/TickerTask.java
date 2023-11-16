@@ -22,6 +22,7 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -98,7 +99,7 @@ public class TickerTask implements Runnable {
                 }
 
                 for (Map.Entry<ChunkPosition, Set<Location>> entry : loc) {
-                    if (!Slimefun.getDatabaseManager().getBlockDataController(entry.getKey().getWorld()).destroyed) {
+                    if (isTickable(entry.getKey().getWorld())) {
                         tickChunk(entry.getKey(), tickers, new HashSet<>(entry.getValue()));
                     } else {
                         tickingLocations.remove(entry.getKey());
@@ -307,5 +308,10 @@ public class TickerTask implements Runnable {
 
     public void setPaused(boolean isPaused) {
         paused = isPaused;
+    }
+
+    public boolean isTickable(World world) {
+        var controller = Slimefun.getDatabaseManager().getBlockDataController(world);
+        return (controller != null && !controller.destroyed);
     }
 }
