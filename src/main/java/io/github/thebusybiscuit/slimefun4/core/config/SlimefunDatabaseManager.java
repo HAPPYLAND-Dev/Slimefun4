@@ -209,7 +209,7 @@ public class SlimefunDatabaseManager {
             "世界 " + worldName + " 保存操作完成! (耗时 " + took + "ms)"
         );
 
-        if (took > 50) {
+        if (took > 50 && !Bukkit.isStopping()) {
             plugin.getLogger().severe("保存世界 " + worldName + " 消耗的时间过长!");
         }
     }

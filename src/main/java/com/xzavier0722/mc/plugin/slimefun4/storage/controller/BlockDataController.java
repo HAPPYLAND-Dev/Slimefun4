@@ -504,6 +504,10 @@ public class BlockDataController extends ADataController {
     }
 
     public void saveAllBlockInventories() {
+        if (!Bukkit.isPrimaryThread()) {
+            throw new IllegalStateException("Can't save block inventorys in async thread!");
+        }
+
         var chunks = new HashSet<>(loadedChunk.values());
         chunks.forEach(chunk -> chunk.getAllCacheInternal().forEach(block -> {
             if (block.isPendingRemove() || !block.isDataLoaded()) {
