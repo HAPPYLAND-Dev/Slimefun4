@@ -198,9 +198,20 @@ public class SlimefunDatabaseManager {
     }
 
     public void unloadWorld(World world) {
-        plugin.getLogger().info("为世界 " + world.getName() + " 保存数据中...");
+        long time = System.currentTimeMillis();
+        String worldName = world.getName();
+
+        plugin.getLogger().info("为世界 " + worldName + " 保存数据中...");
         shutdownWorld(world); // 无论什么情况, 都应该主线程完成任务
-        plugin.getLogger().info("世界 " + world.getName() + " 保存操作完成!");
+
+        long took = System.currentTimeMillis() - time;
+        plugin.getLogger().info(
+            "世界 " + worldName + " 保存操作完成! (耗时 " + took + "ms)"
+        );
+
+        if (took > 50) {
+            plugin.getLogger().severe("保存世界 " + worldName + " 消耗的时间过长!");
+        }
     }
 
     private void shutdownWorld(World world) {
