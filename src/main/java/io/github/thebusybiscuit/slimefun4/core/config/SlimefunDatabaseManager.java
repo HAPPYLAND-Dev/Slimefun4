@@ -199,16 +199,7 @@ public class SlimefunDatabaseManager {
 
     public void unloadWorld(World world) {
         plugin.getLogger().info("为世界 " + world.getName() + " 保存数据中...");
-
-        if (Bukkit.getServer().isStopping()) {
-            shutdownWorld(world);
-        } else {
-            Bukkit.getScheduler().runTaskAsynchronously(
-                Slimefun.instance(),
-                () -> shutdownWorld(world)
-            );
-        }
-
+        shutdownWorld(world); // 无论什么情况, 都应该主线程完成任务
         plugin.getLogger().info("世界 " + world.getName() + " 保存操作完成!");
     }
 

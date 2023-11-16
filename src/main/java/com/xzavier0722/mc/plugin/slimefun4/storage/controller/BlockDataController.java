@@ -339,9 +339,7 @@ public class BlockDataController extends ADataController {
 
     public void loadChunk(Chunk chunk, boolean isNewChunk) {
         checkDestroy();
-        if (world != chunk.getWorld()) {
-            throw new IllegalStateException("This controller is only for " + world.getName() + ".");
-        }
+        checkWorld(chunk);
 
         var chunkData = getChunkDataCache(chunk, true);
 
@@ -410,6 +408,8 @@ public class BlockDataController extends ADataController {
         if (chunkData.isDataLoaded()) {
             return;
         }
+        checkWorld(chunkData.getChunk());
+
         var key = new RecordKey(DataScope.CHUNK_DATA);
         key.addField(FieldKey.DATA_KEY);
         key.addField(FieldKey.DATA_VALUE);
@@ -436,6 +436,8 @@ public class BlockDataController extends ADataController {
         if (blockData.isDataLoaded()) {
             return;
         }
+        checkWorld(blockData.getLocation().getChunk());
+
         var key = new RecordKey(DataScope.BLOCK_DATA);
         key.addCondition(FieldKey.LOCATION, blockData.getKey());
         key.addField(FieldKey.DATA_KEY);
@@ -674,5 +676,11 @@ public class BlockDataController extends ADataController {
                     return re;
                 })
                 : loadedChunk.get(LocationUtils.getChunkKey(chunk));
+    }
+
+    private void checkWorld(Chunk chunk) {
+        if (world != chunk.getWorld()) {
+            throw new IllegalStateException("This controller is only for " + world.getName() + ".");
+        }
     }
 }
