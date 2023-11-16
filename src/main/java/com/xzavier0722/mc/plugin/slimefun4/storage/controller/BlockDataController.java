@@ -48,9 +48,10 @@ public class BlockDataController extends ADataController {
     private boolean enableDelayedSaving = false;
     private int delayedSecond = 0;
     private BukkitTask looperTask;
-    private ChunkDataLoadMode chunkDataLoadMode;
+    private final ChunkDataLoadMode chunkDataLoadMode = ChunkDataLoadMode.LOAD_WITH_CHUNK;
     private boolean initLoading = false;
     private final World world;
+    public volatile boolean isTickable = true;
 
     public BlockDataController(World world) {
         super(DataType.BLOCK_STORAGE);
@@ -64,17 +65,14 @@ public class BlockDataController extends ADataController {
     @Override
     public void init(IDataSourceAdapter<?> dataAdapter, int maxReadThread, int maxWriteThread) {
         super.init(dataAdapter, maxReadThread, maxWriteThread);
-        this.chunkDataLoadMode = Slimefun.getDatabaseManager().getChunkDataLoadMode();
         initLoadData();
     }
 
     private void initLoadData() {
-        switch (chunkDataLoadMode) {
-            case LOAD_WITH_CHUNK -> loadLoadedChunks();
-            case LOAD_ON_STARTUP -> loadLoadedWorlds();
-        }
+        loadLoadedChunks();
     }
 
+    @Deprecated(forRemoval = true)
     private void loadLoadedWorlds() {
         Bukkit.getScheduler()
                 .runTaskLater(
@@ -95,10 +93,8 @@ public class BlockDataController extends ADataController {
                         Slimefun.instance(),
                         () -> {
                             initLoading = true;
-                            for (var world : Bukkit.getWorlds()) {
-                                for (var chunk : world.getLoadedChunks()) {
-                                    loadChunk(chunk, false);
-                                }
+                            for (var chunk : world.getLoadedChunks()) {
+                                loadChunk(chunk, false);
                             }
                             initLoading = false;
                         },
@@ -343,6 +339,10 @@ public class BlockDataController extends ADataController {
 
     public void loadChunk(Chunk chunk, boolean isNewChunk) {
         checkDestroy();
+        if (world != chunk.getWorld()) {
+            throw new IllegalStateException("This controller is only for " + world.getName() + ".");
+        }
+
         var chunkData = getChunkDataCache(chunk, true);
 
         if (isNewChunk) {
@@ -572,6 +572,8 @@ public class BlockDataController extends ADataController {
 
     @Override
     public void shutdown() {
+        isTickable = false;
+
         saveAllBlockInventories();
         if (enableDelayedSaving) {
             looperTask.cancel();

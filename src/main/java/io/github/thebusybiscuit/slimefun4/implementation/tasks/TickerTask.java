@@ -312,6 +312,6 @@ public class TickerTask implements Runnable {
 
     public boolean isTickable(World world) {
         var controller = Slimefun.getDatabaseManager().getBlockDataController(world);
-        return (controller != null && !controller.destroyed);
+        return (controller != null && controller.isTickable);
     }
 }
