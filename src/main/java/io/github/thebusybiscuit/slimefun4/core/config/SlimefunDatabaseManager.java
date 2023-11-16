@@ -170,31 +170,37 @@ public class SlimefunDatabaseManager {
     }
 
     public void loadWorld(World world) {
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                plugin.getLogger().info("为世界 " + world.getName() + " 加载数据中...");
+        long time = System.currentTimeMillis();
+        String worldName = world.getName();
 
-                var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
-                var writeExecutorThread = blockStorageConfig.getInt("writeExecutorThread");
+        plugin.getLogger().info("为世界 " + worldName + " 加载数据中...");
 
-                initDataAdapter(world, blockStorageConfig);
+        var readExecutorThread = blockStorageConfig.getInt("readExecutorThread");
+        var writeExecutorThread = blockStorageConfig.getInt("writeExecutorThread");
 
-                var blockDataController = new BlockDataController(world);
-                blockDataController.init(blockStorageAdapters.get(world), readExecutorThread, writeExecutorThread);
+        initDataAdapter(world, blockStorageConfig);
 
-                if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
-                    blockDataController.initDelayedSaving(
-                        plugin,
-                        blockStorageConfig.getInt("delayedWriting.delayedSecond"),
-                        blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
-                    );
-                }
+        var blockDataController = new BlockDataController(world);
+        blockDataController.init(blockStorageAdapters.get(world), readExecutorThread, writeExecutorThread);
 
-                blockDataControllers.put(world, blockDataController);
-                plugin.getLogger().info("为世界 " + world.getName() + " 加载数据完成!");
-            }
-        }.runTaskLaterAsynchronously(Slimefun.instance(), 20L);
+        if (blockStorageConfig.getBoolean("delayedWriting.enable")) {
+            blockDataController.initDelayedSaving(
+                plugin,
+                blockStorageConfig.getInt("delayedWriting.delayedSecond"),
+                blockStorageConfig.getInt("delayedWriting.forceSavePeriod")
+            );
+        }
+
+        blockDataControllers.put(world, blockDataController);
+
+        long took = System.currentTimeMillis() - time;
+        plugin.getLogger().info(
+            "为世界 " + worldName + " 加载数据完成! (耗时 " + took + "ms)"
+        );
+
+        if (took > 30 && !Bukkit.isStopping()) {
+            plugin.getLogger().severe("加载和初始化世界 " + worldName + " 消耗的时间过长!");
+        }
     }
 
     public void unloadWorld(World world) {
@@ -209,7 +215,7 @@ public class SlimefunDatabaseManager {
             "世界 " + worldName + " 保存操作完成! (耗时 " + took + "ms)"
         );
 
-        if (took > 50 && !Bukkit.isStopping()) {
+        if (took > 30 && !Bukkit.isStopping()) {
             plugin.getLogger().severe("保存世界 " + worldName + " 消耗的时间过长!");
         }
     }

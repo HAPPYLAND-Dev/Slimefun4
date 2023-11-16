@@ -504,7 +504,7 @@ public class BlockDataController extends ADataController {
     }
 
     public void saveAllBlockInventories() {
-        if (!Bukkit.isPrimaryThread()) {
+        if (!Bukkit.isPrimaryThread() && !Bukkit.isStopping()) {
             throw new IllegalStateException("Can't save block inventorys in async thread!");
         }
 
