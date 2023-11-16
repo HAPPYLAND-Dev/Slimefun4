@@ -11,6 +11,8 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.task.QueuedWriteTask;
 import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
 import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
+import org.bukkit.Bukkit;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,7 +69,7 @@ public abstract class ADataController {
                 pendingTask = scheduledWriteTasks.size();
             }
 
-            logger.info("数据保存完成.");
+            logger.info("数据保存完成. (同步: " + Bukkit.isPrimaryThread() + ")");
         } catch (InterruptedException e) {
             logger.log(Level.WARNING, "Exception thrown while saving data: ", e);
         }
