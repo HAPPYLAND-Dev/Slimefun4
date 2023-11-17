@@ -35,7 +35,7 @@ public class AutoSavingService {
         plugin.getServer().getScheduler().runTaskTimer(plugin, this::saveAllPlayers, 2000L, interval * 60L * 20L);
         plugin.getServer()
                 .getScheduler()
-                .runTaskTimerAsynchronously(
+                .runTaskTimer(
                         plugin,
                         () -> {
                     Bukkit.getWorlds().forEach(world -> {
