@@ -13,7 +13,7 @@ class EnvironmentChecker {
 
     static boolean checkIncompatiblePlugins(@Nonnull Slimefun sf, @Nonnull Logger logger) {
         List<String> plugins = UNSUPPORTED_PLUGINS.stream()
-                .filter(name -> sf.getServer().getPluginManager().getPlugin(name) != null)
+                .filter(name -> Bukkit.getServer().getPluginManager().isPluginEnabled(name))
                 .toList();
 
         if (plugins.isEmpty()) {

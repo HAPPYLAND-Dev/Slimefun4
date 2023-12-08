@@ -2,6 +2,7 @@ package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
 import io.github.bakedlibs.dough.scheduling.TaskQueue;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.core.multiblocks.MultiBlockMachine;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -85,6 +87,14 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
             return;
         }
 
+        MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
+
+        Bukkit.getPluginManager().callEvent(event);
+        if (event.isCancelled()) {
+            return;
+        }
+
+        ItemStack finalOutput = event.getOutput();
         if (p.getGameMode() != GameMode.CREATIVE) {
             ItemUtils.consumeItem(input, false);
         }
@@ -94,13 +104,13 @@ public class AutomatedPanningMachine extends MultiBlockMachine {
         queue.thenRepeatEvery(20, 5, () -> b.getWorld()
                 .playEffect(b.getRelative(BlockFace.DOWN).getLocation(), Effect.STEP_SOUND, material));
         queue.thenRun(20, () -> {
-            if (output.getType() != Material.AIR) {
+            if (finalOutput.getType() != Material.AIR) {
                 Optional<Inventory> outputChest = OutputChest.findOutputChestFor(b.getRelative(BlockFace.DOWN), output);
 
                 if (outputChest.isPresent()) {
-                    outputChest.get().addItem(output.clone());
+                    outputChest.get().addItem(finalOutput.clone());
                 } else {
-                    b.getWorld().dropItemNaturally(b.getLocation(), output.clone());
+                    b.getWorld().dropItemNaturally(b.getLocation(), finalOutput.clone());
                 }
 
                 SoundEffect.AUTOMATED_PANNING_MACHINE_SUCCESS_SOUND.playAt(b);

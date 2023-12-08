@@ -18,7 +18,6 @@ import io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks.Autom
 import io.github.thebusybiscuit.slimefun4.implementation.settings.GoldPanDrop;
 import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +47,7 @@ import org.bukkit.inventory.ItemStack;
 public class GoldPan extends SimpleSlimefunItem<ItemUseHandler> implements RecipeDisplayItem {
 
     private final RandomizedSet<ItemStack> randomizer = new RandomizedSet<>();
-    private final Set<Material> inputMaterials = new HashSet<>(Arrays.asList(Material.GRAVEL));
+    private final Set<Material> inputMaterials = new HashSet<>(List.of(Material.GRAVEL));
     private final Set<GoldPanDrop> drops = new HashSet<>();
 
     @ParametersAreNonnullByDefault

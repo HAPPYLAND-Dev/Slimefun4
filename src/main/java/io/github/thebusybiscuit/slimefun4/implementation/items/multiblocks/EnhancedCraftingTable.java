@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.bakedlibs.dough.items.ItemUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
@@ -12,6 +13,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -55,9 +57,11 @@ public class EnhancedCraftingTable extends AbstractCraftingTable {
                 if (isCraftable(inv, input)) {
                     ItemStack output =
                             RecipeType.getRecipeOutputList(this, input).clone();
+                    MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, input, output);
 
-                    if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
-                        craft(inv, possibleDispenser, p, b, output);
+                    Bukkit.getPluginManager().callEvent(event);
+                    if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                        craft(inv, possibleDispenser, p, b, event.getOutput());
                     }
 
                     return;

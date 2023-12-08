@@ -58,6 +58,7 @@ public class SlimefunDatabaseManager {
 
     public void init() {
         initDefaultVal();
+        System.setProperty("org.slf4j.simpleLogger.log.com.zaxxer.hikari", "error");
 
         try {
             profileStorageType = StorageType.valueOf(profileConfig.getString("storageType"));

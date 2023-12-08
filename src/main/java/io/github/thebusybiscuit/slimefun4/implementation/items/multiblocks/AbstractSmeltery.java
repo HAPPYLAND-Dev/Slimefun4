@@ -1,6 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.implementation.items.multiblocks;
 
 import io.github.bakedlibs.dough.inventory.InvUtils;
+import io.github.thebusybiscuit.slimefun4.api.events.MultiBlockCraftEvent;
 import io.github.thebusybiscuit.slimefun4.api.items.ItemGroup;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItemStack;
 import io.github.thebusybiscuit.slimefun4.api.recipes.RecipeType;
@@ -11,6 +12,7 @@ import io.github.thebusybiscuit.slimefun4.utils.SlimefunUtils;
 import io.papermc.lib.PaperLib;
 import java.util.List;
 import javax.annotation.ParametersAreNonnullByDefault;
+import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -46,12 +48,14 @@ abstract class AbstractSmeltery extends MultiBlockMachine {
                 if (canCraft(inv, inputs, i)) {
                     ItemStack output =
                             RecipeType.getRecipeOutputList(this, inputs.get(i)).clone();
+                    MultiBlockCraftEvent event = new MultiBlockCraftEvent(p, this, inputs.get(i), output);
 
-                    if (SlimefunUtils.canPlayerUseItem(p, output, true)) {
+                    Bukkit.getPluginManager().callEvent(event);
+                    if (!event.isCancelled() && SlimefunUtils.canPlayerUseItem(p, output, true)) {
                         Inventory outputInv = findOutputInventory(output, possibleDispenser, inv);
 
                         if (outputInv != null) {
-                            craft(p, b, inv, inputs.get(i), output, outputInv);
+                            craft(p, b, inv, inputs.get(i), event.getOutput(), outputInv);
                         } else {
                             Slimefun.getLocalization().sendMessage(p, "machines.full-inventory", true);
                         }

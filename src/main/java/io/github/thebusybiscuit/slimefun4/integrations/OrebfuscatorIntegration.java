@@ -53,15 +53,14 @@ class OrebfuscatorIntegration implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onExplosiveToolBreakBlocks(ExplosiveToolBreakBlocksEvent event) {
-        Set<Block> blocks = new HashSet<>();
-        blocks.addAll(event.getAdditionalBlocks());
+        Set<Block> blocks = new HashSet<>(event.getAdditionalBlocks());
         blocks.add(event.getPrimaryBlock());
         this.service.deobfuscate(blocks);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onReactorExplode(ReactorExplodeEvent event) {
-        this.service.deobfuscate(Arrays.asList(event.getLocation().getBlock()));
+        this.service.deobfuscate(List.of(event.getLocation().getBlock()));
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)

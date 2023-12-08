@@ -4,8 +4,12 @@ import com.xzavier0722.mc.plugin.slimefun4.storage.adapter.IDataSourceAdapter;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.DataScope;
 import com.xzavier0722.mc.plugin.slimefun4.storage.common.RecordSet;
 import com.zaxxer.hikari.HikariDataSource;
+import io.github.thebusybiscuit.slimefun4.core.debug.Debug;
+import io.github.thebusybiscuit.slimefun4.core.debug.TestCase;
+import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
 
 public abstract class SqlCommonAdapter<T extends ISqlCommonConfig> implements IDataSourceAdapter<T> {
     protected HikariDataSource ds;
@@ -23,7 +27,11 @@ public abstract class SqlCommonAdapter<T extends ISqlCommonConfig> implements ID
         try (var conn = ds.getConnection()) {
             SqlUtils.execSql(conn, sql);
         } catch (SQLException e) {
-            throw new IllegalStateException("An exception thrown while executing sql: " + sql, e);
+            if (Debug.hasTestCase(TestCase.DATABASE)) {
+                throw new IllegalStateException("An exception thrown while executing sql: " + sql, e);
+            } else {
+                Slimefun.logger().log(Level.WARNING, "在操作数据库出现了问题, 原始 SQL 语句: {0}", sql);
+            }
         }
     }
 
@@ -31,7 +39,11 @@ public abstract class SqlCommonAdapter<T extends ISqlCommonConfig> implements ID
         try (var conn = ds.getConnection()) {
             return SqlUtils.execQuery(conn, sql);
         } catch (SQLException e) {
-            throw new IllegalStateException("An exception thrown while executing sql: " + sql, e);
+            if (Debug.hasTestCase(TestCase.DATABASE)) {
+                throw new IllegalStateException("An exception thrown while executing sql: " + sql, e);
+            } else {
+                throw new IllegalStateException("在操作数据库出现了问题, 原始 SQL 语句: " + sql);
+            }
         }
     }
 

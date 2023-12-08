@@ -58,7 +58,7 @@ permissions:
     default: op
   slimefun.command.backpack:
     description: Allows you to do /sf backpack
-    default: true
+    default: op
   slimefun.command.backpack.other:
     description: Allows you retrieve other player's backpack
     default: op

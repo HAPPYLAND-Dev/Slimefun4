@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.bukkit.command.Command;
@@ -29,6 +30,16 @@ class SlimefunTabCompleter implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
         if (args.length == 1) {
             return createReturnList(command.getSubCommandNames(), args[0]);
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("banitem")) {
+                return createReturnList(getSlimefunItems(), args[1]);
+            } else if (args[0].equalsIgnoreCase("unbanitem")) {
+                List<String> list = Slimefun.getRegistry().getDisabledSlimefunItems().stream()
+                        .map(SlimefunItem::getId)
+                        .collect(Collectors.toList());
+                return createReturnList(list, args[1]);
+            }
+            return null;
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("give")) {
                 return createReturnList(getSlimefunItems(), args[2]);

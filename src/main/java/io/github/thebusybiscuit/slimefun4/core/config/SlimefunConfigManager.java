@@ -6,16 +6,16 @@ import io.github.thebusybiscuit.slimefun4.api.items.ItemState;
 import io.github.thebusybiscuit.slimefun4.api.items.SlimefunItem;
 import io.github.thebusybiscuit.slimefun4.api.researches.Research;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
-import org.apache.commons.lang.Validate;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Server;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.function.Supplier;
 import java.util.logging.Level;
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+import lombok.Getter;
+import org.apache.commons.lang.Validate;
+import org.bukkit.NamespacedKey;
+import org.bukkit.Server;
 
 public class SlimefunConfigManager {
     /**
@@ -26,6 +26,7 @@ public class SlimefunConfigManager {
     /**
      * Hold plugin config named "config.yml"
      */
+    @Getter
     private final Config pluginConfig;
 
     /**
@@ -45,11 +46,24 @@ public class SlimefunConfigManager {
     private boolean disableLearningAnimation;
     private boolean logDuplicateBlockEntries;
     private boolean talismanActionBarMessages;
+
+    @Getter
     private boolean useMoneyUnlock;
+
+    @Getter
     private boolean showVanillaRecipes;
+
+    @Getter
     private boolean showHiddenItemGroupsInSearch;
+
+    @Getter
     private boolean autoUpdate;
+
+    @Getter
     private double researchCurrencyCostConvertRate;
+
+    @Getter
+    private boolean researchAutoConvert;
 
     public SlimefunConfigManager(@Nonnull Slimefun plugin) {
         Validate.notNull(plugin, "The Plugin instance cannot be null");
@@ -103,6 +117,9 @@ public class SlimefunConfigManager {
 
             researchesConfig.setDefaultValue("researches.currency-cost-convert-rate", 25.0);
             researchCurrencyCostConvertRate = researchesConfig.getDouble("researches.currency-cost-convert-rate");
+
+            researchesConfig.setDefaultValue("researches.auto-convert", false);
+            researchAutoConvert = researchesConfig.getBoolean("researches.auto-convert");
         } catch (Exception x) {
             plugin.getLogger()
                     .log(
@@ -125,6 +142,14 @@ public class SlimefunConfigManager {
                 NamespacedKey key = research.getKey();
                 int cost = researchesConfig.getInt(key.getNamespace() + '.' + key.getKey() + ".cost");
                 research.setLevelCost(cost);
+
+                if (researchAutoConvert) {
+                    research.setCurrencyCost(researchCurrencyCostConvertRate * cost);
+                } else {
+                    research.setCurrencyCost(
+                            researchesConfig.getDouble(key.getNamespace() + '.' + key.getKey() + ".currency-cost"));
+                }
+
                 var status = researchesConfig.getBoolean(key.getNamespace() + '.' + key.getKey() + ".enabled");
 
                 if (research.isEnabled() != status) {
@@ -180,10 +205,6 @@ public class SlimefunConfigManager {
         }
 
         return isSuccessful;
-    }
-
-    public Config getPluginConfig() {
-        return pluginConfig;
     }
 
     /**
@@ -247,31 +268,11 @@ public class SlimefunConfigManager {
         return talismanActionBarMessages;
     }
 
-    public boolean isUseMoneyUnlock() {
-        return useMoneyUnlock;
-    }
-
     public void setShowVanillaRecipes(boolean enabled) {
         showVanillaRecipes = enabled;
     }
 
-    public boolean isShowVanillaRecipes() {
-        return showVanillaRecipes;
-    }
-
     public void setShowHiddenItemGroupsInSearch(boolean enabled) {
         showHiddenItemGroupsInSearch = enabled;
-    }
-
-    public boolean isShowHiddenItemGroupsInSearch() {
-        return showHiddenItemGroupsInSearch;
-    }
-
-    public boolean isAutoUpdate() {
-        return autoUpdate;
-    }
-
-    public double getResearchCurrencyCostConvertRate() {
-        return researchCurrencyCostConvertRate;
     }
 }

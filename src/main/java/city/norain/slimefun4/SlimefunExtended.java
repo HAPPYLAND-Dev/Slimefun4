@@ -4,8 +4,10 @@ import city.norain.slimefun4.listener.SlimefunMigrateListener;
 import io.github.thebusybiscuit.slimefun4.implementation.Slimefun;
 import java.util.logging.Logger;
 import javax.annotation.Nonnull;
+import lombok.Getter;
 
 public final class SlimefunExtended {
+    @Getter
     private static Logger logger = null;
 
     private static SlimefunMigrateListener migrateListener = new SlimefunMigrateListener();
@@ -33,9 +35,5 @@ public final class SlimefunExtended {
         migrateListener = null;
 
         VaultIntegration.cleanup();
-    }
-
-    public static Logger getLogger() {
-        return logger;
     }
 }

@@ -370,7 +370,12 @@ public class Research implements Keyed {
         Slimefun.getResearchCfg().setDefaultValue(path + ".enabled", true);
 
         setLevelCost(Slimefun.getResearchCfg().getInt(path + ".cost"));
-        setCurrencyCost(Slimefun.getResearchCfg().getInt(path + ".currency-cost"));
+
+        if (Slimefun.getConfigManager().isResearchAutoConvert()) {
+            setCurrencyCost(getLevelCost() * Slimefun.getConfigManager().getResearchCurrencyCostConvertRate());
+        } else {
+            setCurrencyCost(Slimefun.getResearchCfg().getInt(path + ".currency-cost"));
+        }
         enabled = true;
 
         Slimefun.getRegistry().getResearches().add(this);
