@@ -223,10 +223,11 @@
     <dependencies>
         <!-- Hard dependencies -->
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-            <version>1.20.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <groupId>happylandmc.pangasius</groupId>
+            <artifactId>pangasius-api</artifactId>
+            <version>1.20.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/pangasius-api-1.20.2-R0.1-SNAPSHOT.jar</systemPath>
         </dependency>
 
         <!-- Development dependencies -->
