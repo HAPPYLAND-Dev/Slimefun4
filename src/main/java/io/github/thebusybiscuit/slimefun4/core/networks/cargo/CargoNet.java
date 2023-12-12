@@ -161,7 +161,11 @@ public class CargoNet extends AbstractItemNetwork implements HologramOwner {
                 Slimefun.getProfiler().scheduleEntries(inputs.size() + 1);
 
                 var cargoTask = new CargoNetworkTask(this, inputs, outputs);
-                regulator.getWorld().getTickerThread().submitThreadTask(cargoTask);
+                if (Slimefun.isPangAsius()) {
+                    regulator.getWorld().getTickerThread().submitThreadTask(cargoTask);
+                } else {
+                    cargoTask.run();
+                }
             });
         }
     }

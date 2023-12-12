@@ -163,6 +163,7 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
      * Keep track of whether this is a fresh install or a regular boot up.
      */
     private boolean isNewlyInstalled = false;
+    private boolean isPangAsius = false;
 
     // Various things we need
     private final SlimefunConfigManager cfgManager = new SlimefunConfigManager(this);
@@ -253,6 +254,13 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
         } else {
             // The Environment has been validated.
             onPluginStart();
+
+            // Check if server software is PangAsius
+            try {
+                Bukkit.getWorlds().get(0).getTickerThread();
+                isPangAsius = true;
+                logger().info("成功检测到 PangAsius API, 启用并行货运处理!");
+            } catch (Exception ignored) {}
         }
     }
 
@@ -1135,5 +1143,10 @@ public final class Slimefun extends JavaPlugin implements SlimefunAddon, ICompat
     public static @Nonnull PlayerChatCatcher getChatCatcher() {
         validateInstance();
         return instance.chatCatcher;
+    }
+
+    public static boolean isPangAsius() {
+        validateInstance();
+        return instance.isPangAsius;
     }
 }
